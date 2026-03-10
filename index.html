@@ -148,6 +148,7 @@
             box-shadow: 0 0 15px var(--blood-bright);
             pointer-events: none; display: none;
             z-index: 500;
+            box-sizing: border-box;
         }
 
         /* Modal Card */
@@ -230,25 +231,40 @@
 
     // --- EXACT FOCUS LOGIC (100% ACCURATE) ---
     function findPlot() {
-        const num = parseInt(document.getElementById('plotSearch').value);
+        const numInput = document.getElementById('plotSearch').value;
+        const num = parseInt(numInput);
+        
         if(num > 0 && num <= totalPlots) {
             currentNum = num;
-            const r = Math.floor((num - 1) / cols);
-            const c = (num - 1) % cols;
             
+            // ক্যালকুলেশন ফিক্স: ০-বেজড ইনডেক্স ব্যবহার করে সঠিক কলাম ও রো বের করা
+            const index = num - 1;
+            const r = Math.floor(index / cols);
+            const c = index % cols;
+            
+            // ক্যানভাসের সাপেক্ষে সঠিক পজিশন
             const px = c * plotSize;
             const py = r * plotSize;
 
+            // কন্টেইনারের সঠিক টপ পজিশন বের করা
             const container = document.querySelector('.canvas-container');
-            const targetScroll = (container.offsetTop + py) - (window.innerHeight / 2) + (plotSize / 2);
+            const containerTop = container.getBoundingClientRect().top + window.pageYOffset;
+            
+            // স্ক্রিনকে একদম প্লটের মাঝখানে ফোকাস করার নিখুঁত হিসাব
+            const targetY = containerTop + py - (window.innerHeight / 2) + (plotSize / 2);
 
-            window.scrollTo({ top: targetScroll, behavior: 'smooth' });
+            window.scrollTo({ 
+                top: targetY, 
+                behavior: 'smooth' 
+            });
 
+            // হাইলাইট বক্স সেটআপ
             const highlight = document.getElementById('plot-highlight');
             highlight.style.display = "block";
             highlight.style.left = px + "px";
             highlight.style.top = py + "px";
 
+            // মডাল বা কার্ড ওপেন করা
             setTimeout(() => {
                 document.getElementById('plot-modal').style.display = "block";
             }, 800);
@@ -260,15 +276,18 @@
     // --- ULTRA HQ PLOT DOWNLOAD ---
     function downloadPlotImage() {
         const dl = document.createElement('canvas');
-        dl.width = 1200; // Ultra HQ
+        dl.width = 1200; // Ultra HQ resolution
         dl.height = 1200;
         const dctx = dl.getContext('2d');
         
         dctx.fillStyle = "#000";
         dctx.fillRect(0,0,1200,1200);
         
-        const r = Math.floor((currentNum - 1) / cols);
-        const c = (currentNum - 1) % cols;
+        const index = currentNum - 1;
+        const r = Math.floor(index / cols);
+        const c = index % cols;
+        
+        // ক্যানভাস থেকে নির্দিষ্ট অংশ কেটে বড় করে ইমেজে বসানো
         dctx.drawImage(canvas, c * plotSize, r * plotSize, plotSize, plotSize, 250, 350, 700, 700);
         
         // Branding in Image
@@ -283,7 +302,7 @@
         
         const link = document.createElement('a');
         link.download = `ARK_LEGACY_PLOT_${currentNum}.png`;
-        link.href = dl.toURL ? dl.toURL("image/png") : dl.toDataURL("image/png", 1.0);
+        link.href = dl.toDataURL("image/png", 1.0);
         link.click();
     }
 
