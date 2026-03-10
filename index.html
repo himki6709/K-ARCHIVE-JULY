@@ -8,18 +8,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
-    <style>
-        /* লোগোর জন্য স্টাইল */
-        .logo-main { height: 60px; margin-bottom: 20px; }
-        /* টুইটার ফ্লোটিং বাটন */
-        .tw-float { 
-            position: fixed; bottom: 120px; right: 20px; 
-            background: #000; color: white; width: 60px; height: 60px; 
-            border-radius: 50%; display: flex; align-items: center; 
-            justify-content: center; font-size: 24px; text-decoration: none; 
-            z-index: 1000; box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-        }
-    </style>
 </head>
 <body>
 <div class="top-nav">
@@ -28,15 +16,18 @@
         <div class="pill white" onclick="copyVal('01756206213')">ROCKET: 01756206213</div>
     </div>
     <div class="social-icons">
+        <a href="https://facebook.com/theglobalcreatorhomepage" target="_blank"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://instagram.com/theglobalcreatorhomepage" target="_blank"><i class="fab fa-instagram"></i></a>
         <a href="https://x.com/kawsar6700" target="_blank"><i class="fab fa-x-twitter"></i></a>
+        <a href="https://youtube.com/@theglobalcreatorhomepage" target="_blank"><i class="fab fa-youtube"></i></a>
     </div>
 </div>
 
 <div class="hero">
-    <img src="" id="siteLogo" class="logo-main" alt="LOGO">
+    <img src="" id="siteLogo" style="height: 60px; margin-bottom: 20px;" alt="LOGO">
     
     <h1 class="shimmer-title">THE GLOBAL CREATOR HOMEPAGE</h1>
-    <p class="tagline">A LIMITED LEGACY FOR 36,000+ ELITE GLOBAL CREATORS.</p>
+    <p class="tagline">A LIMITED LEGACY FOR 36,000 ELITE GLOBAL CREATORS.</p>
     <div class="stats-row">
         <div class="stat-box">TOTAL PLOTS: 36,000</div>
         <div class="stat-box sold">CLAIMED: <span id="sold-count">0</span></div>
@@ -53,19 +44,19 @@
 </div>
 
 <div class="future-notice">
-    <p>🌍 <strong>GLOBAL CAPABILITY:</strong> This platform is designed to host creators who believe in the legacy of July.</p>
+    <p>🌍 <strong>GLOBAL CAPABILITY:</strong> This platform is designed to host 100 creators from every country worldwide.</p>
     <p style="color: #FCD535; font-weight: bold;">⚠️ LIMITED EDITION: This map is strictly limited to 36,000 plots. The number of spots will NEVER be increased in the future.</p>
 </div>
 
 <footer>THE 36th JULY LEGACY | THE GLOBAL CREATOR HOMEPAGE © 2026 KAWSAR AHMED</footer>
 
-<a href="https://x.com/kawsar6700" target="_blank" class="tw-float"><i class="fab fa-x-twitter"></i></a>
-<a href="https://wa.me/8801756206213" class="wa-float"><i class="fab fa-whatsapp"></i> 24/7 SUPPORT</a>
+<a href="support.html" class="wa-float"><i class="fab fa-whatsapp"></i> 24/7 SUPPORT</a>
+<a href="https://x.com/kawsar6700" target="_blank" style="position: fixed; bottom: 120px; right: 20px; background: #000; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; text-decoration: none; z-index: 1000; box-shadow: 0 4px 10px rgba(0,0,0,0.3);"><i class="fab fa-x-twitter"></i></a>
 
 <div id="legacy-tooltip"></div>
 
 <script>
-    // ফায়ারবেস থেকে লোগো লোড করার কোড
+    // Firebase লজিক (আপনার লোগো অটোমেটিক লোড করার জন্য)
     const firebaseConfig = {
         apiKey: "AIzaSyCAdnfu2R82xbC7H85n_9mvQBE58X3TjbA",
         databaseURL: "https://the-5k-elite-legacy-default-rtdb.firebaseio.com"
@@ -75,9 +66,7 @@
 
     // লোগো অটোমেটিক আপডেট হবে
     db.ref('siteSettings/logo').on('value', s => { 
-        if(s.val()) {
-            document.getElementById('siteLogo').src = s.val();
-        }
+        if(s.val()) { document.getElementById('siteLogo').src = s.val(); }
     });
 
     function copyVal(val) {
