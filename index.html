@@ -13,52 +13,53 @@
         :root {
             --july-red: #cc0000;
             --july-gold: #FCD535;
-            --hover-glow: #ff3333;
         }
 
-        /* পেমেন্ট বাটন ইফেক্ট - দুইটির কালার একই */
+        /* --- Payment Pills Hover Effect --- */
         .payment-pills .pill {
-            background: rgba(255, 255, 255, 0.05) !important;
-            border: 1px solid rgba(255, 255, 255, 0.2) !important;
-            transition: all 0.4s ease;
             cursor: pointer;
-            font-weight: 700;
-            color: #fff !important;
+            transition: all 0.4s ease;
+            font-weight: 800;
+            background: #111;
+            border: 1px solid #333 !important;
         }
-
+        /* মাউস নিলে দুইটারই কালার একই হবে */
         .payment-pills .pill:hover {
             background: var(--july-red) !important;
-            border-color: var(--july-gold) !important;
-            box-shadow: 0 0 20px var(--hover-glow);
+            color: white !important;
             transform: translateY(-3px);
-            color: #fff !important;
+            box-shadow: 0 5px 15px rgba(204, 0, 0, 0.4);
+            border-color: white !important;
         }
 
-        /* টুইটার লোগো স্পষ্টকরণ */
-        .social-icons a i.fa-x-twitter {
-            color: #fff !important;
-            font-size: 30px !important;
-            opacity: 1 !important;
-            filter: drop-shadow(0 0 5px rgba(255,255,255,0.5));
-        }
-
-        /* ফ্লোটিং বাটনগুলো নতুন ট্যাবে ওপেন হওয়ার জন্য */
-        .wa-float, .x-float {
+        /* --- Latest Twitter App Logo Styling --- */
+        .social-icons a, .tw-float {
+            color: white;
+            font-size: 24px;
             transition: 0.3s;
         }
-        .x-float { 
-            position: fixed; bottom: 120px; right: 20px; background: #000; color: white; 
-            width: 60px; height: 60px; border-radius: 50%; display: flex; 
-            align-items: center; justify-content: center; font-size: 26px; 
-            z-index: 1000; border: 1px solid #444; text-decoration: none;
+        
+        /* Floating Buttons System */
+        .tw-float { 
+            position: fixed; bottom: 120px; right: 20px; 
+            background: #000; width: 60px; height: 60px; 
+            border-radius: 50%; display: flex; align-items: center; 
+            justify-content: center; z-index: 1000;
+            border: 1px solid #333; box-shadow: 0 5px 15px rgba(0,0,0,0.5);
         }
-        .x-float:hover { transform: scale(1.1); box-shadow: 0 0 15px var(--july-red); }
 
-        /* ক্যানভাস গ্রিড স্টাইল */
+        /* --- Canvas Grid Visuals --- */
         #mainCanvas {
-            background-color: #000;
-            cursor: crosshair;
+            /* 50x50 pixel grid pattern */
+            background-image: 
+                linear-gradient(to right, rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            border: 2px solid #222;
         }
+
+        .shimmer-title { color: #fff; text-shadow: 0 0 10px var(--july-red); }
+        .cta-gold { background: var(--july-red) !important; color: white !important; }
     </style>
 </head>
 <body>
@@ -69,17 +70,15 @@
         <div class="pill" onclick="copyVal('01756206213')">ROCKET: 01756206213</div>
     </div>
     <div class="social-icons">
-        <a href="https://x.com/kawsar6700" target="_blank"><i class="fab fa-x-twitter"></i></a>
+        <a href="https://x.com/kawsar6700" target="_blank"><i class="fa-brands fa-x-twitter"></i></a>
     </div>
 </div>
 
 <div class="hero">
-    <div style="margin-bottom: 25px;">
-        <img src="" id="siteLogo" style="height: 80px;" alt="LOGO">
-    </div>
+    <img src="" id="siteLogo" style="height: 70px; margin-bottom: 20px;" alt="LOGO">
     
     <h1 class="shimmer-title">THE 36th JULY LEGACY</h1>
-    <p class="tagline">A GIANT CANVAS OF 36,000 BRAVE VOICES.</p>
+    <p class="tagline">36,000 PLOTS OF HISTORY. 50x50px PER LEGACY.</p>
     
     <div class="stats-row">
         <div class="stat-box">TOTAL PLOTS: 36,000</div>
@@ -88,26 +87,32 @@
     </div>
     
     <div class="actions">
-        <a href="order.html" target="_blank" class="cta-gold">RESERVE MY PLOT (৳36)</a>
+        <a href="order.html" class="cta-gold">RESERVE MY PLOT (৳36)</a>
         <button onclick="downloadMap()" class="cta-outline"><i class="fas fa-camera"></i> DOWNLOAD MAP</button>
     </div>
 </div>
 
 <div class="map-container">
-    <div id="viewport"><div id="mover"><canvas id="mainCanvas"></canvas></div></div>
+    <div id="viewport">
+        <div id="mover">
+            <canvas id="mainCanvas"></canvas>
+        </div>
+    </div>
 </div>
 
 <div class="future-notice">
-    <p>🌍 <strong>GLOBAL ARCHIVE:</strong> 36,000 Plots of History, Each 50x50px in size.</p>
-    <p style="color: var(--july-gold); font-weight: bold;">⚠️ THE SCALE: This giant canvas will never be expanded.</p>
+    <p>🌍 <strong>GLOBAL ARCHIVE:</strong> Designing the future of digital remembrance.</p>
+    <p style="color: var(--july-gold); font-weight: bold;">⚠️ 36,000 PLOTS ONLY. EACH PLOT SIZE: 50x50 PIXELS. NO FURTHER INCREASES.</p>
 </div>
 
-<footer>THE 36th JULY LEGACY | OFFICIAL HOMEPAGE © 2026 KAWSAR AHMED</footer>
+<footer>THE 36th JULY LEGACY | THE GLOBAL CREATOR HOMEPAGE © 2026 KAWSAR AHMED</footer>
 
-<a href="https://x.com/kawsar6700" target="_blank" class="x-float"><i class="fab fa-x-twitter"></i></a>
-<a href="https://wa.me/8801756206213" target="_blank" class="wa-float"><i class="fab fa-whatsapp"></i> 24/7 SUPPORT</a>
-
-<div id="legacy-tooltip"></div>
+<a href="https://x.com/kawsar6700" target="_blank" class="tw-float">
+    <i class="fa-brands fa-x-twitter"></i>
+</a>
+<a href="https://wa.me/8801756206213" target="_blank" class="wa-float">
+    <i class="fab fa-whatsapp"></i> 24/7 SUPPORT
+</a>
 
 <script>
     const firebaseConfig = {
@@ -117,38 +122,20 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
+    // লোগো অটোমেটিক লোড
     db.ref('siteSettings/logo').on('value', s => { 
         if(s.val()) { document.getElementById('siteLogo').src = s.val(); }
     });
 
+    // কপি ফাংশন
     function copyVal(val) {
         navigator.clipboard.writeText(val);
         alert("Number Copied: " + val);
     }
 
-    /* ক্যানভাসে সাদা চিকন গ্রিড লাইন টানানোর জন্য লজিক */
-    const canvas = document.getElementById('mainCanvas');
-    const ctx = canvas.getContext('2d');
-    const plotSize = 50;
-    const totalPlots = 36000;
-    
-    // ক্যানভাস সাইজ ক্যালকুলেশন (লম্বা ক্যানভাস)
-    const cols = 100; // প্রতি লাইনে ১০০টি প্লট
-    const rows = Math.ceil(totalPlots / cols);
-    canvas.width = cols * plotSize;
-    canvas.height = rows * plotSize;
-
-    function drawGrid() {
-        ctx.strokeStyle = "rgba(255, 255, 255, 0.2)"; // সাদা চিকন দাগ
-        ctx.lineWidth = 0.5;
-        for (let x = 0; x <= canvas.width; x += plotSize) {
-            ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); ctx.stroke();
-        }
-        for (let y = 0; y <= canvas.height; y += plotSize) {
-            ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke();
-        }
-    }
-    drawGrid();
+    /* ক্যানভাস সাইজ ক্যালকুলেশন স্ক্রিপ্ট (script.js এর জন্য প্রয়োজনীয় ডাটা) */
+    // ৩৬,০০০ প্লট (৫০০০x৩০০০ অথবা ১৮০x২০০ গ্রিড মডেলে)
+    // ৫ x ৫০ = ২৫০ পিক্সেল চওড়া করে লম্বা ক্যানভাস তৈরি হবে
 </script>
 <script src="script.js"></script>
 </body>
