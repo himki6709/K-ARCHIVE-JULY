@@ -5,103 +5,59 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>THE 36th JULY LEGACY | OFFICIAL</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
     
     <style>
         :root {
-            --july-red: #8B0000;
-            --july-bright-red: #FF0000;
+            --july-red: #cc0000;
             --july-gold: #FCD535;
-            --dark-overlay: rgba(0, 0, 0, 0.85);
+            --hover-glow: #ff3333;
         }
 
-        body {
-            background: #050708;
-            overflow-x: hidden;
-            /* ব্যাকগ্রাউন্ডে হালকা মোশন ইফেক্ট */
-            background-image: radial-gradient(circle at center, #1a0505 0%, #050708 100%);
-        }
-
-        /* --- High-End Visual: Animated Title --- */
-        .shimmer-title {
-            font-size: clamp(30px, 8vw, 70px);
-            font-weight: 900;
-            text-transform: uppercase;
-            background: linear-gradient(90deg, #fff, var(--july-bright-red), #fff);
-            background-size: 200% auto;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: shine 3s linear infinite;
-            letter-spacing: 2px;
-            filter: drop-shadow(0 0 15px rgba(255, 0, 0, 0.5));
-        }
-
-        @keyframes shine {
-            to { background-position: 200% center; }
-        }
-
-        /* --- Glassmorphism Pill Style --- */
+        /* পেমেন্ট বাটন ইফেক্ট - দুইটির কালার একই */
         .payment-pills .pill {
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1) !important;
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            font-weight: 800;
-        }
-        .pill.red-mode { background: linear-gradient(45deg, var(--july-red), #500) !important; color: white; }
-        .pill:hover { transform: scale(1.05) translateY(-3px); box-shadow: 0 10px 20px rgba(255, 0, 0, 0.3); }
-
-        /* --- Social Icons Customization --- */
-        .social-icons a {
-            color: white;
-            font-size: 28px;
-            transition: 0.3s;
-            filter: drop-shadow(0 0 5px var(--july-red));
-        }
-        .social-icons a:hover { color: var(--july-gold); transform: rotate(15deg); }
-
-        /* --- Hero Section Motion --- */
-        .hero {
-            position: relative;
-            z-index: 10;
-            animation: fadeIn 2s ease-in;
+            background: rgba(255, 255, 255, 0.05) !important;
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            font-weight: 700;
+            color: #fff !important;
         }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-        .cta-gold {
-            background: linear-gradient(45deg, var(--july-red), var(--july-bright-red)) !important;
-            box-shadow: 0 0 30px rgba(255, 0, 0, 0.4);
-            border: none !important;
-            padding: 18px 45px !important;
-            font-size: 20px !important;
-            letter-spacing: 2px;
-            transition: 0.5s;
+        .payment-pills .pill:hover {
+            background: var(--july-red) !important;
+            border-color: var(--july-gold) !important;
+            box-shadow: 0 0 20px var(--hover-glow);
+            transform: translateY(-3px);
+            color: #fff !important;
         }
-        .cta-gold:hover { transform: scale(1.1); box-shadow: 0 0 50px var(--july-bright-red); border-radius: 50px !important; }
 
-        /* --- Floating Support Improvements --- */
+        /* টুইটার লোগো স্পষ্টকরণ */
+        .social-icons a i.fa-x-twitter {
+            color: #fff !important;
+            font-size: 30px !important;
+            opacity: 1 !important;
+            filter: drop-shadow(0 0 5px rgba(255,255,255,0.5));
+        }
+
+        /* ফ্লোটিং বাটনগুলো নতুন ট্যাবে ওপেন হওয়ার জন্য */
         .wa-float, .x-float {
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            transition: 0.5s;
-            border: 1px solid rgba(255,255,255,0.1);
+            transition: 0.3s;
         }
         .x-float { 
             position: fixed; bottom: 120px; right: 20px; background: #000; color: white; 
-            width: 65px; height: 65px; border-radius: 50%; display: flex; 
-            align-items: center; justify-content: center; font-size: 28px; 
-            text-decoration: none; z-index: 1000;
+            width: 60px; height: 60px; border-radius: 50%; display: flex; 
+            align-items: center; justify-content: center; font-size: 26px; 
+            z-index: 1000; border: 1px solid #444; text-decoration: none;
         }
-        .wa-float:hover, .x-float:hover { transform: translateY(-10px) rotate(360deg); }
+        .x-float:hover { transform: scale(1.1); box-shadow: 0 0 15px var(--july-red); }
 
-        /* --- Footer Visual --- */
-        footer {
-            border-top: 1px solid #222;
-            background: linear-gradient(to top, #000, transparent);
-            padding: 40px 0;
-            font-weight: 300;
-            letter-spacing: 4px;
+        /* ক্যানভাস গ্রিড স্টাইল */
+        #mainCanvas {
+            background-color: #000;
+            cursor: crosshair;
         }
     </style>
 </head>
@@ -109,8 +65,8 @@
 
 <div class="top-nav">
     <div class="payment-pills">
-        <div class="pill red-mode" onclick="copyVal('01756206213')">BKASH: 01756206213</div>
-        <div class="pill yellow" onclick="copyVal('01756206213')">ROCKET: 01756206213</div>
+        <div class="pill" onclick="copyVal('01756206213')">BKASH: 01756206213</div>
+        <div class="pill" onclick="copyVal('01756206213')">ROCKET: 01756206213</div>
     </div>
     <div class="social-icons">
         <a href="https://x.com/kawsar6700" target="_blank"><i class="fab fa-x-twitter"></i></a>
@@ -118,21 +74,21 @@
 </div>
 
 <div class="hero">
-    <div class="logo-wrap" style="margin-bottom: 30px;">
-        <img src="" id="siteLogo" style="height: 90px; filter: drop-shadow(0 0 20px rgba(255,0,0,0.6));" alt="LOGO">
+    <div style="margin-bottom: 25px;">
+        <img src="" id="siteLogo" style="height: 80px;" alt="LOGO">
     </div>
     
     <h1 class="shimmer-title">THE 36th JULY LEGACY</h1>
-    <p class="tagline" style="color: #bbb; letter-spacing: 5px;">HONORING 36,000+ BRAVE CREATORS OF THE REVOLUTION.</p>
+    <p class="tagline">A GIANT CANVAS OF 36,000 BRAVE VOICES.</p>
     
     <div class="stats-row">
-        <div class="stat-box" style="border-color: var(--july-red);">TOTAL PLOTS: 36,000</div>
+        <div class="stat-box">TOTAL PLOTS: 36,000</div>
         <div class="stat-box sold">CLAIMED: <span id="sold-count">0</span></div>
         <div class="stat-box rem">VACANT: <span id="rem-count">36,000</span></div>
     </div>
     
     <div class="actions">
-        <a href="order.html" class="cta-gold">CLAIM MY LEGACY (৳36)</a>
+        <a href="order.html" target="_blank" class="cta-gold">RESERVE MY PLOT (৳36)</a>
         <button onclick="downloadMap()" class="cta-outline"><i class="fas fa-camera"></i> DOWNLOAD MAP</button>
     </div>
 </div>
@@ -142,16 +98,14 @@
 </div>
 
 <div class="future-notice">
-    <p style="font-size: 1.2rem;">🌍 <strong>GLOBAL LEGACY:</strong> A digital monument for the generation that redefined freedom.</p>
-    <p style="color: var(--july-gold); font-weight: bold; text-transform: uppercase; letter-spacing: 2px;">
-        ⚠️ ETERNAL ARCHIVE: 36,000 plots only. This boundary will NEVER be increased.
-    </p>
+    <p>🌍 <strong>GLOBAL ARCHIVE:</strong> 36,000 Plots of History, Each 50x50px in size.</p>
+    <p style="color: var(--july-gold); font-weight: bold;">⚠️ THE SCALE: This giant canvas will never be expanded.</p>
 </div>
 
-<footer>THE 36th JULY LEGACY | CREATED BY KAWSAR AHMED © 2026</footer>
+<footer>THE 36th JULY LEGACY | OFFICIAL HOMEPAGE © 2026 KAWSAR AHMED</footer>
 
 <a href="https://x.com/kawsar6700" target="_blank" class="x-float"><i class="fab fa-x-twitter"></i></a>
-<a href="https://wa.me/8801756206213" class="wa-float"><i class="fab fa-whatsapp"></i> 24/7 SUPPORT</a>
+<a href="https://wa.me/8801756206213" target="_blank" class="wa-float"><i class="fab fa-whatsapp"></i> 24/7 SUPPORT</a>
 
 <div id="legacy-tooltip"></div>
 
@@ -169,8 +123,32 @@
 
     function copyVal(val) {
         navigator.clipboard.writeText(val);
-        alert("Transaction ID Copied: " + val);
+        alert("Number Copied: " + val);
     }
+
+    /* ক্যানভাসে সাদা চিকন গ্রিড লাইন টানানোর জন্য লজিক */
+    const canvas = document.getElementById('mainCanvas');
+    const ctx = canvas.getContext('2d');
+    const plotSize = 50;
+    const totalPlots = 36000;
+    
+    // ক্যানভাস সাইজ ক্যালকুলেশন (লম্বা ক্যানভাস)
+    const cols = 100; // প্রতি লাইনে ১০০টি প্লট
+    const rows = Math.ceil(totalPlots / cols);
+    canvas.width = cols * plotSize;
+    canvas.height = rows * plotSize;
+
+    function drawGrid() {
+        ctx.strokeStyle = "rgba(255, 255, 255, 0.2)"; // সাদা চিকন দাগ
+        ctx.lineWidth = 0.5;
+        for (let x = 0; x <= canvas.width; x += plotSize) {
+            ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); ctx.stroke();
+        }
+        for (let y = 0; y <= canvas.height; y += plotSize) {
+            ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke();
+        }
+    }
+    drawGrid();
 </script>
 <script src="script.js"></script>
 </body>
