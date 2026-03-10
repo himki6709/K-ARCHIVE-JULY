@@ -8,42 +8,131 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+    
     <style>
-        /* জুলাই আন্দোলনের থিম কালার (ডিজাইন পরিবর্তন না করে শুধু রঙ সমন্বয়) */
         :root {
-            --july-red: #cc0000;
+            --july-red: #8B0000;
+            --july-bright-red: #FF0000;
             --july-gold: #FCD535;
+            --dark-overlay: rgba(0, 0, 0, 0.85);
         }
-        .shimmer-title { color: #fff; text-shadow: 0 0 15px var(--july-red); }
-        .cta-gold { background: var(--july-red) !important; color: white !important; border: 1px solid var(--july-gold); }
-        .pill.red-mode { background: var(--july-red); color: white; border: 1px solid white; }
+
+        body {
+            background: #050708;
+            overflow-x: hidden;
+            /* ব্যাকগ্রাউন্ডে হালকা মোশন ইফেক্ট */
+            background-image: radial-gradient(circle at center, #1a0505 0%, #050708 100%);
+        }
+
+        /* --- High-End Visual: Animated Title --- */
+        .shimmer-title {
+            font-size: clamp(30px, 8vw, 70px);
+            font-weight: 900;
+            text-transform: uppercase;
+            background: linear-gradient(90deg, #fff, var(--july-bright-red), #fff);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shine 3s linear infinite;
+            letter-spacing: 2px;
+            filter: drop-shadow(0 0 15px rgba(255, 0, 0, 0.5));
+        }
+
+        @keyframes shine {
+            to { background-position: 200% center; }
+        }
+
+        /* --- Glassmorphism Pill Style --- */
+        .payment-pills .pill {
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-weight: 800;
+        }
+        .pill.red-mode { background: linear-gradient(45deg, var(--july-red), #500) !important; color: white; }
+        .pill:hover { transform: scale(1.05) translateY(-3px); box-shadow: 0 10px 20px rgba(255, 0, 0, 0.3); }
+
+        /* --- Social Icons Customization --- */
+        .social-icons a {
+            color: white;
+            font-size: 28px;
+            transition: 0.3s;
+            filter: drop-shadow(0 0 5px var(--july-red));
+        }
+        .social-icons a:hover { color: var(--july-gold); transform: rotate(15deg); }
+
+        /* --- Hero Section Motion --- */
+        .hero {
+            position: relative;
+            z-index: 10;
+            animation: fadeIn 2s ease-in;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        .cta-gold {
+            background: linear-gradient(45deg, var(--july-red), var(--july-bright-red)) !important;
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.4);
+            border: none !important;
+            padding: 18px 45px !important;
+            font-size: 20px !important;
+            letter-spacing: 2px;
+            transition: 0.5s;
+        }
+        .cta-gold:hover { transform: scale(1.1); box-shadow: 0 0 50px var(--july-bright-red); border-radius: 50px !important; }
+
+        /* --- Floating Support Improvements --- */
+        .wa-float, .x-float {
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            transition: 0.5s;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .x-float { 
+            position: fixed; bottom: 120px; right: 20px; background: #000; color: white; 
+            width: 65px; height: 65px; border-radius: 50%; display: flex; 
+            align-items: center; justify-content: center; font-size: 28px; 
+            text-decoration: none; z-index: 1000;
+        }
+        .wa-float:hover, .x-float:hover { transform: translateY(-10px) rotate(360deg); }
+
+        /* --- Footer Visual --- */
+        footer {
+            border-top: 1px solid #222;
+            background: linear-gradient(to top, #000, transparent);
+            padding: 40px 0;
+            font-weight: 300;
+            letter-spacing: 4px;
+        }
     </style>
 </head>
 <body>
+
 <div class="top-nav">
     <div class="payment-pills">
         <div class="pill red-mode" onclick="copyVal('01756206213')">BKASH: 01756206213</div>
         <div class="pill yellow" onclick="copyVal('01756206213')">ROCKET: 01756206213</div>
     </div>
     <div class="social-icons">
-        <a href="https://x.com/kawsar6700" target="_blank" style="color: white; font-size: 28px; opacity: 1;"><i class="fab fa-x-twitter"></i></a>
+        <a href="https://x.com/kawsar6700" target="_blank"><i class="fab fa-x-twitter"></i></a>
     </div>
 </div>
 
 <div class="hero">
-    <div style="margin-bottom: 20px;">
-        <img src="" id="siteLogo" style="height: 70px; filter: drop-shadow(0 0 10px var(--july-red));" alt="LOGO">
+    <div class="logo-wrap" style="margin-bottom: 30px;">
+        <img src="" id="siteLogo" style="height: 90px; filter: drop-shadow(0 0 20px rgba(255,0,0,0.6));" alt="LOGO">
     </div>
-
+    
     <h1 class="shimmer-title">THE 36th JULY LEGACY</h1>
-    <p class="tagline">A DIGITAL ARCHIVE FOR THE BRAVE SOULS. 36,000 PLOTS OF HISTORY.</p>
+    <p class="tagline" style="color: #bbb; letter-spacing: 5px;">HONORING 36,000+ BRAVE CREATORS OF THE REVOLUTION.</p>
+    
     <div class="stats-row">
-        <div class="stat-box">TOTAL PLOTS: 36,000</div>
+        <div class="stat-box" style="border-color: var(--july-red);">TOTAL PLOTS: 36,000</div>
         <div class="stat-box sold">CLAIMED: <span id="sold-count">0</span></div>
         <div class="stat-box rem">VACANT: <span id="rem-count">36,000</span></div>
     </div>
+    
     <div class="actions">
-        <a href="order.html" class="cta-gold">RESERVE MY PLOT (৳36)</a>
+        <a href="order.html" class="cta-gold">CLAIM MY LEGACY (৳36)</a>
         <button onclick="downloadMap()" class="cta-outline"><i class="fas fa-camera"></i> DOWNLOAD MAP</button>
     </div>
 </div>
@@ -53,19 +142,20 @@
 </div>
 
 <div class="future-notice">
-    <p>🌍 <strong>GLOBAL LEGACY:</strong> This map is a tribute to the sacrifice and unity of July 2024.</p>
-    <p style="color: #FCD535; font-weight: bold;">⚠️ LIMITED ARCHIVE: This platform is strictly limited to 36,000 plots. The history will NEVER be increased.</p>
+    <p style="font-size: 1.2rem;">🌍 <strong>GLOBAL LEGACY:</strong> A digital monument for the generation that redefined freedom.</p>
+    <p style="color: var(--july-gold); font-weight: bold; text-transform: uppercase; letter-spacing: 2px;">
+        ⚠️ ETERNAL ARCHIVE: 36,000 plots only. This boundary will NEVER be increased.
+    </p>
 </div>
 
-<footer>THE 36th JULY LEGACY | BRAVE CREATORS' HOMEPAGE © 2026 KAWSAR AHMED</footer>
+<footer>THE 36th JULY LEGACY | CREATED BY KAWSAR AHMED © 2026</footer>
 
-<a href="https://x.com/kawsar6700" target="_blank" class="wa-float" style="right: 110px; background: #000; border: 1px solid #444;"><i class="fab fa-x-twitter"></i></a>
+<a href="https://x.com/kawsar6700" target="_blank" class="x-float"><i class="fab fa-x-twitter"></i></a>
 <a href="https://wa.me/8801756206213" class="wa-float"><i class="fab fa-whatsapp"></i> 24/7 SUPPORT</a>
 
 <div id="legacy-tooltip"></div>
 
 <script>
-    // Firebase লজিক লোগোর জন্য
     const firebaseConfig = {
         apiKey: "AIzaSyCAdnfu2R82xbC7H85n_9mvQBE58X3TjbA",
         databaseURL: "https://the-5k-elite-legacy-default-rtdb.firebaseio.com"
@@ -73,14 +163,13 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
-    // লোগো অটোমেটিক আপনার প্রজেক্ট থেকে লোড হবে
     db.ref('siteSettings/logo').on('value', s => { 
         if(s.val()) { document.getElementById('siteLogo').src = s.val(); }
     });
 
     function copyVal(val) {
         navigator.clipboard.writeText(val);
-        alert("Copied: " + val);
+        alert("Transaction ID Copied: " + val);
     }
 </script>
 <script src="script.js"></script>
