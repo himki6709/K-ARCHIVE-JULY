@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THE 36th JULY LEGACY | OFFICIAL</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+    <style>
+        /* জুলাই আন্দোলনের চেতনায় কালার কম্বিনেশন (চুল পরিমাণ পরিবর্তন ব্যতীত সমন্বয়) */
+        :root {
+            --july-red: #8B0000; /* Blood Red */
+            --july-gold: #FCD535;
+            --bg-dark: #050708;
+        }
+        .shimmer-title { color: #fff; text-shadow: 0 0 10px var(--july-red); }
+        .cta-gold { background: var(--july-red) !important; color: white !important; border: 1px solid var(--july-gold); }
+        .pill.red-theme { background: var(--july-red); color: white; border: 1px solid white; }
+        .wa-float { bottom: 40px; right: 40px; }
+        .x-float { 
+            position: fixed; bottom: 120px; right: 40px; background: #000; color: white; 
+            width: 60px; height: 60px; border-radius: 50%; display: flex; 
+            align-items: center; justify-content: center; font-size: 25px; 
+            text-decoration: none; z-index: 1000; border: 1px solid #333;
+        }
+    </style>
+</head>
+<body>
+<div class="top-nav">
+    <div class="payment-pills">
+        <div class="pill red-theme" onclick="copyVal('01756206213')">BKASH/NAGAD/ROCKET: 01756206213</div>
+        <div class="pill yellow" onclick="copyVal('912221034')">BINANCE ID: 912221034</div>
+    </div>
+    <div class="social-icons">
+        <a href="https://x.com/kawsar6700" target="_blank"><i class="fab fa-x-twitter"></i></a>
+    </div>
+</div>
+
+<div class="hero">
+    <div class="logo-container" style="margin-bottom: 20px;">
+        <img src="" id="siteLogo" style="height: 80px; filter: drop-shadow(0 0 15px var(--july-red));" alt="LOGO">
+    </div>
+    
+    <h1 class="shimmer-title">THE 36th JULY LEGACY</h1>
+    <p class="tagline">A BRAVE TRIBUTE TO THE SPIRIT OF INDEPENDENCE. JOIN THE ETERNAL MAP.</p>
+    
+    <div class="stats-row">
+        <div class="stat-box">TOTAL PLOTS: 36,000+</div>
+        <div class="stat-box sold">CLAIMED: <span id="sold-count">0</span></div>
+        <div class="stat-box rem">VACANT: <span id="rem-count">36,000</span></div>
+    </div>
+    <div class="actions">
+        <a href="order.html" class="cta-gold">RESERVE MY PLOT (৳36)</a>
+        <button onclick="downloadMap()" class="cta-outline"><i class="fas fa-camera"></i> DOWNLOAD MAP</button>
+    </div>
+</div>
+
+<div class="map-container">
+    <div id="viewport"><div id="mover"><canvas id="mainCanvas"></canvas></div></div>
+</div>
+
+<div class="future-notice">
+    <p>🌍 <strong>GLOBAL RESISTANCE:</strong> This platform stands as a digital monument for 36,000+ visionaries who believe in freedom and justice.</p>
+    <p style="color: var(--july-gold); font-weight: bold;">⚠️ THE RED ARCHIVE: This map is strictly limited to 36,000+ plots to honor the sacrifices of July. This digital boundary will NEVER be expanded.</p>
+</div>
+
+<footer>THE 36th JULY LEGACY | JUSTICE FOR BRAVE SOULS © 2026 KAWSAR AHMED</footer>
+
+<a href="https://x.com/kawsar6700" target="_blank" class="x-float"><i class="fab fa-x-twitter"></i></a>
+<a href="https://wa.me/8801756206213" class="wa-float"><i class="fab fa-whatsapp"></i> 24/7 SUPPORT</a>
+
+<div id="legacy-tooltip"></div>
+
+<script>
+    // লোগো লোড করার জন্য স্ক্রিপ্ট (আপনার আগের প্রজেক্টের লজিক অনুযায়ী)
+    const firebaseConfig = {
+        apiKey: "AIzaSyCAdnfu2R82xbC7H85n_9mvQBE58X3TjbA",
+        databaseURL: "https://the-5k-elite-legacy-default-rtdb.firebaseio.com"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    db.ref('siteSettings/logo').on('value', s => { 
+        if(s.val()) { document.getElementById('siteLogo').src = s.val(); }
+    });
+
+    function copyVal(val) {
+        navigator.clipboard.writeText(val);
+        alert("Copied: " + val);
+    }
+</script>
+<script src="script.js"></script>
+</body>
+</html>
