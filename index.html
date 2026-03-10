@@ -16,64 +16,63 @@
             --bg-dark: #050708;
         }
 
-        body { background: var(--bg-dark); }
+        body { background: var(--bg-dark); color: white; font-family: sans-serif; }
 
         /* ARK Logo Visual */
         .ark-logo {
-            font-size: 80px;
+            font-size: 85px;
             font-weight: 900;
             color: #fff;
-            letter-spacing: 5px;
+            letter-spacing: 8px;
             text-shadow: 0 0 20px var(--july-red), 0 0 40px var(--july-red);
-            margin-bottom: 20px;
-            font-family: 'Arial Black', sans-serif;
+            margin-bottom: 15px;
         }
 
         /* পেমেন্ট বাটন ইফেক্ট */
         .payment-pills .pill {
             background: rgba(255, 255, 255, 0.05) !important;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: 0.3s;
             border: 1px solid #444 !important;
+            padding: 10px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            display: inline-block;
+            margin: 5px;
         }
         .payment-pills .pill:hover {
             background: var(--july-red) !important;
             box-shadow: 0 0 25px var(--july-red);
-            border-color: #fff !important;
             transform: scale(1.05);
         }
 
         /* ক্লাসিক টুইটার লোগো */
         .fa-twitter {
-            color: #1DA1F2 !important; /* ক্লাসিক ব্লু */
+            color: #1DA1F2 !important;
             font-size: 32px !important;
-            filter: drop-shadow(0 0 8px rgba(29, 161, 242, 0.6));
         }
 
-        /* সার্চ বার স্টাইল */
+        /* সার্চ বার সিস্টেম */
         .search-container {
             display: inline-flex;
             margin-left: 10px;
             background: rgba(255,255,255,0.1);
-            border-radius: 5px;
-            border: 1px solid #444;
-            overflow: hidden;
+            border-radius: 50px;
+            border: 1px solid #555;
+            padding: 2px 5px;
+            vertical-align: middle;
         }
         .search-container input {
-            background: transparent; border: none; padding: 10px; color: white; width: 120px;
+            background: transparent; border: none; padding: 10px; color: white; width: 100px; outline: none;
         }
         .search-container button {
-            background: var(--july-red); border: none; color: white; padding: 0 15px; cursor: pointer;
+            background: var(--july-red); border: none; color: white; padding: 10px 20px; border-radius: 50px; cursor: pointer; transition: 0.3s;
         }
+        .search-container button:hover { background: #ff0000; }
 
         /* ক্যানভাস ভিজ্যুয়াল */
-        #mainCanvas { background: #000; box-shadow: 0 0 50px rgba(204, 0, 0, 0.2); }
-        
-        .shimmer-title {
-            background: linear-gradient(90deg, #fff, var(--july-red), #fff);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            background-size: 200% auto; animation: shine 3s linear infinite;
-        }
-        @keyframes shine { to { background-position: 200% center; } }
+        #mainCanvas { background: #000; border: 1px solid #333; }
+        .map-container { overflow: hidden; position: relative; width: 100%; height: 600px; background: #111; margin-top: 20px;}
+        #mover { position: absolute; transition: transform 0.8s cubic-bezier(0.19, 1, 0.22, 1); }
     </style>
 </head>
 <body>
@@ -88,24 +87,23 @@
     </div>
 </div>
 
-<div class="hero">
+<div class="hero" style="text-align: center; padding: 50px 20px;">
     <div class="ark-logo">ARK</div>
     <h1 class="shimmer-title">THE 36th JULY LEGACY</h1>
-    <p class="tagline">A TRIBUTE OF 36,000 PLOTS | 30 PLOTS PER ROW</p>
+    <p class="tagline" style="color: #888;">36,000 TOTAL PLOTS | 30 PLOTS PER ROW (EXPANDED SIDES)</p>
     
-    <div class="stats-row">
-        <div class="stat-box">TOTAL PLOTS: 36,000</div>
-        <div class="stat-box sold">CLAIMED: <span id="sold-count">0</span></div>
-        <div class="stat-box rem">VACANT: <span id="rem-count">36,000</span></div>
+    <div class="stats-row" style="margin: 20px 0;">
+        <div class="stat-box" style="display:inline-block; margin:0 15px;">TOTAL: 36,000</div>
+        <div class="stat-box sold" style="display:inline-block; margin:0 15px;">CLAIMED: <span id="sold-count">0</span></div>
     </div>
     
     <div class="actions">
-        <a href="order.html" target="_blank" class="cta-gold">RESERVE MY PLOT (৳36)</a>
-        <button onclick="highResDownload()" class="cta-outline"><i class="fas fa-camera"></i> DOWNLOAD MAP</button>
+        <a href="order.html" target="_blank" class="cta-gold" style="padding: 15px 30px; text-decoration: none; border-radius: 5px; font-weight: bold;">RESERVE MY PLOT (৳36)</a>
+        <button onclick="highResDownload()" class="cta-outline" style="padding: 15px 25px; cursor: pointer;"><i class="fas fa-camera"></i> DOWNLOAD</button>
         
         <div class="search-container">
-            <input type="number" id="plotSearch" placeholder="Plot No.">
-            <button onclick="findPlot()"><i class="fas fa-search"></i></button>
+            <input type="number" id="plotSearch" placeholder="Plot #">
+            <button onclick="findPlot()">SEARCH</button>
         </div>
     </div>
 </div>
@@ -114,15 +112,10 @@
     <div id="viewport"><div id="mover"><canvas id="mainCanvas"></canvas></div></div>
 </div>
 
-<div class="future-notice">
-    <p>🌍 <strong>GLOBAL ARCHIVE:</strong> 30 plots wide, 1200 rows deep. A giant legacy.</p>
-    <p style="color: var(--july-gold); font-weight: bold;">⚠️ HIGH DEFINITION: Plot size 50x50px with white grid markers.</p>
-</div>
-
 <footer>THE 36th JULY LEGACY | ARK PROJECT © 2026 KAWSAR AHMED</footer>
 
-<a href="https://x.com/kawsar6700" target="_blank" class="x-float" style="background: #1DA1F2;"><i class="fab fa-twitter"></i></a>
-<a href="https://wa.me/8801756206213" target="_blank" class="wa-float"><i class="fab fa-whatsapp"></i> 24/7 SUPPORT</a>
+<a href="https://x.com/kawsar6700" target="_blank" class="x-float" style="background: #000; border: 1px solid #1DA1F2;"><i class="fab fa-twitter"></i></a>
+<a href="https://wa.me/8801756206213" target="_blank" class="wa-float" style="background: #25D366;"><i class="fab fa-whatsapp"></i> SUPPORT</a>
 
 <script>
     const canvas = document.getElementById('mainCanvas');
@@ -130,14 +123,14 @@
     const plotSize = 50;
     const totalPlots = 36000;
     const cols = 30; // প্রতি সারিতে ৩০টি প্লট
-    const rows = Math.ceil(totalPlots / cols);
+    const rows = Math.ceil(totalPlots / cols); // ১২০০ সারি
 
     canvas.width = cols * plotSize;
     canvas.height = rows * plotSize;
 
-    // গ্রিড আঁকা (সাদা চিকন দাগ)
+    // গ্রিড ডিজাইন (সাদা চিকন দাগ)
     function drawGrid() {
-        ctx.strokeStyle = "rgba(255, 255, 255, 0.3)";
+        ctx.strokeStyle = "rgba(255, 255, 255, 0.15)";
         ctx.lineWidth = 0.5;
         for (let x = 0; x <= canvas.width; x += plotSize) {
             ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); ctx.stroke();
@@ -148,42 +141,43 @@
     }
     drawGrid();
 
-    // হাই-রেজোলিউশন ডাউনলোড ফাংশন
+    // সার্চ ফাংশন (ল্যাগিং ফিক্সড)
+    function findPlot() {
+        const num = parseInt(document.getElementById('plotSearch').value);
+        if(num > 0 && num <= totalPlots) {
+            const r = Math.floor((num - 1) / cols);
+            const c = (num - 1) % cols;
+            
+            // ক্যানভাস ভিউপোর্ট অনুযায়ী পজিশন ক্যালকুলেশন
+            const targetX = (c * plotSize) - (window.innerWidth / 4);
+            const targetY = (r * plotSize) - 200;
+            
+            document.getElementById('mover').style.transform = `translate(${-Math.max(0, targetX)}px, ${-Math.max(0, targetY)}px)`;
+            
+            // প্লটটিকে হাইলাইট করা
+            ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
+            ctx.fillRect(c * plotSize, r * plotSize, plotSize, plotSize);
+            setTimeout(() => {
+                ctx.clearRect(c * plotSize, r * plotSize, plotSize, plotSize);
+                drawGrid();
+            }, 2000);
+        } else {
+            alert("Enter valid Plot No (1-36000)");
+        }
+    }
+
+    // হাই-কোয়ালিটি ডাউনলোড
     function highResDownload() {
         const link = document.createElement('a');
-        link.download = 'ARK_JULY_LEGACY_MAP.png';
+        link.download = 'ARK_JULY_MAP_36000.png';
         link.href = canvas.toDataURL("image/png", 1.0);
         link.click();
     }
 
-    // প্লট সার্চ ফাংশন
-    function findPlot() {
-        const num = document.getElementById('plotSearch').value;
-        if(num > 0 && num <= totalPlots) {
-            const r = Math.floor((num-1) / cols);
-            const c = (num-1) % cols;
-            const scrollY = r * plotSize;
-            const scrollX = c * plotSize;
-            
-            document.getElementById('mover').style.transform = `translate(${-scrollX}px, ${-scrollY}px)`;
-            alert("Plot " + num + " Highlighted!");
-        } else {
-            alert("Please enter a valid plot number (1-36000)");
-        }
-    }
-
     function copyVal(val) {
         navigator.clipboard.writeText(val);
-        alert("Number Copied: " + val);
+        alert("Copied: " + val);
     }
-
-    // Firebase লোগো আপডেট (যদি প্রয়োজন হয়)
-    const firebaseConfig = {
-        apiKey: "AIzaSyCAdnfu2R82xbC7H85n_9mvQBE58X3TjbA",
-        databaseURL: "https://the-5k-elite-legacy-default-rtdb.firebaseio.com"
-    };
-    firebase.initializeApp(firebaseConfig);
 </script>
-<script src="script.js"></script>
 </body>
 </html>
