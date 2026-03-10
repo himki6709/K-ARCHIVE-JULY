@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THE 36th JULY LEGACY | ARK OFFICIAL</title>
+    <title>THE 36th JULY LEGACY | ARK</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
@@ -11,96 +11,71 @@
     
     <style>
         :root {
-            --july-red: #cc0000;
+            --blood-red: #8B0000;
+            --bright-red: #ff0000;
             --july-gold: #FCD535;
         }
 
-        body { 
-            background: #000; 
-            color: #fff; 
-            margin: 0; 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            overflow-x: hidden; /* ডানে-বামে স্ক্রল বন্ধ */
-        }
+        body { background: #000; color: #fff; margin: 0; overflow-x: hidden; }
 
-        /* ARK Logo Visual */
+        /* রক্তে রঞ্জিত ARK লোগো */
         .ark-logo {
             font-size: clamp(60px, 15vw, 100px); 
             font-weight: 900; 
-            color: #fff;
-            text-shadow: 0 0 25px var(--july-red); 
+            color: var(--blood-red);
+            text-shadow: 2px 2px 5px #000, 0 0 20px var(--blood-red), 0 0 40px #4a0000;
             text-align: center;
             letter-spacing: 12px; 
-            margin: 40px 0 10px 0;
-            animation: pulse 2s infinite alternate;
+            margin: 40px 0 5px 0;
+            animation: bloodFlow 3s infinite alternate;
         }
-        @keyframes pulse { from { opacity: 0.8; } to { opacity: 1; text-shadow: 0 0 40px var(--july-red); } }
-
-        /* পেমেন্ট বাটন ইফেক্ট */
-        .payment-pills .pill {
-            background: rgba(255, 255, 255, 0.05) !important;
-            border: 1px solid #444 !important; 
-            transition: 0.3s;
-            cursor: pointer;
-        }
-        .payment-pills .pill:hover {
-            background: var(--july-red) !important;
-            box-shadow: 0 0 15px var(--july-red);
-            transform: translateY(-2px);
+        @keyframes bloodFlow {
+            from { text-shadow: 0 0 20px var(--blood-red); color: #600; }
+            to { text-shadow: 0 0 50px var(--bright-red); color: var(--blood-red); }
         }
 
-        /* সার্চ বার */
+        /* আন্দোলনের বার্তা */
+        .legacy-message {
+            max-width: 800px;
+            margin: 0 auto 30px;
+            text-align: center;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #ccc;
+            padding: 0 20px;
+            border-left: 3px solid var(--blood-red);
+            border-right: 3px solid var(--blood-red);
+        }
+
         .search-container {
-            display: inline-flex; 
-            background: #111; 
-            border: 1px solid #444;
-            border-radius: 30px; 
-            padding: 5px 15px;
+            display: inline-flex; background: #111; border: 1px solid #444;
+            border-radius: 30px; padding: 5px; vertical-align: middle;
         }
         .search-container input {
-            background: transparent; border: none; color: white; width: 120px; outline: none; font-size: 16px;
+            background: transparent; border: none; color: white; width: 100px; outline: none; padding-left: 10px;
         }
         .search-container button {
-            background: var(--july-red); border: none; color: white; 
-            border-radius: 20px; padding: 8px 20px; cursor: pointer; font-weight: bold;
+            background: var(--blood-red); border: none; color: white; 
+            border-radius: 20px; padding: 8px 20px; cursor: pointer;
         }
 
-        /* --- মেইন লম্বা ক্যানভাস সেটআপ --- */
-        .full-map-wrapper {
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            background: #050505;
-            padding-bottom: 100px;
-            position: relative;
-        }
-        
-        #mainCanvas { 
-            background: #000; 
-            display: block;
-            border-left: 1px solid #222;
-            border-right: 1px solid #222;
-        }
+        .full-map-wrapper { width: 100%; display: flex; justify-content: center; position: relative; }
+        #mainCanvas { background: #000; border: 1px solid #222; }
 
-        /* রাউন্ড হাইলাইট ইফেক্ট (পেজ স্ক্রল অনুযায়ী) */
+        /* প্লট সাইজের নির্দিষ্ট হাইলাইট সার্কেল */
         #highlight-circle {
-            position: absolute; width: 120px; height: 120px;
-            border: 3px solid var(--july-gold); border-radius: 50%;
-            background: rgba(204, 0, 0, 0.2); box-shadow: 0 0 40px var(--july-red);
+            position: absolute; width: 50px; height: 50px;
+            border: 2px solid var(--july-gold); border-radius: 5px; /* প্লট স্কয়ার তাই রাউন্ডেড স্কয়ার দেওয়া হয়েছে */
+            background: rgba(255, 0, 0, 0.3); box-shadow: 0 0 20px var(--bright-red);
             pointer-events: none; display: none; z-index: 500;
             transform: translate(-50%, -50%);
         }
 
-        /* ডাউনলোড মোডাল */
         #plot-card {
             position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            background: #111; border: 2px solid var(--july-red); padding: 30px;
-            border-radius: 20px; z-index: 2000; display: none; text-align: center;
-            box-shadow: 0 0 100px rgba(0,0,0,1);
-        }
-
-        .shimmer-title {
-            text-align: center; font-size: 1.5rem; letter-spacing: 4px; color: #888; margin-bottom: 30px;
+            background: #111; border: 2px solid var(--blood-red); padding: 25px;
+            border-radius: 15px; z-index: 2000; display: none; text-align: center;
+            box-shadow: 0 0 100px #000;
         }
     </style>
 </head>
@@ -118,14 +93,17 @@
 
 <div class="hero">
     <div class="ark-logo">ARK</div>
-    <div class="shimmer-title">THE 36th JULY LEGACY ARCHIVE</div>
+    <div class="legacy-message">
+        "জুলাইয়ের রক্তে লেখা প্রতিটি ইতিহাস আজ ডিজিটাল ক্যানভাসে অবিনশ্বর। ৩৬,০০০ শহীদী আত্মার স্বপ্ন আর অকুতোভয় বিপ্লবীদের এই মিছিলে আপনার স্থানটি আজই নিশ্চিত করুন। এই ৩৬,০০০ প্লট শুধু জায়গা নয়, এটি আগামীর প্রজন্মের কাছে আপনার বীরত্বের সাক্ষী।"
+    </div>
     
-    <div class="actions" style="text-align: center; margin: 40px 0;">
-        <a href="order.html" target="_blank" class="cta-gold" style="padding: 15px 40px; text-decoration: none; border-radius: 5px;">RESERVE PLOT (৳36)</a>
+    <div class="actions" style="text-align: center; margin-bottom: 40px;">
+        <a href="order.html" target="_blank" class="cta-gold" style="padding: 15px 35px; text-decoration: none; border-radius: 5px; background: var(--blood-red) !important;">RESERVE PLOT (৳36)</a>
+        <button onclick="downloadFullMap()" class="cta-outline" style="padding: 15px 25px; cursor: pointer;">DOWNLOAD FULL MAP</button>
         
         <div class="search-container">
             <input type="number" id="plotSearch" placeholder="Plot No.">
-            <button onclick="findPlot()">FIND & DOWNLOAD</button>
+            <button onclick="findPlot()">FIND PLOT</button>
         </div>
     </div>
 </div>
@@ -136,36 +114,31 @@
 </div>
 
 <div id="plot-card">
-    <h2 id="card-title" style="color: var(--july-gold); margin: 0;">PLOT #0</h2>
-    <p style="color: #ccc;">TARGETED LEGACY FOUND</p>
-    <div id="plot-preview" style="width: 100px; height: 100px; background: #222; margin: 20px auto; border: 1px dashed var(--july-red);"></div>
-    <button onclick="downloadPersonalPlot()" style="background: #25D366; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer; font-weight: bold;">DOWNLOAD PLOT IMAGE</button>
+    <h3 id="card-title" style="color: var(--july-gold);">PLOT #0</h3>
+    <p style="font-size: 12px; color: #888;">ARK ARCHIVE OFFICIAL RECORD</p>
+    <div id="plot-preview" style="width: 100px; height: 100px; background: #222; margin: 15px auto; border: 1px solid #444;"></div>
+    <button onclick="downloadPersonalPlot()" style="background: #25D366; color: white; border: none; padding: 12px 20px; border-radius: 5px; cursor: pointer; font-weight: bold;">DOWNLOAD IMAGE</button>
     <button onclick="closeCard()" style="background:none; border:none; color:#ff4444; cursor:pointer; display:block; margin: 15px auto; text-decoration: underline;">CLOSE</button>
 </div>
 
-<footer style="padding: 50px; text-align: center; background: #000; border-top: 1px solid #222;">
-    THE 36th JULY LEGACY | ARK PROJECT © 2026 | 36,000 TOTAL PLOTS
+<footer style="padding: 40px; text-align: center; border-top: 1px solid #222;">
+    THE 36th JULY LEGACY | ARK PROJECT © 2026
 </footer>
-
-<a href="https://wa.me/8801756206213" target="_blank" class="wa-float" style="background: #25D366;"><i class="fab fa-whatsapp"></i> SUPPORT</a>
 
 <script>
     const canvas = document.getElementById('mainCanvas');
     const ctx = canvas.getContext('2d');
     const plotSize = 50;
     const totalPlots = 36000;
-    const cols = 30; // প্রতি সারিতে ৩০টি প্লট
-    const rows = Math.ceil(totalPlots / cols); // ১২০০ সারি
+    const cols = 30;
+    const rows = Math.ceil(totalPlots / cols);
 
-    // ক্যানভাস সাইজ সরাসরি মেইন পেজের জন্য সেট করা হলো
     canvas.width = cols * plotSize;
     canvas.height = rows * plotSize;
 
-    // গ্রিড ডিজাইন (সাদা চিকন দাগ)
     function drawGrid() {
         ctx.strokeStyle = "rgba(255, 255, 255, 0.15)";
         ctx.lineWidth = 0.5;
-        // ভিক্টোরি স্টাইল চিকন লাইন
         for (let x = 0; x <= canvas.width; x += plotSize) {
             ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); ctx.stroke();
         }
@@ -177,77 +150,68 @@
 
     let currentFoundPlot = 0;
 
-    // সার্চ ফাংশন - যা সরাসরি ওই প্লটে স্ক্রল করে নিয়ে যাবে
     function findPlot() {
         const num = parseInt(document.getElementById('plotSearch').value);
         if(num > 0 && num <= totalPlots) {
             currentFoundPlot = num;
             const r = Math.floor((num - 1) / cols);
             const c = (num - 1) % cols;
-            
-            const plotX = c * plotSize;
-            const plotY = r * plotSize;
+            const px = c * plotSize;
+            const py = r * plotSize;
 
-            // ক্যানভাসটি যেখানে আছে সেই পজিশন অনুযায়ী স্ক্রল করা
             const wrapper = document.querySelector('.full-map-wrapper');
-            const absoluteY = wrapper.offsetTop + plotY;
+            window.scrollTo({ top: (wrapper.offsetTop + py) - (window.innerHeight/2), behavior: 'smooth' });
 
-            // স্মুথ স্ক্রল করে প্লটের কাছে নিয়ে যাওয়া
-            window.scrollTo({
-                top: absoluteY - (window.innerHeight / 2) + (plotSize / 2),
-                behavior: 'smooth'
-            });
-
-            // রাউন্ড গ্লো ইফেক্ট শো করা
             const circle = document.getElementById('highlight-circle');
             circle.style.display = "block";
-            circle.style.left = (plotX + plotSize/2) + "px";
-            circle.style.top = (plotY + plotSize/2) + "px";
+            circle.style.left = (px + plotSize/2) + "px";
+            circle.style.top = (py + plotSize/2) + "px";
 
-            // ২ সেকেন্ড পর ডাউনলোড কার্ড দেখানো
             setTimeout(() => {
                 document.getElementById('plot-card').style.display = "block";
-                document.getElementById('card-title').innerText = "PLOT #" + num;
-            }, 1000);
-        } else {
-            alert("Please enter a valid plot number (1-36000)");
+                document.getElementById('card-title').innerText = "ARK PLOT #" + num;
+            }, 800);
         }
     }
 
-    // নির্দিষ্ট প্লট হাই-রেজোলিউশন ডাউনলোড
+    // নির্দিষ্ট ছবি ডাউনলোড - আপনার দেওয়া ফরম্যাট অনুযায়ী
     function downloadPersonalPlot() {
         const dlCanvas = document.createElement('canvas');
-        dlCanvas.width = 600;
-        dlCanvas.height = 600;
-        const dlCtx = dlCanvas.getContext('2d');
+        dlCanvas.width = 800;
+        dlCanvas.height = 800;
+        const dctx = dlCanvas.getContext('2d');
+        
+        dctx.fillStyle = "#000";
+        dctx.fillRect(0,0,800,800);
         
         const r = Math.floor((currentFoundPlot - 1) / cols);
         const c = (currentFoundPlot - 1) % cols;
+        dctx.drawImage(canvas, c * plotSize, r * plotSize, plotSize, plotSize, 150, 200, 500, 500);
         
-        // ব্যাকগ্রাউন্ড এবং বর্ডার সহ ডিজাইন
-        dlCtx.fillStyle = "#000";
-        dlCtx.fillRect(0,0,600,600);
-        dlCtx.drawImage(canvas, c * plotSize, r * plotSize, plotSize, plotSize, 100, 100, 400, 400);
-        
-        // টেক্সট অ্যাড করা
-        dlCtx.fillStyle = "#FCD535";
-        dlCtx.font = "bold 30px Arial";
-        dlCtx.fillText("ARK LEGACY - PLOT #" + currentFoundPlot, 100, 60);
+        // আপনার রিকোয়েস্ট করা টেক্সট ফরম্যাট
+        dctx.fillStyle = "#FCD535";
+        dctx.font = "bold 28px Arial";
+        dctx.textAlign = "center";
+        dctx.fillText("ARK ARCHIVE", 400, 80);
+        dctx.font = "20px Arial";
+        dctx.fillText("THE 36th JULY LEGACY ARCHIVE PLOT #" + currentFoundPlot, 400, 120);
         
         const link = document.createElement('a');
-        link.download = 'ARK_LEGACY_PLOT_' + currentFoundPlot + '.png';
+        link.download = `ARK_JULY_LEGACY_PLOT_${currentFoundPlot}.png`;
         link.href = dlCanvas.toDataURL("image/png");
         link.click();
     }
 
-    function closeCard() {
-        document.getElementById('plot-card').style.display = "none";
-        document.getElementById('highlight-circle').style.display = "none";
+    function downloadFullMap() {
+        const link = document.createElement('a');
+        link.download = 'ARK_FULL_LEGACY_MAP.png';
+        link.href = canvas.toDataURL("image/png");
+        link.click();
     }
 
-    function copyVal(val) {
-        navigator.clipboard.writeText(val);
-        alert("Number Copied: " + val);
+    function closeCard() { 
+        document.getElementById('plot-card').style.display = "none"; 
+        document.getElementById('highlight-circle').style.display = "none";
     }
 </script>
 </body>
