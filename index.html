@@ -3,31 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THE GLOBAL CREATOR HOMEPAGE | OFFICIAL</title>
+    <title>THE 36th JULY LEGACY | OFFICIAL</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+    <style>
+        /* জুলাই আন্দোলনের থিম কালার (ডিজাইন পরিবর্তন না করে শুধু রঙ সমন্বয়) */
+        :root {
+            --july-red: #cc0000;
+            --july-gold: #FCD535;
+        }
+        .shimmer-title { color: #fff; text-shadow: 0 0 15px var(--july-red); }
+        .cta-gold { background: var(--july-red) !important; color: white !important; border: 1px solid var(--july-gold); }
+        .pill.red-mode { background: var(--july-red); color: white; border: 1px solid white; }
+    </style>
 </head>
 <body>
 <div class="top-nav">
     <div class="payment-pills">
-        <div class="pill yellow" onclick="copyVal('01756206213')">BKASH: 01756206213</div>
-        <div class="pill white" onclick="copyVal('01756206213')">ROCKET: 01756206213</div>
+        <div class="pill red-mode" onclick="copyVal('01756206213')">BKASH: 01756206213</div>
+        <div class="pill yellow" onclick="copyVal('01756206213')">ROCKET: 01756206213</div>
     </div>
     <div class="social-icons">
-        <a href="https://facebook.com/theglobalcreatorhomepage" target="_blank"><i class="fab fa-facebook-f"></i></a>
-        <a href="https://instagram.com/theglobalcreatorhomepage" target="_blank"><i class="fab fa-instagram"></i></a>
-        <a href="https://x.com/kawsar6700" target="_blank"><i class="fab fa-x-twitter"></i></a>
-        <a href="https://youtube.com/@theglobalcreatorhomepage" target="_blank"><i class="fab fa-youtube"></i></a>
+        <a href="https://x.com/kawsar6700" target="_blank" style="color: white; font-size: 28px; opacity: 1;"><i class="fab fa-x-twitter"></i></a>
     </div>
 </div>
 
 <div class="hero">
-    <img src="" id="siteLogo" style="height: 60px; margin-bottom: 20px;" alt="LOGO">
-    
-    <h1 class="shimmer-title">THE GLOBAL CREATOR HOMEPAGE</h1>
-    <p class="tagline">A LIMITED LEGACY FOR 36,000 ELITE GLOBAL CREATORS.</p>
+    <div style="margin-bottom: 20px;">
+        <img src="" id="siteLogo" style="height: 70px; filter: drop-shadow(0 0 10px var(--july-red));" alt="LOGO">
+    </div>
+
+    <h1 class="shimmer-title">THE 36th JULY LEGACY</h1>
+    <p class="tagline">A DIGITAL ARCHIVE FOR THE BRAVE SOULS. 36,000 PLOTS OF HISTORY.</p>
     <div class="stats-row">
         <div class="stat-box">TOTAL PLOTS: 36,000</div>
         <div class="stat-box sold">CLAIMED: <span id="sold-count">0</span></div>
@@ -44,19 +53,19 @@
 </div>
 
 <div class="future-notice">
-    <p>🌍 <strong>GLOBAL CAPABILITY:</strong> This platform is designed to host 100 creators from every country worldwide.</p>
-    <p style="color: #FCD535; font-weight: bold;">⚠️ LIMITED EDITION: This map is strictly limited to 36,000 plots. The number of spots will NEVER be increased in the future.</p>
+    <p>🌍 <strong>GLOBAL LEGACY:</strong> This map is a tribute to the sacrifice and unity of July 2024.</p>
+    <p style="color: #FCD535; font-weight: bold;">⚠️ LIMITED ARCHIVE: This platform is strictly limited to 36,000 plots. The history will NEVER be increased.</p>
 </div>
 
-<footer>THE 36th JULY LEGACY | THE GLOBAL CREATOR HOMEPAGE © 2026 KAWSAR AHMED</footer>
+<footer>THE 36th JULY LEGACY | BRAVE CREATORS' HOMEPAGE © 2026 KAWSAR AHMED</footer>
 
-<a href="support.html" class="wa-float"><i class="fab fa-whatsapp"></i> 24/7 SUPPORT</a>
-<a href="https://x.com/kawsar6700" target="_blank" style="position: fixed; bottom: 120px; right: 20px; background: #000; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; text-decoration: none; z-index: 1000; box-shadow: 0 4px 10px rgba(0,0,0,0.3);"><i class="fab fa-x-twitter"></i></a>
+<a href="https://x.com/kawsar6700" target="_blank" class="wa-float" style="right: 110px; background: #000; border: 1px solid #444;"><i class="fab fa-x-twitter"></i></a>
+<a href="https://wa.me/8801756206213" class="wa-float"><i class="fab fa-whatsapp"></i> 24/7 SUPPORT</a>
 
 <div id="legacy-tooltip"></div>
 
 <script>
-    // Firebase লজিক (আপনার লোগো অটোমেটিক লোড করার জন্য)
+    // Firebase লজিক লোগোর জন্য
     const firebaseConfig = {
         apiKey: "AIzaSyCAdnfu2R82xbC7H85n_9mvQBE58X3TjbA",
         databaseURL: "https://the-5k-elite-legacy-default-rtdb.firebaseio.com"
@@ -64,7 +73,7 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
-    // লোগো অটোমেটিক আপডেট হবে
+    // লোগো অটোমেটিক আপনার প্রজেক্ট থেকে লোড হবে
     db.ref('siteSettings/logo').on('value', s => { 
         if(s.val()) { document.getElementById('siteLogo').src = s.val(); }
     });
