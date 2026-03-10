@@ -13,42 +13,34 @@
         :root {
             --july-red: #cc0000;
             --july-gold: #FCD535;
-            --bg-dark: #050708;
         }
-
-        body { background: var(--bg-dark); color: white; font-family: sans-serif; }
 
         /* ARK Logo Visual */
         .ark-logo {
-            font-size: 85px;
+            font-size: 70px;
             font-weight: 900;
             color: #fff;
-            letter-spacing: 8px;
-            text-shadow: 0 0 20px var(--july-red), 0 0 40px var(--july-red);
-            margin-bottom: 15px;
+            text-shadow: 0 0 15px var(--july-red);
+            margin-bottom: 20px;
         }
 
-        /* পেমেন্ট বাটন ইফেক্ট */
+        /* পেমেন্ট বাটন ইফেক্ট - দুইটির কালার মাউস নিলে একই হবে */
         .payment-pills .pill {
             background: rgba(255, 255, 255, 0.05) !important;
-            transition: 0.3s;
-            border: 1px solid #444 !important;
-            padding: 10px 20px;
-            border-radius: 50px;
+            transition: 0.4s ease;
             cursor: pointer;
-            display: inline-block;
-            margin: 5px;
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
         }
         .payment-pills .pill:hover {
             background: var(--july-red) !important;
-            box-shadow: 0 0 25px var(--july-red);
-            transform: scale(1.05);
+            box-shadow: 0 0 15px var(--july-red);
+            color: #fff !important;
         }
 
-        /* ক্লাসিক টুইটার লোগো */
+        /* ক্লাসিক টুইটার লোগো স্পষ্টকরণ */
         .fa-twitter {
             color: #1DA1F2 !important;
-            font-size: 32px !important;
+            font-size: 28px !important;
         }
 
         /* সার্চ বার সিস্টেম */
@@ -56,23 +48,19 @@
             display: inline-flex;
             margin-left: 10px;
             background: rgba(255,255,255,0.1);
-            border-radius: 50px;
-            border: 1px solid #555;
-            padding: 2px 5px;
+            border-radius: 4px;
+            border: 1px solid #444;
             vertical-align: middle;
         }
         .search-container input {
-            background: transparent; border: none; padding: 10px; color: white; width: 100px; outline: none;
+            background: transparent; border: none; padding: 10px; color: white; width: 90px;
         }
         .search-container button {
-            background: var(--july-red); border: none; color: white; padding: 10px 20px; border-radius: 50px; cursor: pointer; transition: 0.3s;
+            background: var(--july-red); border: none; color: white; padding: 10px 15px; cursor: pointer;
         }
-        .search-container button:hover { background: #ff0000; }
 
-        /* ক্যানভাস ভিজ্যুয়াল */
-        #mainCanvas { background: #000; border: 1px solid #333; }
-        .map-container { overflow: hidden; position: relative; width: 100%; height: 600px; background: #111; margin-top: 20px;}
-        #mover { position: absolute; transition: transform 0.8s cubic-bezier(0.19, 1, 0.22, 1); }
+        /* ক্যানভাস স্টাইল */
+        #mainCanvas { background: #000; }
     </style>
 </head>
 <body>
@@ -87,23 +75,24 @@
     </div>
 </div>
 
-<div class="hero" style="text-align: center; padding: 50px 20px;">
+<div class="hero">
     <div class="ark-logo">ARK</div>
     <h1 class="shimmer-title">THE 36th JULY LEGACY</h1>
-    <p class="tagline" style="color: #888;">36,000 TOTAL PLOTS | 30 PLOTS PER ROW (EXPANDED SIDES)</p>
+    <p class="tagline">A GIANT CANVAS OF 36,000 PLOTS | 30 PLOTS PER ROW</p>
     
-    <div class="stats-row" style="margin: 20px 0;">
-        <div class="stat-box" style="display:inline-block; margin:0 15px;">TOTAL: 36,000</div>
-        <div class="stat-box sold" style="display:inline-block; margin:0 15px;">CLAIMED: <span id="sold-count">0</span></div>
+    <div class="stats-row">
+        <div class="stat-box">TOTAL PLOTS: 36,000</div>
+        <div class="stat-box sold">CLAIMED: <span id="sold-count">0</span></div>
+        <div class="stat-box rem">VACANT: <span id="rem-count">36,000</span></div>
     </div>
     
     <div class="actions">
-        <a href="order.html" target="_blank" class="cta-gold" style="padding: 15px 30px; text-decoration: none; border-radius: 5px; font-weight: bold;">RESERVE MY PLOT (৳36)</a>
-        <button onclick="highResDownload()" class="cta-outline" style="padding: 15px 25px; cursor: pointer;"><i class="fas fa-camera"></i> DOWNLOAD</button>
+        <a href="order.html" target="_blank" class="cta-gold">RESERVE MY PLOT (৳36)</a>
+        <button onclick="downloadMap()" class="cta-outline"><i class="fas fa-camera"></i> DOWNLOAD MAP</button>
         
         <div class="search-container">
-            <input type="number" id="plotSearch" placeholder="Plot #">
-            <button onclick="findPlot()">SEARCH</button>
+            <input type="number" id="plotSearch" placeholder="Plot No.">
+            <button onclick="findPlot()"><i class="fas fa-search"></i></button>
         </div>
     </div>
 </div>
@@ -112,25 +101,29 @@
     <div id="viewport"><div id="mover"><canvas id="mainCanvas"></canvas></div></div>
 </div>
 
-<footer>THE 36th JULY LEGACY | ARK PROJECT © 2026 KAWSAR AHMED</footer>
+<div class="future-notice">
+    <p>🌍 <strong>GLOBAL ARCHIVE:</strong> 36,000 Plots of History, Each 50x50px.</p>
+    <p style="color: var(--july-gold); font-weight: bold;">⚠️ THE SCALE: 30 Plots per row. This canvas will never be expanded.</p>
+</div>
 
-<a href="https://x.com/kawsar6700" target="_blank" class="x-float" style="background: #000; border: 1px solid #1DA1F2;"><i class="fab fa-twitter"></i></a>
-<a href="https://wa.me/8801756206213" target="_blank" class="wa-float" style="background: #25D366;"><i class="fab fa-whatsapp"></i> SUPPORT</a>
+<footer>THE 36th JULY LEGACY | OFFICIAL HOMEPAGE © 2026 KAWSAR AHMED</footer>
+
+<a href="https://wa.me/8801756206213" target="_blank" class="wa-float"><i class="fab fa-whatsapp"></i> 24/7 SUPPORT</a>
 
 <script>
     const canvas = document.getElementById('mainCanvas');
     const ctx = canvas.getContext('2d');
     const plotSize = 50;
     const totalPlots = 36000;
-    const cols = 30; // প্রতি সারিতে ৩০টি প্লট
-    const rows = Math.ceil(totalPlots / cols); // ১২০০ সারি
+    const cols = 30; // প্রতি লাইনে ৩০ টি করে প্লট
+    const rows = Math.ceil(totalPlots / cols);
 
     canvas.width = cols * plotSize;
     canvas.height = rows * plotSize;
 
-    // গ্রিড ডিজাইন (সাদা চিকন দাগ)
+    // সাদা চিকন গ্রিড দাগ
     function drawGrid() {
-        ctx.strokeStyle = "rgba(255, 255, 255, 0.15)";
+        ctx.strokeStyle = "rgba(255, 255, 255, 0.2)";
         ctx.lineWidth = 0.5;
         for (let x = 0; x <= canvas.width; x += plotSize) {
             ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); ctx.stroke();
@@ -141,35 +134,33 @@
     }
     drawGrid();
 
-    // সার্চ ফাংশন (ল্যাগিং ফিক্সড)
+    // সার্চ ফাংশন
     function findPlot() {
         const num = parseInt(document.getElementById('plotSearch').value);
         if(num > 0 && num <= totalPlots) {
             const r = Math.floor((num - 1) / cols);
             const c = (num - 1) % cols;
+            const scrollY = r * plotSize;
+            const scrollX = c * plotSize;
             
-            // ক্যানভাস ভিউপোর্ট অনুযায়ী পজিশন ক্যালকুলেশন
-            const targetX = (c * plotSize) - (window.innerWidth / 4);
-            const targetY = (r * plotSize) - 200;
+            document.getElementById('mover').style.transform = `translate(${-scrollX}px, ${-scrollY}px)`;
             
-            document.getElementById('mover').style.transform = `translate(${-Math.max(0, targetX)}px, ${-Math.max(0, targetY)}px)`;
-            
-            // প্লটটিকে হাইলাইট করা
-            ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
-            ctx.fillRect(c * plotSize, r * plotSize, plotSize, plotSize);
+            // হাইলাইট ইফেক্ট
+            ctx.fillStyle = "rgba(255, 0, 0, 0.4)";
+            ctx.fillRect(scrollX, scrollY, plotSize, plotSize);
             setTimeout(() => {
-                ctx.clearRect(c * plotSize, r * plotSize, plotSize, plotSize);
+                ctx.clearRect(scrollX, scrollY, plotSize, plotSize);
                 drawGrid();
-            }, 2000);
+            }, 3000);
         } else {
-            alert("Enter valid Plot No (1-36000)");
+            alert("Please enter a valid plot number (1-36000)");
         }
     }
 
     // হাই-কোয়ালিটি ডাউনলোড
-    function highResDownload() {
+    function downloadMap() {
         const link = document.createElement('a');
-        link.download = 'ARK_JULY_MAP_36000.png';
+        link.download = 'ARK_JULY_MAP.png';
         link.href = canvas.toDataURL("image/png", 1.0);
         link.click();
     }
@@ -179,5 +170,6 @@
         alert("Copied: " + val);
     }
 </script>
+<script src="script.js"></script>
 </body>
 </html>
