@@ -3,183 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MASTER PANEL | THE JULY LEGACY</title>
+    <title>MANUAL UPDATE | ARK ARCHIVE</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root {
-            --rr-silver: #E1E1E1;
-            --rr-black: #000000;
-            --rr-border: rgba(255, 255, 255, 0.1);
-        }
-
-        body { 
-            background: var(--rr-black); 
-            color: var(--rr-silver); 
-            font-family: 'Times New Roman', serif; 
-            padding: 40px; 
-            display: none; 
-            letter-spacing: 1px;
-        }
-
-        .grid { 
-            max-width: 1000px; 
-            margin: 0 auto; 
-            display: grid; 
-            grid-template-columns: 1.2fr 0.8fr; 
-            gap: 30px; 
-        }
-
-        .card { 
-            background: #080808; 
-            padding: 40px; 
-            border: 1px solid var(--rr-border);
-        }
-
-        h2 { 
-            text-transform: uppercase; 
-            letter-spacing: 5px; 
-            font-weight: 300; 
-            font-size: 18px; 
-            margin-bottom: 30px;
-            border-bottom: 1px solid var(--rr-border);
-            padding-bottom: 15px;
-        }
-
-        input { 
-            width: 100%; 
-            padding: 15px 0; 
-            margin-bottom: 25px; 
-            background: transparent; 
-            border: none; 
-            border-bottom: 1px solid var(--rr-border); 
-            color: #fff; 
-            outline: none;
-            font-size: 13px;
-        }
-
-        input:focus { border-bottom-color: #fff; }
-
-        .btn { 
-            width: 100%; 
-            padding: 18px; 
-            background: #fff; 
-            color: #000; 
-            font-weight: bold; 
-            border: none; 
-            cursor: pointer; 
-            text-transform: uppercase; 
-            letter-spacing: 3px;
-            transition: 0.3s;
-        }
-
-        .btn:hover { background: #888; }
-
-        .item { 
-            padding: 15px; 
-            background: rgba(255,255,255,0.02); 
-            border-bottom: 1px solid var(--rr-border); 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            font-size: 12px;
-        }
-
-        #liveRecords { 
-            height: 500px; 
-            overflow-y: auto; 
-            padding-right: 10px;
-        }
-
-        /* Custom Scrollbar */
-        #liveRecords::-webkit-scrollbar { width: 3px; }
-        #liveRecords::-webkit-scrollbar-thumb { background: #222; }
+        body { background: #000; color: #fff; font-family: sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .card { background: #0a0a0a; border: 1px solid #1a1a1a; padding: 40px; border-radius: 10px; width: 100%; max-width: 400px; text-align: center; }
+        h2 { letter-spacing: 5px; font-size: 18px; margin-bottom: 30px; color: #444; }
+        .rr-input { width: 100%; background: #000; border: 1px solid #222; padding: 15px; color: #fff; margin-bottom: 15px; outline: none; box-sizing: border-box; font-size: 12px; }
+        .rr-input:focus { border-color: #555; }
+        .btn { width: 100%; background: #fff; color: #000; border: none; padding: 15px; cursor: pointer; font-weight: bold; letter-spacing: 2px; font-size: 10px; transition: 0.3s; }
+        .btn:hover { background: #ccc; }
+        .back-link { margin-top: 20px; display: block; color: #444; text-decoration: none; font-size: 10px; }
     </style>
-</head>
-<body>
-    <script>
-        if(prompt("Master Access Key:") === "zoomlink34@gmail.com") { 
-            document.body.style.display = "block"; 
-        } else { 
-            window.location.href = "index.html"; 
-        }
-    </script>
-
-    <h1 style="text-align: center; letter-spacing: 10px; font-weight: 300; margin-bottom: 50px;">MASTER CONTROL</h1>
-
-    <div class="grid">
-        <div class="card">
-            <h2>Direct Archive Entry</h2>
-            <input type="number" id="mPlot" placeholder="PLOT ID (e.g. 1, 100, 5000)">
-            <input type="text" id="mBrand" placeholder="OWNER NAME / BRAND">
-            <input type="text" id="mImg" placeholder="IMAGE SOURCE URL">
-            <input type="text" id="mWeb" placeholder="DESTINATION LINK (URL)">
-            <button class="btn" onclick="directPublish()">Update Archive Now</button>
-        </div>
-
-        <div class="card">
-            <h2>Live Records</h2>
-            <div id="liveRecords">Loading Database...</div>
-        </div>
-    </div>
-
+    
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
-    <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyCAdnfu2R82xbC7H85n_9mvQBE58X3TjbA",
-            authDomain: "the-5k-elite-legacy.firebaseapp.com",
-            databaseURL: "https://the-5k-elite-legacy-default-rtdb.firebaseio.com",
-            projectId: "the-5k-elite-legacy",
-            appId: "1:440824313752:web:2c93344dcfe2ba0a4c5ded"
-        };
+</head>
+<body>
+
+<div class="card">
+    <h2>DIRECT PUBLISH</h2>
+    
+    <input type="number" id="mPlot" class="rr-input" placeholder="PLOT NUMBER (e.g. 1)">
+    <input type="text" id="mName" class="rr-input" placeholder="CUSTOMER FULL NAME">
+    <input type="text" id="mImg" class="rr-input" placeholder="PHOTO URL (Direct Link)">
+    <input type="text" id="mWeb" class="rr-input" placeholder="WEBSITE/SOCIAL LINK (Optional)">
+    
+    <button class="btn" onclick="directPublish()">GO LIVE NOW</button>
+    
+    <a href="index.html" class="back-link">BACK TO ARCHIVE</a>
+</div>
+
+<script>
+    // Firebase Configuration (Same as index.html)
+    const firebaseConfig = {
+        apiKey: "AIzaSyCAdnfu2R82xbC7H85n_9mvQBE58X3TjbA",
+        authDomain: "the-5k-elite-legacy.firebaseapp.com",
+        databaseURL: "https://the-5k-elite-legacy-default-rtdb.firebaseio.com",
+        projectId: "the-5k-elite-legacy",
+        storageBucket: "the-5k-elite-legacy.firebasestorage.app",
+        messagingSenderId: "440824313752",
+        appId: "1:440824313752:web:2c93344dcfe2ba0a4c5ded"
+    };
+
+    // Initialize Firebase
+    if (!firebase.apps.length) {
         firebase.initializeApp(firebaseConfig);
-        const db = firebase.database();
+    }
+    const db = firebase.database();
 
-        // সরাসরি ডাটাবেসে পুশ করার ফাংশন
-        function directPublish() {
-            const name = document.getElementById('mBrand').value, 
-                  img = document.getElementById('mImg').value, 
-                  web = document.getElementById('mWeb').value, 
-                  pid = parseInt(document.getElementById('mPlot').value);
+    function directPublish() {
+        const pid = document.getElementById('mPlot').value;
+        const name = document.getElementById('mName').value;
+        const img = document.getElementById('mImg').value;
+        const web = document.getElementById('mWeb').value;
 
-            if(!pid || pid < 1) return alert("Please enter a valid Plot ID.");
-            if(!img) return alert("Image URL is required.");
-
-            db.ref('pixels/'+pid).set({
-                name: name || "Anonymous Legacy",
-                imageUrl: img,
-                link: web || "#",
-                plotID: pid
-            }).then(() => {
-                alert("Plot #" + pid + " has been successfully archived.");
-                document.getElementById('mPlot').value = "";
-                document.getElementById('mBrand').value = "";
-                document.getElementById('mImg').value = "";
-                document.getElementById('mWeb').value = "";
-            });
+        // Validation
+        if(!pid || !name || !img) {
+            alert("Please fill Plot Number, Name and Image URL!");
+            return;
         }
 
-        // লাইভ রেকর্ড দেখার লজিক
-        db.ref('pixels').on('value', s => {
-            const list = document.getElementById('liveRecords'); 
-            list.innerHTML = "";
-            const data = s.val(); 
-            if(!data) return list.innerHTML = "<div style='color:#333; text-align:center; margin-top:50px;'>NO RECORDS FOUND</div>";
-            
-            Object.keys(data).sort((a,b) => a-b).forEach(id => {
-                list.innerHTML += `
-                    <div class="item">
-                        <span>#${id} - ${data[id].name}</span>
-                        <button onclick="deletePixel('${id}')" style="background:transparent; color:#ff4444; border:1px solid #ff444433; cursor:pointer; padding:5px 12px; font-size:10px; letter-spacing:1px;">DELETE</button>
-                    </div>`;
-            });
+        // সরাসরি pixels নোডে ডাটা সেভ করা হচ্ছে
+        db.ref('pixels/' + pid).set({
+            name: name,
+            imageUrl: img,
+            link: web || "#",
+            plotID: pid,
+            updatedAt: Date.now()
+        }).then(() => {
+            alert("SUCCESS! Plot #" + pid + " is now live with name: " + name);
+            // ইনপুট ফিল্ড ক্লিয়ার করা
+            document.getElementById('mPlot').value = "";
+            document.getElementById('mName').value = "";
+            document.getElementById('mImg').value = "";
+            document.getElementById('mWeb').value = "";
+        }).catch((error) => {
+            alert("Error: " + error.message);
         });
+    }
+</script>
 
-        // ডিলিট করার ফাংশন
-        function deletePixel(id) {
-            if(confirm("Permanently delete Plot #" + id + " from the archive?")) {
-                db.ref('pixels/'+id).remove();
-            }
-        }
-    </script>
 </body>
 </html>
