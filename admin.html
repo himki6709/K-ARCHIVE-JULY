@@ -53,6 +53,7 @@
             color: #fff; 
             outline: none;
             font-size: 12px;
+            margin-bottom: 10px;
         }
 
         input:focus { border-bottom-color: #fff; }
@@ -76,12 +77,19 @@
 
         #order-list { margin-top: 30px; }
         .empty-msg { color: #333; text-align: center; margin-top: 100px; letter-spacing: 5px; }
+
+        /* Responsive Fix */
+        @media (max-width: 768px) {
+            input { width: 100%; margin-right: 0; }
+            .btn-reject { margin-left: 0; margin-top: 10px; width: 100%; }
+            .btn-approve { width: 100%; }
+        }
     </style>
 </head>
 <body>
 
     <script>
-        // Security Access
+        // Security Access (CEO Access Key)
         const accessPass = prompt("Enter CEO Access Key:");
         if(accessPass === "zoomlink34@gmail.com") { 
             document.body.style.display = "block"; 
