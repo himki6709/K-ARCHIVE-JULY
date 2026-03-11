@@ -10,7 +10,6 @@
         :root {
             --primary-gold: #D4AF37;
             --deep-red: #580000;
-            --accent-slate: #2C3E50;
             --luxury-black: #0A0A0B;
             --text-silver: #E0E0E0;
         }
@@ -23,140 +22,101 @@
             overflow-x: hidden;
         }
 
-        /* Sophisticated Background with Animation */
+        /* High-Quality Movement Background Integration */
         .bg-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(rgba(10, 10, 11, 0.85), rgba(10, 10, 11, 0.95)), 
-                        url('https://i.ibb.co/VWV0pW2/image-d510b2.png'); /* Enhanced Image Placement */
+            background: linear-gradient(rgba(10, 10, 11, 0.88), rgba(10, 10, 11, 0.96)), 
+                        url('https://i.ibb.co/df8fe5/image_df8fe5.png'); /* Uploaded Background */
             background-size: cover;
             background-position: center;
             z-index: -1;
-            filter: grayscale(30%) contrast(110%);
-            animation: slowPan 30s infinite alternate linear;
+            filter: contrast(115%);
         }
 
-        @keyframes slowPan {
-            from { transform: scale(1.0); }
-            to { transform: scale(1.1); }
-        }
-
-        /* High-End Header */
         .header {
             padding: 15px 8%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(10, 10, 11, 0.8);
+            background: rgba(10, 10, 11, 0.85);
             backdrop-filter: blur(15px);
             border-bottom: 1px solid rgba(212, 175, 55, 0.2);
             position: sticky; top: 0; z-index: 100;
         }
 
-        .payment-box { text-align: left; }
-        
         .copy-pill {
             background: rgba(212, 175, 55, 0.1);
             border: 1px solid var(--primary-gold);
             color: var(--primary-gold);
-            padding: 6px 14px;
+            padding: 8px 16px;
             border-radius: 4px;
             font-size: 13px;
             cursor: pointer;
-            transition: 0.3s;
             font-weight: 600;
-            display: inline-block;
         }
-        .copy-pill:hover { background: var(--primary-gold); color: #000; }
 
-        .buy-trigger {
-            font-size: 11px;
-            color: #aaa;
-            text-decoration: underline;
-            margin-top: 5px;
-            cursor: pointer;
-            display: block;
-            transition: 0.3s;
-        }
-        .buy-trigger:hover { color: var(--primary-gold); }
-
-        /* Typography & Content */
-        .hero-section { text-align: center; padding: 120px 20px 60px; }
+        .hero-section { text-align: center; padding: 100px 20px 40px; }
         .main-logo {
             font-family: 'Playfair Display', serif;
-            font-size: clamp(40px, 8vw, 85px);
+            font-size: clamp(35px, 7vw, 75px);
             color: var(--primary-gold);
-            letter-spacing: 5px;
+            letter-spacing: 4px;
             text-transform: uppercase;
-            margin: 0;
-        }
-        .manifesto {
-            max-width: 700px;
-            margin: 30px auto;
-            font-size: 18px;
-            line-height: 1.8;
-            color: #bdc3c7;
-            font-style: italic;
-            border-left: 2px solid var(--deep-red);
-            padding-left: 20px;
         }
 
-        /* Circular Plot Matrix */
+        /* Legacy Pricing & Info Card */
+        .info-card {
+            max-width: 650px;
+            margin: 20px auto 50px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            padding: 25px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .price-tag { font-size: 24px; color: var(--primary-gold); font-weight: 700; margin-bottom: 10px; }
+        .green-impact { color: #2ecc71; font-weight: 600; font-size: 16px; margin-bottom: 15px; }
+
         .plot-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-            gap: 30px; padding: 50px 10%; max-width: 1300px; margin: 0 auto;
+            grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+            gap: 25px; padding: 40px 10%; max-width: 1200px; margin: 0 auto;
         }
 
+        /* Circular Plot Design */
         .plot-circle {
-            width: 120px; height: 120px; border-radius: 50%;
-            border: 1px solid rgba(212, 175, 55, 0.3);
-            background: radial-gradient(circle, rgba(44, 62, 80, 0.4) 0%, rgba(10, 10, 11, 0.8) 100%);
+            width: 110px; height: 110px; border-radius: 50%;
+            border: 1px solid rgba(212, 175, 55, 0.25);
+            background: radial-gradient(circle, rgba(20,20,22,0.8), rgba(10,10,11,1));
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            cursor: pointer; transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: inset 0 0 15px rgba(0,0,0,0.5);
+            cursor: pointer; transition: 0.4s;
         }
-        .plot-circle:hover { 
-            border-color: var(--primary-gold); 
-            transform: scale(1.05) translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.6), 0 0 15px rgba(212, 175, 55, 0.2);
-        }
+        .plot-circle:hover { border-color: var(--primary-gold); transform: translateY(-5px); box-shadow: 0 0 15px rgba(212,175,55,0.2); }
 
-        /* Luxury Portal (Modal) */
         .modal {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(5, 5, 5, 0.98);
-            display: none; justify-content: center; align-items: center; z-index: 1000;
+            background: rgba(0,0,0,0.97); display: none; justify-content: center; align-items: center; z-index: 1000;
         }
         .modal-content {
-            background: #0f0f11;
-            padding: 50px; border-radius: 2px;
-            width: 90%; max-width: 480px;
-            border: 1px solid var(--primary-gold);
-            box-shadow: 0 0 50px rgba(0,0,0,1);
-            position: relative;
+            background: #0f0f11; padding: 40px; border-radius: 4px;
+            width: 90%; max-width: 450px; border: 1px solid var(--primary-gold);
         }
 
-        .input-group { margin-bottom: 20px; text-align: left; }
-        .input-group label { display: block; font-size: 12px; color: var(--primary-gold); margin-bottom: 8px; text-transform: uppercase; }
         .input-group input {
-            width: 100%; padding: 12px; background: transparent;
+            width: 100%; padding: 14px; background: transparent;
             border: none; border-bottom: 1px solid #333; color: #fff;
-            font-size: 16px; outline: none; transition: 0.3s;
+            font-size: 16px; outline: none; margin-bottom: 20px;
         }
-        .input-group input:focus { border-bottom-color: var(--primary-gold); }
 
         .submit-btn {
             width: 100%; padding: 18px; background: var(--primary-gold);
             color: #000; border: none; font-weight: 700; cursor: pointer;
-            text-transform: uppercase; letter-spacing: 2px; transition: 0.4s;
+            text-transform: uppercase; letter-spacing: 1px;
         }
-        .submit-btn:hover { background: #fff; transform: translateY(-2px); }
 
-        footer {
-            padding: 80px 20px; text-align: center; border-top: 1px solid #1a1a1a;
-            background: rgba(5, 5, 6, 0.9);
-        }
+        footer { padding: 60px; text-align: center; color: #444; border-top: 1px solid #111; }
     </style>
 </head>
 <body>
@@ -164,11 +124,8 @@
 <div class="bg-overlay"></div>
 
 <header class="header">
-    <div class="payment-box">
-        <div class="copy-pill" onclick="copyNumber('01756206213')" id="bkashNum">
-            <i class="far fa-copy"></i> BKASH: 01756206213
-        </div>
-        <span class="buy-trigger" onclick="openOrderPortal()">[ BUY A PLOT NOW ]</span>
+    <div class="copy-pill" onclick="copyNumber('01756206213')" id="bkashNum">
+        <i class="far fa-copy"></i> BKASH: 01756206213
     </div>
     <div class="social-icons">
         <a href="https://x.com/kawsar6700" target="_blank" style="color: #fff; margin-left: 20px;"><i class="fab fa-twitter"></i></a>
@@ -178,8 +135,15 @@
 
 <section class="hero-section">
     <h1 class="main-logo">The July Legacy</h1>
-    <div class="manifesto">
-        "History is not just lived; it is preserved. This archive is a silent witness to the courage of July. By claiming a plot, you are not buying space—you are securing a fragment of the revolution for eternity."
+    
+    <div class="info-card">
+        <div class="price-tag">৳36 / Lifetime Access</div>
+        <div class="green-impact"><i class="fas fa-leaf"></i> 3 Trees will be planted per plot</div>
+        <p style="font-size: 14px; line-height: 1.6; color: #bbb;">
+            Your image and link will stay live forever. No renewals, no extra fees. 
+            There is no limit to joining—the more we grow, the more trees we plant for the future.
+        </p>
+        <button class="copy-pill" style="margin-top: 15px;" onclick="openPortal()">BUY A PLOT NOW</button>
     </div>
 </section>
 
@@ -187,41 +151,36 @@
 
 <div id="orderModal" class="modal">
     <div class="modal-content">
-        <h2 style="font-family: 'Playfair Display'; color: var(--primary-gold); margin-bottom: 30px;">RESERVE PLOT</h2>
+        <h2 style="color: var(--primary-gold); margin-bottom: 25px;">SECURE YOUR PLOT</h2>
         <div class="input-group">
-            <label>Full Identity</label>
-            <input type="text" id="custName" placeholder="Enter your name">
+            <input type="text" id="custName" placeholder="Full Name">
+            <input type="text" id="custWA" placeholder="WhatsApp Number" oninput="this.value = this.value.replace(/[^0-9.]/g, '')">
         </div>
-        <div class="input-group">
-            <label>WhatsApp Contact</label>
-            <input type="text" id="custWA" placeholder="Numbers only" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
-        </div>
-        <button class="submit-btn" onclick="processOrder()">Request Acquisition</button>
-        <p style="font-size: 10px; color: #555; margin-top: 20px; cursor: pointer;" onclick="closeModal()">CANCEL / BACK</p>
+        <button class="submit-btn" onclick="submitRequest()">RESERVE & PLANT</button>
+        <p style="font-size: 11px; margin-top: 15px; color: #555; cursor: pointer;" onclick="closePortal()">CLOSE</p>
     </div>
 </div>
 
-<div id="instructionModal" class="modal">
-    <div class="modal-content" style="text-align: left;">
-        <h3 style="color: var(--primary-gold);">NEXT STEPS</h3>
-        <p style="font-size: 14px; line-height: 1.6; color: #bbb;">
-            To finalize your digital legacy, please provide the following via WhatsApp:<br><br>
-            • Screenshot of bKash Payment (৳36)<br>
-            • High-Resolution Portrait Photo<br>
-            • Profile Link (FB/IG/X) for integration<br>
-            • Your specific Plot Preference (if any)
-        </p>
-        <a href="https://wa.me/8801756206213" target="_blank" class="submit-btn" style="text-decoration: none; display: block; text-align: center;">CONTACT SUPPORT</a>
+<div id="supportModal" class="modal">
+    <div class="modal-content">
+        <h3 style="color: var(--primary-gold);">SUBMIT PROOF</h3>
+        <p style="font-size: 14px; color: #bbb;">Please send these to WhatsApp to complete your order:</p>
+        <ul style="text-align: left; font-size: 13px; color: #999; line-height: 2;">
+            <li>bKash Payment Screenshot (৳36)</li>
+            <li>High-Quality Profile Photo</li>
+            <li>Social Media Link (X/FB/Web)</li>
+            <li>Your Preferred Plot Number</li>
+        </ul>
+        <a href="https://wa.me/8801756206213" target="_blank" class="submit-btn" style="text-decoration: none; display: block; text-align: center;">SEND TO WHATSAPP</a>
     </div>
 </div>
 
 <footer>
-    <p style="color: var(--primary-gold); letter-spacing: 2px; font-size: 14px;">ARK ARCHIVE • OFFICIAL MEMORIAL</p>
-    <p style="font-size: 12px; color: #444;">CURATED BY KAWSAR AHMED</p>
+    <p>ARK ARCHIVE • OFFICIAL MEMORIAL PROJECT © 2026</p>
+    <p style="font-size: 12px; margin-top: 5px;">OWNED BY KAWSAR AHMED</p>
 </footer>
 
 <script>
-    // Copy Function
     function copyNumber(num) {
         navigator.clipboard.writeText(num);
         const pill = document.getElementById('bkashNum');
@@ -229,27 +188,25 @@
         setTimeout(() => { pill.innerHTML = '<i class="far fa-copy"></i> BKASH: 01756206213'; }, 2000);
     }
 
-    // Modal Controls
-    function openOrderPortal() { document.getElementById('orderModal').style.display = 'flex'; }
-    function closeModal() { document.getElementById('orderModal').style.display = 'none'; }
+    function openPortal() { document.getElementById('orderModal').style.display = 'flex'; }
+    function closePortal() { document.getElementById('orderModal').style.display = 'none'; }
 
-    function processOrder() {
+    function submitRequest() {
         const name = document.getElementById('custName').value;
         const wa = document.getElementById('custWA').value;
         if(name && wa) {
             document.getElementById('orderModal').style.display = 'none';
-            document.getElementById('instructionModal').style.display = 'flex';
+            document.getElementById('supportModal').style.display = 'flex';
         } else {
-            alert("Please provide valid information to proceed.");
+            alert("Please fill in your details.");
         }
     }
 
-    // Generate Plots
     const grid = document.getElementById('gridContainer');
     for (let i = 1; i <= 36; i++) {
         const plot = document.createElement('div');
         plot.className = 'plot-circle';
-        plot.innerHTML = `<span style="font-size:10px; color:rgba(212,175,55,0.5)">ARCHIVE</span><br><b style="color:#fff">#${i}</b>`;
+        plot.innerHTML = `<span style="font-size:10px; color:#555">PLOT</span><br><b style="color:var(--primary-gold)">#${i}</b>`;
         grid.appendChild(plot);
     }
 </script>
