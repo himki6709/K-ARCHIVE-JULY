@@ -16,145 +16,108 @@
             background: var(--dark-bg);
             color: #fff;
             margin: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Poppins', sans-serif;
             overflow-x: hidden;
         }
 
-        /* Movement Background Overlay */
+        /* Movement Background - National Memorial Theme */
         .bg-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.9)), 
-                        url('https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?q=80&w=1500&auto=format&fit=crop'); /* Replace with actual movement photo */
+            background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.95)), 
+                        url('https://upload.wikimedia.org/wikipedia/commons/e/e0/National_Martyrs%27_Memorial_-_Savar.jpg'); 
             background-size: cover;
             background-position: center;
             z-index: -1;
-            opacity: 0.3;
+            opacity: 0.4;
         }
 
         /* Header Navigation */
         .header {
-            padding: 20px 5%;
+            padding: 15px 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(0,0,0,0.8);
+            background: rgba(0,0,0,0.9);
             border-bottom: 1px solid #222;
             position: sticky; top: 0; z-index: 100;
         }
 
-        .social-icons a {
-            color: #fff;
-            font-size: 24px;
-            margin-left: 20px;
+        .copy-pill {
+            background: rgba(252, 213, 53, 0.1);
+            border: 1px solid var(--july-gold);
+            color: var(--july-gold);
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
             transition: 0.3s;
+            font-weight: bold;
+        }
+        .copy-pill:hover { background: var(--july-gold); color: #000; }
+
+        .social-icons a {
+            color: #fff; font-size: 22px; margin-left: 20px; transition: 0.3s;
         }
         .fa-whatsapp:hover { color: #25D366; }
         .fa-twitter:hover { color: #1DA1F2; }
 
         /* Main Branding */
-        .hero-section {
-            text-align: center;
-            padding: 100px 20px;
-        }
+        .hero-section { text-align: center; padding: 80px 20px 40px; }
         .main-logo {
-            font-size: clamp(50px, 10vw, 100px);
+            font-size: clamp(45px, 8vw, 90px);
             font-weight: 900;
             color: var(--blood-red);
-            letter-spacing: 10px;
-            text-shadow: 0 0 20px rgba(139, 0, 0, 0.5);
+            letter-spacing: 12px;
+            text-shadow: 0 0 25px rgba(139, 0, 0, 0.6);
             margin: 0;
         }
-        .sub-text { color: var(--july-gold); letter-spacing: 3px; font-weight: bold; }
-
-        /* Marketing Section */
-        .why-join {
-            max-width: 800px;
-            margin: 0 auto 50px;
-            text-align: center;
-            line-height: 1.8;
-            color: #ccc;
-            padding: 0 20px;
-        }
+        .sub-text { color: var(--july-gold); letter-spacing: 4px; font-weight: bold; margin-top: 10px; display: block;}
 
         /* Grid System - Circular Plots */
         .plot-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-            gap: 25px;
-            padding: 50px 10%;
-            max-width: 1200px;
-            margin: 0 auto;
+            grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+            gap: 25px; padding: 40px 10%; max-width: 1200px; margin: 0 auto;
         }
 
         .plot-circle {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            border: 2px solid #333;
-            background: rgba(255, 255, 255, 0.05);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: 0.4s;
-            position: relative;
-            overflow: hidden;
+            width: 110px; height: 110px; border-radius: 50%;
+            border: 2px solid #222; background: rgba(255, 255, 255, 0.03);
+            display: flex; flex-direction: column; align-items: center;
+            justify-content: center; cursor: pointer; transition: 0.4s;
         }
-        .plot-circle:hover { border-color: var(--blood-red); transform: scale(1.1); }
-        .plot-circle img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
-        .plot-label { font-size: 10px; color: #666; margin-top: 5px; }
+        .plot-circle:hover { border-color: var(--blood-red); transform: translateY(-5px); box-shadow: 0 5px 15px rgba(139, 0, 0, 0.3); }
 
-        /* Support Popup */
+        /* Buy Plot Form */
+        .buy-panel {
+            max-width: 450px; margin: 20px auto 60px;
+            background: rgba(20, 20, 20, 0.9);
+            padding: 30px; border-radius: 12px; border: 1px solid #333;
+        }
+        .buy-panel input {
+            width: 100%; padding: 12px; margin-bottom: 15px;
+            background: #000; border: 1px solid #444; color: #fff; border-radius: 5px;
+            box-sizing: border-box;
+        }
+        .buy-btn {
+            width: 100%; padding: 15px; background: var(--blood-red);
+            color: #fff; border: none; border-radius: 5px; cursor: pointer;
+            font-weight: bold; font-size: 16px; transition: 0.3s;
+        }
+        .buy-btn:hover { background: #ff0000; }
+
+        /* Modal Styles */
         .modal {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.95);
-            display: none; justify-content: center; align-items: center;
-            z-index: 1000;
+            background: rgba(0,0,0,0.96); display: none; justify-content: center; align-items: center; z-index: 1000;
         }
         .modal-content {
-            background: #111;
-            padding: 40px;
-            border-radius: 15px;
-            width: 90%;
-            max-width: 500px;
-            text-align: center;
-            border: 1px solid var(--blood-red);
+            background: #0a0a0a; padding: 40px; border-radius: 15px;
+            width: 90%; max-width: 450px; text-align: center; border: 1px solid var(--blood-red);
         }
 
-        .action-btn {
-            display: block;
-            width: 100%;
-            padding: 15px;
-            margin: 15px 0;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        .btn-whatsapp { background: #25D366; color: #fff; border: none; }
-        .btn-back { background: transparent; color: #888; border: 1px solid #333; }
-
-        /* Search Bar */
-        .search-container { text-align: center; margin-bottom: 50px; }
-        .search-container input {
-            padding: 12px 20px;
-            width: 250px;
-            background: #111;
-            border: 1px solid #333;
-            color: #fff;
-            border-radius: 4px;
-        }
-        .search-container button {
-            padding: 12px 25px;
-            background: var(--blood-red);
-            color: #fff;
-            border: none;
-            cursor: pointer;
-            border-radius: 4px;
-        }
+        .close-btn { background: transparent; color: #666; border: 1px solid #333; padding: 12px 30px; border-radius: 5px; cursor: pointer; margin-top: 20px;}
     </style>
 </head>
 <body>
@@ -162,8 +125,8 @@
 <div class="bg-overlay"></div>
 
 <header class="header">
-    <div class="payment-info" style="font-size: 14px; color: var(--july-gold);">
-        BKASH (Personal): 01756206213
+    <div class="copy-pill" onclick="copyNumber('01756206213')" title="Click to copy number">
+        <i class="fas fa-copy"></i> BKASH (PERSONAL): 01756206213
     </div>
     <div class="social-icons">
         <a href="https://x.com/kawsar6700" target="_blank"><i class="fab fa-twitter"></i></a>
@@ -173,15 +136,14 @@
 
 <section class="hero-section">
     <h1 class="main-logo">ARK ARCHIVE</h1>
-    <p class="sub-text">THE 36th JULY LEGACY</p>
-    <div class="why-join">
-        <p>This archive commemorates the heroes and voices of the July Movement. By securing a plot, you etch your name into the digital history of the revolution. Each plot represents a stand for justice and the legacy of the people.</p>
-    </div>
+    <span class="sub-text">THE 36th JULY LEGACY</span>
 </section>
 
-<div class="search-container">
-    <input type="number" id="plotID" placeholder="Enter Plot Number">
-    <button onclick="findAndHighlight()">FIND PLOT</button>
+<div class="buy-panel">
+    <h3 style="text-align: center; margin-bottom: 25px; color: var(--july-gold);">RESERVE YOUR LEGACY</h3>
+    <input type="text" id="custName" placeholder="Your Full Name">
+    <input type="text" id="custWA" placeholder="WhatsApp Number">
+    <button class="buy-btn" onclick="submitOrder()">BUY PLOT (৳36)</button>
 </div>
 
 <div class="plot-grid" id="gridContainer">
@@ -189,86 +151,56 @@
 
 <div id="supportModal" class="modal">
     <div class="modal-content">
-        <h2 style="color: var(--july-gold);">Customer Support</h2>
-        <p style="font-size: 14px; line-height: 1.6; color: #bbb; text-align: left;">
-            1. Complete payment via bKash.<br>
-            2. Send Transaction ID & Proof.<br>
-            3. Send High-Quality Image.<br>
-            4. Provide Social Link & Name.
-        </p>
-        <a href="https://wa.me/8801756206213" target="_blank" class="action-btn btn-whatsapp">SEND A MESSAGE / CHAT</a>
-        <button onclick="closeSupport()" class="btn-back">BACK TO HOME</button>
+        <h2 style="color: var(--july-gold);">Order Instructions</h2>
+        <div style="text-align: left; font-size: 14px; color: #ccc; margin: 20px 0;">
+            1. Click the bKash number to copy and pay ৳36.<br>
+            2. Send Transaction ID & Screenshot to WhatsApp.<br>
+            3. Send your High-Quality Photo & Name.<br>
+            4. Provide Social Link to be connected with your plot.
+        </div>
+        <a href="https://wa.me/8801756206213" target="_blank" style="text-decoration: none; display: block; padding: 15px; background: #25D366; color: #fff; border-radius: 5px; font-weight: bold;">SEND MESSAGE TO WHATSAPP</a>
+        <button class="close-btn" onclick="closeSupport()">BACK TO HOME</button>
     </div>
 </div>
 
-<div id="plotModal" class="modal">
-    <div class="modal-content">
-        <h3 id="modalPlotTitle">Plot #1</h3>
-        <div id="plotPreview" style="width:120px; height:120px; margin: 0 auto 20px; border-radius:50%; background:#222;"></div>
-        <button onclick="downloadPlotHQ()" class="action-btn btn-whatsapp" style="background: var(--blood-red);">DOWNLOAD PLOT IMAGE</button>
-        <button onclick="closePlotModal()" class="btn-back">CLOSE</button>
-    </div>
-</div>
-
-<footer style="padding: 80px; text-align: center; border-top: 1px solid #222; color: #444;">
-    ARK ARCHIVE • OFFICIAL MEMORIAL PROJECT © 2026
+<footer style="padding: 100px 20px; text-align: center; border-top: 1px solid #111; color: #555;">
+    ARK ARCHIVE • OFFICIAL MEMORIAL PROJECT © 2026<br>
+    <span style="font-size: 12px; color: #333; margin-top: 10px; display: block;">OWNED BY: KAWSAR AHMED</span>
 </footer>
 
 <script>
-    let currentTotalPlots = 36;
-    const grid = document.getElementById('gridContainer');
-    let selectedPlot = null;
-
-    // Generate Plots (Infinite Scroll Logic Simulation)
-    function generatePlots(count) {
-        for (let i = 1; i <= count; i++) {
-            const plot = document.createElement('div');
-            plot.className = 'plot-circle';
-            plot.id = 'plot-' + i;
-            plot.innerHTML = `<span style="font-size:12px;">#${i}</span><span class="plot-label">AVAILABLE</span>`;
-            plot.onclick = () => openPlot(i);
-            grid.appendChild(plot);
-        }
+    // Copy Number Logic
+    function copyNumber(num) {
+        navigator.clipboard.writeText(num);
+        alert("Number copied to clipboard: " + num);
     }
 
-    // Initial Load
-    generatePlots(36);
+    // Generate Plots
+    const grid = document.getElementById('gridContainer');
+    for (let i = 1; i <= 36; i++) {
+        const plot = document.createElement('div');
+        plot.className = 'plot-circle';
+        plot.id = 'plot-' + i;
+        plot.innerHTML = `<span style="font-size:12px; color: #555;">#${i}</span>`;
+        grid.appendChild(plot);
+    }
 
-    // Support Modal Functions
+    // Modal Control
     function openSupport() { document.getElementById('supportModal').style.display = 'flex'; }
     function closeSupport() { document.getElementById('supportModal').style.display = 'none'; }
 
-    // Plot View & Search
-    function openPlot(id) {
-        selectedPlot = id;
-        document.getElementById('modalPlotTitle').innerText = "Plot #" + id;
-        document.getElementById('plotModal').style.display = 'flex';
-    }
-    
-    function closePlotModal() { document.getElementById('plotModal').style.display = 'none'; }
-
-    function findAndHighlight() {
-        const id = document.getElementById('plotID').value;
-        const target = document.getElementById('plot-' + id);
-        if(target) {
-            target.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            target.style.borderColor = '#FCD535';
-            target.style.boxShadow = '0 0 20px #FCD535';
-            setTimeout(() => openPlot(id), 1000);
+    // Submit Order (To be connected to Admin Panel)
+    function submitOrder() {
+        const name = document.getElementById('custName').value;
+        const whatsapp = document.getElementById('custWA').value;
+        
+        if(name && whatsapp) {
+            alert(`Request Received, ${name}!\nNow please send the transaction details via WhatsApp to complete the process.`);
+            openSupport(); // Automatically guide them to WhatsApp after submission
         } else {
-            alert("Plot not found in the current archive.");
+            alert("Please fill in both Name and WhatsApp number.");
         }
     }
-
-    // High Quality Download Logic
-    function downloadPlotHQ() {
-        // Here we would use HTML2Canvas or a Canvas API to generate the branded image
-        // For now, it alerts the branding info
-        alert(`Downloading High-Quality Image...\nPlot: #${selectedPlot}\nSite: ARK ARCHIVE\nBranding: THE 36th JULY LEGACY`);
-    }
-
-    // Placeholder for automatic expansion when 36 plots are filled
-    // This would be connected to your Firebase/Backend in a real scenario
 </script>
 
 </body>
