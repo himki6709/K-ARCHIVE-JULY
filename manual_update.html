@@ -1,37 +1,123 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>MASTER PANEL | THE GLOBAL CREATOR HOMEPAGE</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MASTER PANEL | THE JULY LEGACY</title>
     <style>
-        body { background: #0B0E11; color: #fff; font-family: sans-serif; padding: 20px; display: none; }
-        .grid { max-width: 900px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        .card { background: #1E2329; padding: 25px; border-radius: 10px; border: 1px solid #333; }
-        input { width: 100%; padding: 12px; margin: 10px 0; background: #0B0E11; border: 1px solid #444; color: #fff; border-radius: 4px; box-sizing: border-box; }
-        .btn { width: 100%; padding: 15px; background: #FCD535; color: #000; font-weight: bold; border: none; cursor: pointer; border-radius: 4px; }
-        .item { padding: 10px; background: #000; border-bottom: 1px solid #333; display: flex; justify-content: space-between; align-items: center; }
+        :root {
+            --rr-silver: #E1E1E1;
+            --rr-black: #000000;
+            --rr-border: rgba(255, 255, 255, 0.1);
+        }
+
+        body { 
+            background: var(--rr-black); 
+            color: var(--rr-silver); 
+            font-family: 'Times New Roman', serif; 
+            padding: 40px; 
+            display: none; 
+            letter-spacing: 1px;
+        }
+
+        .grid { 
+            max-width: 1000px; 
+            margin: 0 auto; 
+            display: grid; 
+            grid-template-columns: 1.2fr 0.8fr; 
+            gap: 30px; 
+        }
+
+        .card { 
+            background: #080808; 
+            padding: 40px; 
+            border: 1px solid var(--rr-border);
+        }
+
+        h2 { 
+            text-transform: uppercase; 
+            letter-spacing: 5px; 
+            font-weight: 300; 
+            font-size: 18px; 
+            margin-bottom: 30px;
+            border-bottom: 1px solid var(--rr-border);
+            padding-bottom: 15px;
+        }
+
+        input { 
+            width: 100%; 
+            padding: 15px 0; 
+            margin-bottom: 25px; 
+            background: transparent; 
+            border: none; 
+            border-bottom: 1px solid var(--rr-border); 
+            color: #fff; 
+            outline: none;
+            font-size: 13px;
+        }
+
+        input:focus { border-bottom-color: #fff; }
+
+        .btn { 
+            width: 100%; 
+            padding: 18px; 
+            background: #fff; 
+            color: #000; 
+            font-weight: bold; 
+            border: none; 
+            cursor: pointer; 
+            text-transform: uppercase; 
+            letter-spacing: 3px;
+            transition: 0.3s;
+        }
+
+        .btn:hover { background: #888; }
+
+        .item { 
+            padding: 15px; 
+            background: rgba(255,255,255,0.02); 
+            border-bottom: 1px solid var(--rr-border); 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            font-size: 12px;
+        }
+
+        #liveRecords { 
+            height: 500px; 
+            overflow-y: auto; 
+            padding-right: 10px;
+        }
+
+        /* Custom Scrollbar */
+        #liveRecords::-webkit-scrollbar { width: 3px; }
+        #liveRecords::-webkit-scrollbar-thumb { background: #222; }
     </style>
 </head>
 <body>
     <script>
-        if(prompt("Master Password:") === "zoomlink34@gmail.com") { 
+        if(prompt("Master Access Key:") === "zoomlink34@gmail.com") { 
             document.body.style.display = "block"; 
         } else { 
             window.location.href = "index.html"; 
         }
     </script>
 
+    <h1 style="text-align: center; letter-spacing: 10px; font-weight: 300; margin-bottom: 50px;">MASTER CONTROL</h1>
+
     <div class="grid">
         <div class="card">
-            <h2>DIRECT PUBLISH</h2>
-            <input type="number" id="mPlot" placeholder="Plot ID (1-20000)">
-            <input type="text" id="mBrand" placeholder="Brand Name">
-            <input type="text" id="mImg" placeholder="Logo URL">
-            <input type="text" id="mWeb" placeholder="Website URL">
-            <button class="btn" onclick="directPublish()">GO LIVE NOW</button>
+            <h2>Direct Archive Entry</h2>
+            <input type="number" id="mPlot" placeholder="PLOT ID (e.g. 1, 100, 5000)">
+            <input type="text" id="mBrand" placeholder="OWNER NAME / BRAND">
+            <input type="text" id="mImg" placeholder="IMAGE SOURCE URL">
+            <input type="text" id="mWeb" placeholder="DESTINATION LINK (URL)">
+            <button class="btn" onclick="directPublish()">Update Archive Now</button>
         </div>
+
         <div class="card">
-            <h2>LIVE RECORDS</h2>
-            <div id="liveRecords" style="height: 400px; overflow-y: auto;">Loading...</div>
+            <h2>Live Records</h2>
+            <div id="liveRecords">Loading Database...</div>
         </div>
     </div>
 
@@ -48,26 +134,49 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
+        // সরাসরি ডাটাবেসে পুশ করার ফাংশন
         function directPublish() {
-            const name = document.getElementById('mBrand').value, img = document.getElementById('mImg').value, 
-                  web = document.getElementById('mWeb').value, pid = parseInt(document.getElementById('mPlot').value);
-            if(!pid || pid < 1 || pid > 20000) return alert("Invalid Plot ID!");
-            db.ref('pixels/'+pid).set({name, imageUrl:img, link:web||"#", plotID:pid}).then(() => alert("Plot #" + pid + " Live!"));
+            const name = document.getElementById('mBrand').value, 
+                  img = document.getElementById('mImg').value, 
+                  web = document.getElementById('mWeb').value, 
+                  pid = parseInt(document.getElementById('mPlot').value);
+
+            if(!pid || pid < 1) return alert("Please enter a valid Plot ID.");
+            if(!img) return alert("Image URL is required.");
+
+            db.ref('pixels/'+pid).set({
+                name: name || "Anonymous Legacy",
+                imageUrl: img,
+                link: web || "#",
+                plotID: pid
+            }).then(() => {
+                alert("Plot #" + pid + " has been successfully archived.");
+                document.getElementById('mPlot').value = "";
+                document.getElementById('mBrand').value = "";
+                document.getElementById('mImg').value = "";
+                document.getElementById('mWeb').value = "";
+            });
         }
 
+        // লাইভ রেকর্ড দেখার লজিক
         db.ref('pixels').on('value', s => {
-            const list = document.getElementById('liveRecords'); list.innerHTML = "";
-            const data = s.val(); if(!data) return list.innerHTML = "No Records.";
-            Object.keys(data).forEach(id => {
-                list.innerHTML += `<div class="item">
-                    <span>#${id} - ${data[id].name}</span>
-                    <button onclick="deletePixel('${id}')" style="background:red; color:white; border:none; cursor:pointer; padding:5px 10px; border-radius:3px;">DELETE</button>
-                </div>`;
+            const list = document.getElementById('liveRecords'); 
+            list.innerHTML = "";
+            const data = s.val(); 
+            if(!data) return list.innerHTML = "<div style='color:#333; text-align:center; margin-top:50px;'>NO RECORDS FOUND</div>";
+            
+            Object.keys(data).sort((a,b) => a-b).forEach(id => {
+                list.innerHTML += `
+                    <div class="item">
+                        <span>#${id} - ${data[id].name}</span>
+                        <button onclick="deletePixel('${id}')" style="background:transparent; color:#ff4444; border:1px solid #ff444433; cursor:pointer; padding:5px 12px; font-size:10px; letter-spacing:1px;">DELETE</button>
+                    </div>`;
             });
         });
 
+        // ডিলিট করার ফাংশন
         function deletePixel(id) {
-            if(confirm("Delete this Live Record?")) {
+            if(confirm("Permanently delete Plot #" + id + " from the archive?")) {
                 db.ref('pixels/'+id).remove();
             }
         }
