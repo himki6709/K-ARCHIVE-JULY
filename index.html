@@ -10,8 +10,9 @@
     
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+
     <style>
-        /* নাম প্লটের বাইরে নিচে সুন্দরভাবে দেখানোর জন্য */
+        /* আপনার হারানো ইফেক্টগুলো ফিরিয়ে আনা হলো */
         .plot-wrapper {
             display: flex;
             flex-direction: column;
@@ -19,6 +20,7 @@
             justify-content: flex-start;
             margin-bottom: 20px;
         }
+        
         .plot-name-tag {
             font-size: 9px;
             color: #888;
@@ -32,8 +34,17 @@
             text-overflow: ellipsis;
             font-weight: 500;
         }
+
+        /* অ্যাক্টিভ প্লটের সেই অরিজিনাল কালার ইফেক্ট ও গ্লো */
         .plot-circle.active {
-            border: 2px solid #fff;
+            border: 2px solid #fff !important;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.15), inset 0 0 10px rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .plot-circle.active:hover {
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
         }
     </style>
 </head>
@@ -71,10 +82,6 @@
         <div class="faq-item">
             <b>Is it a one-time payment?</b>
             <p>Yes, ৳36 only. No renewals, no hidden fees for a lifetime presence.</p>
-        </div>
-        <div class="faq-item">
-            <b>What is the environmental impact?</b>
-            <p>For every plot claimed, we plant 3 trees to build a greener future.</p>
         </div>
     </div>
 </div>
@@ -120,12 +127,12 @@
             </div>
             
             <p id="cardOwnerName" style="font-size: 18px; font-weight: bold; margin: 20px 0 5px 0; text-transform: uppercase; color: #fff; letter-spacing: 1px;"></p>
-            <p style="font-size: 9px; color: #444; margin-bottom: 25px; line-height: 1.5;">Successfully archived in the history of July Revolution. Forever preserved in the digital legacy.</p>
+            <p style="font-size: 9px; color: #444; margin-bottom: 25px; line-height: 1.5;">This individual is officially archived as a witness to the history of the July movement. Presence recorded for eternity.</p>
             
             <div style="border-top: 1px solid #111; padding-top: 20px; margin-top: 10px;">
-                <p style="font-size: 8px; color: #555; margin: 0; letter-spacing: 1px;">ESTABLISHED BY</p>
+                <p style="font-size: 8px; color: #555; margin: 0; letter-spacing: 1px;">VERIFIED BY</p>
                 <b style="font-size: 12px; color: #fff; letter-spacing: 3px;">KAWSAR AHMED</b>
-                <p style="font-size: 7px; color: #222; margin-top: 5px;">THEJULYLEGACY.COM | PROTECTING HISTORY</p>
+                <p style="font-size: 7px; color: #222; margin-top: 5px;">THEJULYLEGACY.COM | DIGITAL LEGACY ARCHIVE</p>
             </div>
         </div>
         <button class="rr-btn" onclick="downloadCertificate()">Download & Share</button>
@@ -177,6 +184,7 @@
                     plot.classList.add('active');
                     plot.style.backgroundImage = `url(${data.imageUrl})`;
                     plot.style.backgroundSize = 'cover';
+                    plot.style.backgroundPosition = 'center';
                     plot.innerHTML = ""; 
                     nameTag.innerText = data.name;
                     nameTag.style.color = "#fff";
@@ -223,7 +231,7 @@
     }
 
     function downloadCertificate() {
-        alert("Certificate Generated! Sharing helps our mission to preserve history and plant 3 trees per plot.");
+        alert("Generating High-Resolution Certificate... Share this on Social Media to preserve the legacy!");
     }
 
     function closeModal(id) { document.getElementById(id).style.display = 'none'; }
