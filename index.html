@@ -10,9 +10,8 @@
     
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
-
     <style>
-        /* নাম প্লটের বাইরে নিচে দেখানোর জন্য কাস্টম স্টাইল */
+        /* নাম প্লটের বাইরে নিচে সুন্দরভাবে দেখানোর জন্য */
         .plot-wrapper {
             display: flex;
             flex-direction: column;
@@ -35,7 +34,6 @@
         }
         .plot-circle.active {
             border: 2px solid #fff;
-            box-shadow: 0 0 15px rgba(255,255,255,0.1);
         }
     </style>
 </head>
@@ -73,6 +71,10 @@
         <div class="faq-item">
             <b>Is it a one-time payment?</b>
             <p>Yes, ৳36 only. No renewals, no hidden fees for a lifetime presence.</p>
+        </div>
+        <div class="faq-item">
+            <b>What is the environmental impact?</b>
+            <p>For every plot claimed, we plant 3 trees to build a greener future.</p>
         </div>
     </div>
 </div>
@@ -118,12 +120,12 @@
             </div>
             
             <p id="cardOwnerName" style="font-size: 18px; font-weight: bold; margin: 20px 0 5px 0; text-transform: uppercase; color: #fff; letter-spacing: 1px;"></p>
-            <p style="font-size: 9px; color: #444; margin-bottom: 25px; line-height: 1.5;">This individual is officially archived as a witness to the history of the July movement. Presence recorded for eternity.</p>
+            <p style="font-size: 9px; color: #444; margin-bottom: 25px; line-height: 1.5;">Successfully archived in the history of July Revolution. Forever preserved in the digital legacy.</p>
             
             <div style="border-top: 1px solid #111; padding-top: 20px; margin-top: 10px;">
-                <p style="font-size: 8px; color: #555; margin: 0; letter-spacing: 1px;">VERIFIED BY</p>
+                <p style="font-size: 8px; color: #555; margin: 0; letter-spacing: 1px;">ESTABLISHED BY</p>
                 <b style="font-size: 12px; color: #fff; letter-spacing: 3px;">KAWSAR AHMED</b>
-                <p style="font-size: 7px; color: #222; margin-top: 5px;">THEJULYLEGACY.COM | DIGITAL LEGACY ARCHIVE</p>
+                <p style="font-size: 7px; color: #222; margin-top: 5px;">THEJULYLEGACY.COM | PROTECTING HISTORY</p>
             </div>
         </div>
         <button class="rr-btn" onclick="downloadCertificate()">Download & Share</button>
@@ -157,8 +159,6 @@
     function generatePlots() {
         for (let i = 1; i <= 36; i++) {
             currentPlots++;
-            
-            // প্লট এবং নামের জন্য একটি কন্টেইনার তৈরি
             const wrapper = document.createElement('div');
             wrapper.className = 'plot-wrapper';
             
@@ -169,7 +169,7 @@
             
             const nameTag = document.createElement('div');
             nameTag.className = 'plot-name-tag';
-            nameTag.innerText = "Available"; // ডিফল্ট টেক্সট
+            nameTag.innerText = "Available";
 
             db.ref('pixels/' + currentPlots).once('value', snapshot => {
                 const data = snapshot.val();
@@ -178,11 +178,8 @@
                     plot.style.backgroundImage = `url(${data.imageUrl})`;
                     plot.style.backgroundSize = 'cover';
                     plot.innerHTML = ""; 
-                    
-                    // নাম এখন প্লটের নিচে (বাইরে) দেখাবে
                     nameTag.innerText = data.name;
                     nameTag.style.color = "#fff";
-                    
                     plot.onclick = () => window.open(data.link, '_blank');
                 } else {
                     plot.onclick = () => {
@@ -217,7 +214,6 @@
                 document.getElementById('cardOwnerName').innerText = data.name;
                 document.getElementById('cardImageContainer').innerHTML = `<img src="${data.imageUrl}" style="width: 100%; height: 100%; object-fit: cover;">`;
                 document.getElementById('downloadModal').style.display = 'flex';
-                
                 const target = document.getElementById('plot-' + id);
                 if(target) target.scrollIntoView({ behavior: 'smooth', block: 'center' });
             } else {
@@ -227,7 +223,7 @@
     }
 
     function downloadCertificate() {
-        alert("Generating High-Resolution Certificate... Share this on Social Media to preserve the legacy!");
+        alert("Certificate Generated! Sharing helps our mission to preserve history and plant 3 trees per plot.");
     }
 
     function closeModal(id) { document.getElementById(id).style.display = 'none'; }
