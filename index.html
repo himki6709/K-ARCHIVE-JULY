@@ -3,325 +3,273 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ARK ARCHIVE | THE 36th JULY LEGACY</title>
+    <title>THE 36th JULY LEGACY ARCHIVE</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <style>
         :root {
-            --blood-dark: #660000;
-            --blood-bright: #ff0e0e;
+            --blood-red: #8B0000;
             --july-gold: #FCD535;
-            --bg-deep: #020202;
+            --dark-bg: #050505;
         }
 
-        body { 
-            background: var(--bg-deep); 
-            color: #fff; 
-            margin: 0; 
-            font-family: 'Poppins', sans-serif;
+        body {
+            background: var(--dark-bg);
+            color: #fff;
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             overflow-x: hidden;
-            background-image: radial-gradient(circle at 50% 50%, rgba(102, 0, 0, 0.1) 0%, transparent 80%);
         }
 
-        /* Blood Splatter Watermark Effect */
-        body::before {
-            content: "";
+        /* Movement Background Overlay */
+        .bg-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: url('https://www.transparenttextures.com/patterns/blood-splatter.png');
-            opacity: 0.15;
-            pointer-events: none;
-            z-index: 1;
+            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.9)), 
+                        url('https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?q=80&w=1500&auto=format&fit=crop'); /* Replace with actual movement photo */
+            background-size: cover;
+            background-position: center;
+            z-index: -1;
+            opacity: 0.3;
         }
 
-        /* Top Navigation - Clean & Professional */
-        .top-bar {
-            background: rgba(0,0,0,0.8);
-            backdrop-filter: blur(10px);
-            padding: 15px 5%;
+        /* Header Navigation */
+        .header {
+            padding: 20px 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            background: rgba(0,0,0,0.8);
             border-bottom: 1px solid #222;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
+            position: sticky; top: 0; z-index: 100;
         }
 
-        .payment-pills { display: flex; gap: 15px; }
-        .pill {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid #333;
-            padding: 8px 18px;
-            border-radius: 4px;
-            font-size: 13px;
-            cursor: pointer;
+        .social-icons a {
+            color: #fff;
+            font-size: 24px;
+            margin-left: 20px;
             transition: 0.3s;
         }
-        .pill:hover { background: var(--blood-dark); border-color: var(--blood-bright); }
-
-        .social-support { display: flex; gap: 20px; align-items: center; }
-        .social-support a { color: #fff; font-size: 24px; transition: 0.3s; }
-        .fa-twitter:hover { color: #1DA1F2; }
         .fa-whatsapp:hover { color: #25D366; }
+        .fa-twitter:hover { color: #1DA1F2; }
 
-        /* ARK Logo Visuals */
-        .ark-branding {
+        /* Main Branding */
+        .hero-section {
             text-align: center;
-            padding: 80px 20px;
-            position: relative;
-            z-index: 2;
+            padding: 100px 20px;
         }
-        .ark-logo {
-            font-size: 110px;
+        .main-logo {
+            font-size: clamp(50px, 10vw, 100px);
             font-weight: 900;
-            letter-spacing: 20px;
-            color: var(--blood-bright);
-            text-shadow: 0 0 20px rgba(255, 14, 14, 0.5), 5px 5px 0px #000;
+            color: var(--blood-red);
+            letter-spacing: 10px;
+            text-shadow: 0 0 20px rgba(139, 0, 0, 0.5);
             margin: 0;
-            line-height: 1;
         }
-        .sub-tag { color: #888; letter-spacing: 5px; margin-top: 10px; font-size: 14px; }
+        .sub-text { color: var(--july-gold); letter-spacing: 3px; font-weight: bold; }
 
-        /* New Action Area */
-        .action-panel {
-            max-width: 1000px;
-            margin: 0 auto 60px;
-            background: rgba(255,255,255,0.02);
-            border: 1px solid #111;
-            padding: 30px;
-            border-radius: 12px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            z-index: 2;
-            position: relative;
-        }
-
-        .btn {
-            padding: 15px;
-            border-radius: 6px;
-            font-weight: bold;
-            cursor: pointer;
+        /* Marketing Section */
+        .why-join {
+            max-width: 800px;
+            margin: 0 auto 50px;
             text-align: center;
-            text-decoration: none;
-            transition: 0.3s;
-            border: none;
-            font-size: 14px;
+            line-height: 1.8;
+            color: #ccc;
+            padding: 0 20px;
         }
-        .btn-buy { background: var(--blood-bright); color: #fff; }
-        .btn-full-dl { background: #1a1a1a; color: #fff; border: 1px solid #333; }
-        .btn-buy:hover { transform: scale(1.03); box-shadow: 0 0 20px var(--blood-dark); }
 
-        /* Search Box */
-        .search-box {
+        /* Grid System - Circular Plots */
+        .plot-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 25px;
+            padding: 50px 10%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .plot-circle {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 2px solid #333;
+            background: rgba(255, 255, 255, 0.05);
             display: flex;
-            background: #000;
-            border: 1px solid #333;
-            border-radius: 6px;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: 0.4s;
+            position: relative;
             overflow: hidden;
         }
-        .search-box input {
-            background: transparent; border: none; color: #fff; padding: 15px; width: 100%; outline: none;
+        .plot-circle:hover { border-color: var(--blood-red); transform: scale(1.1); }
+        .plot-circle img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+        .plot-label { font-size: 10px; color: #666; margin-top: 5px; }
+
+        /* Support Popup */
+        .modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.95);
+            display: none; justify-content: center; align-items: center;
+            z-index: 1000;
         }
-        .search-box button {
-            background: var(--blood-dark); color: #fff; border: none; padding: 0 20px; cursor: pointer;
+        .modal-content {
+            background: #111;
+            padding: 40px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+            border: 1px solid var(--blood-red);
         }
 
-        /* --- THE CANVAS AREA --- */
-        .canvas-container {
+        .action-btn {
+            display: block;
             width: 100%;
-            display: flex;
-            justify-content: center;
-            background: #000;
-            padding: 100px 0;
-            position: relative;
-            z-index: 2;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
         }
-        #mainCanvas { border: 1px solid #111; box-shadow: 0 0 50px rgba(0,0,0,0.5); }
+        .btn-whatsapp { background: #25D366; color: #fff; border: none; }
+        .btn-back { background: transparent; color: #888; border: 1px solid #333; }
 
-        /* Exact Highlight */
-        #plot-highlight {
-            position: absolute; width: 50px; height: 50px;
-            border: 2px solid var(--july-gold);
-            background: rgba(255, 14, 14, 0.15);
-            box-shadow: 0 0 15px var(--blood-bright);
-            pointer-events: none; display: none;
-            z-index: 500;
-            box-sizing: border-box;
+        /* Search Bar */
+        .search-container { text-align: center; margin-bottom: 50px; }
+        .search-container input {
+            padding: 12px 20px;
+            width: 250px;
+            background: #111;
+            border: 1px solid #333;
+            color: #fff;
+            border-radius: 4px;
         }
-
-        /* Modal Card */
-        #plot-modal {
-            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            background: #080808; border: 1px solid var(--blood-dark);
-            padding: 40px; border-radius: 4px; z-index: 2000; display: none;
-            text-align: center; box-shadow: 0 0 100px #000; width: 350px;
+        .search-container button {
+            padding: 12px 25px;
+            background: var(--blood-red);
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
         }
     </style>
 </head>
 <body>
 
-<div class="top-bar">
-    <div class="payment-pills">
-        <div class="pill" onclick="copyValue('01756206213')">BKASH: 01756206213</div>
-        <div class="pill" onclick="copyValue('01756206213')">ROCKET: 01756206213</div>
+<div class="bg-overlay"></div>
+
+<header class="header">
+    <div class="payment-info" style="font-size: 14px; color: var(--july-gold);">
+        BKASH (Personal): 01756206213
     </div>
-    <div class="social-support">
-        <a href="https://x.com/kawsar6700" target="_blank" title="Twitter"><i class="fab fa-twitter"></i></a>
-        <a href="https://wa.me/8801756206213" target="_blank" title="Support"><i class="fab fa-whatsapp"></i></a>
+    <div class="social-icons">
+        <a href="https://x.com/kawsar6700" target="_blank"><i class="fab fa-twitter"></i></a>
+        <a href="javascript:void(0)" onclick="openSupport()"><i class="fab fa-whatsapp"></i></a>
+    </div>
+</header>
+
+<section class="hero-section">
+    <h1 class="main-logo">ARK ARCHIVE</h1>
+    <p class="sub-text">THE 36th JULY LEGACY</p>
+    <div class="why-join">
+        <p>This archive commemorates the heroes and voices of the July Movement. By securing a plot, you etch your name into the digital history of the revolution. Each plot represents a stand for justice and the legacy of the people.</p>
+    </div>
+</section>
+
+<div class="search-container">
+    <input type="number" id="plotID" placeholder="Enter Plot Number">
+    <button onclick="findAndHighlight()">FIND PLOT</button>
+</div>
+
+<div class="plot-grid" id="gridContainer">
+    </div>
+
+<div id="supportModal" class="modal">
+    <div class="modal-content">
+        <h2 style="color: var(--july-gold);">Customer Support</h2>
+        <p style="font-size: 14px; line-height: 1.6; color: #bbb; text-align: left;">
+            1. Complete payment via bKash.<br>
+            2. Send Transaction ID & Proof.<br>
+            3. Send High-Quality Image.<br>
+            4. Provide Social Link & Name.
+        </p>
+        <a href="https://wa.me/8801756206213" target="_blank" class="action-btn btn-whatsapp">SEND A MESSAGE / CHAT</a>
+        <button onclick="closeSupport()" class="btn-back">BACK TO HOME</button>
     </div>
 </div>
 
-<div class="ark-branding">
-    <h1 class="ark-logo">ARK</h1>
-    <div class="sub-tag">THE 36th JULY LEGACY ARCHIVE</div>
-</div>
-
-<div class="action-panel">
-    <a href="order.html" target="_blank" class="btn btn-buy">RESERVE LEGACY PLOT (৳36)</a>
-    <button onclick="downloadFullMap()" class="btn btn-full-dl">DOWNLOAD ENTIRE CANVAS</button>
-    <div class="search-box">
-        <input type="number" id="plotSearch" placeholder="Enter Plot Number (1-36000)">
-        <button onclick="findPlot()">SEARCH</button>
+<div id="plotModal" class="modal">
+    <div class="modal-content">
+        <h3 id="modalPlotTitle">Plot #1</h3>
+        <div id="plotPreview" style="width:120px; height:120px; margin: 0 auto 20px; border-radius:50%; background:#222;"></div>
+        <button onclick="downloadPlotHQ()" class="action-btn btn-whatsapp" style="background: var(--blood-red);">DOWNLOAD PLOT IMAGE</button>
+        <button onclick="closePlotModal()" class="btn-back">CLOSE</button>
     </div>
 </div>
 
-<div class="canvas-container">
-    <div id="plot-highlight"></div>
-    <canvas id="mainCanvas"></canvas>
-</div>
-
-<div id="plot-modal">
-    <h2 style="color: var(--july-gold); margin: 0; font-size: 24px;">ARK ARCHIVE</h2>
-    <p style="color: #666; font-size: 12px; margin-bottom: 25px;">LEGACY VERIFICATION SYSTEM</p>
-    <div id="preview-area" style="width: 150px; height: 150px; background: #111; margin: 0 auto 20px; border: 1px solid #222;"></div>
-    <button onclick="downloadPlotImage()" class="btn btn-buy" style="width: 100%;">DOWNLOAD PLOT IMAGE</button>
-    <button onclick="closeModal()" style="background:none; border:none; color:#444; margin-top:20px; cursor:pointer; text-decoration: underline;">CLOSE PREVIEW</button>
-</div>
-
-<footer style="padding: 100px; text-align: center; border-top: 1px solid #111; color: #333; font-size: 12px;">
-    ARK ARCHIVE • OFFICIAL COMMEMORATION PROJECT © 2026
+<footer style="padding: 80px; text-align: center; border-top: 1px solid #222; color: #444;">
+    ARK ARCHIVE • OFFICIAL MEMORIAL PROJECT © 2026
 </footer>
 
 <script>
-    const canvas = document.getElementById('mainCanvas');
-    const ctx = canvas.getContext('2d');
-    const plotSize = 50;
-    const totalPlots = 36000;
-    const cols = 30;
-    const rows = Math.ceil(totalPlots / cols);
+    let currentTotalPlots = 36;
+    const grid = document.getElementById('gridContainer');
+    let selectedPlot = null;
 
-    canvas.width = cols * plotSize;
-    canvas.height = rows * plotSize;
-
-    function drawGrid() {
-        ctx.strokeStyle = "rgba(255, 255, 255, 0.08)";
-        ctx.lineWidth = 0.5;
-        for (let x = 0; x <= canvas.width; x += plotSize) {
-            ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); ctx.stroke();
-        }
-        for (let y = 0; y <= canvas.height; y += plotSize) {
-            ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke();
+    // Generate Plots (Infinite Scroll Logic Simulation)
+    function generatePlots(count) {
+        for (let i = 1; i <= count; i++) {
+            const plot = document.createElement('div');
+            plot.className = 'plot-circle';
+            plot.id = 'plot-' + i;
+            plot.innerHTML = `<span style="font-size:12px;">#${i}</span><span class="plot-label">AVAILABLE</span>`;
+            plot.onclick = () => openPlot(i);
+            grid.appendChild(plot);
         }
     }
-    drawGrid();
 
-    let currentNum = 0;
+    // Initial Load
+    generatePlots(36);
 
-    // --- EXACT FOCUS LOGIC (100% ACCURATE) ---
-    function findPlot() {
-        const numInput = document.getElementById('plotSearch').value;
-        const num = parseInt(numInput);
-        
-        if(num > 0 && num <= totalPlots) {
-            currentNum = num;
-            
-            // ক্যালকুলেশন ফিক্স: ০-বেজড ইনডেক্স ব্যবহার করে সঠিক কলাম ও রো বের করা
-            const index = num - 1;
-            const r = Math.floor(index / cols);
-            const c = index % cols;
-            
-            // ক্যানভাসের সাপেক্ষে সঠিক পজিশন
-            const px = c * plotSize;
-            const py = r * plotSize;
+    // Support Modal Functions
+    function openSupport() { document.getElementById('supportModal').style.display = 'flex'; }
+    function closeSupport() { document.getElementById('supportModal').style.display = 'none'; }
 
-            // কন্টেইনারের সঠিক টপ পজিশন বের করা
-            const container = document.querySelector('.canvas-container');
-            const containerTop = container.getBoundingClientRect().top + window.pageYOffset;
-            
-            // স্ক্রিনকে একদম প্লটের মাঝখানে ফোকাস করার নিখুঁত হিসাব
-            const targetY = containerTop + py - (window.innerHeight / 2) + (plotSize / 2);
+    // Plot View & Search
+    function openPlot(id) {
+        selectedPlot = id;
+        document.getElementById('modalPlotTitle').innerText = "Plot #" + id;
+        document.getElementById('plotModal').style.display = 'flex';
+    }
+    
+    function closePlotModal() { document.getElementById('plotModal').style.display = 'none'; }
 
-            window.scrollTo({ 
-                top: targetY, 
-                behavior: 'smooth' 
-            });
-
-            // হাইলাইট বক্স সেটআপ
-            const highlight = document.getElementById('plot-highlight');
-            highlight.style.display = "block";
-            highlight.style.left = px + "px";
-            highlight.style.top = py + "px";
-
-            // মডাল বা কার্ড ওপেন করা
-            setTimeout(() => {
-                document.getElementById('plot-modal').style.display = "block";
-            }, 800);
+    function findAndHighlight() {
+        const id = document.getElementById('plotID').value;
+        const target = document.getElementById('plot-' + id);
+        if(target) {
+            target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            target.style.borderColor = '#FCD535';
+            target.style.boxShadow = '0 0 20px #FCD535';
+            setTimeout(() => openPlot(id), 1000);
         } else {
-            alert("Error: Please enter a valid plot number between 1 and 36000.");
+            alert("Plot not found in the current archive.");
         }
     }
 
-    // --- ULTRA HQ PLOT DOWNLOAD ---
-    function downloadPlotImage() {
-        const dl = document.createElement('canvas');
-        dl.width = 1200; // Ultra HQ resolution
-        dl.height = 1200;
-        const dctx = dl.getContext('2d');
-        
-        dctx.fillStyle = "#000";
-        dctx.fillRect(0,0,1200,1200);
-        
-        const index = currentNum - 1;
-        const r = Math.floor(index / cols);
-        const c = index % cols;
-        
-        // ক্যানভাস থেকে নির্দিষ্ট অংশ কেটে বড় করে ইমেজে বসানো
-        dctx.drawImage(canvas, c * plotSize, r * plotSize, plotSize, plotSize, 250, 350, 700, 700);
-        
-        // Branding in Image
-        dctx.fillStyle = "#FCD535";
-        dctx.textAlign = "center";
-        dctx.font = "bold 55px Arial";
-        dctx.fillText("ARK ARCHIVE", 600, 150);
-        
-        dctx.fillStyle = "#ffffff";
-        dctx.font = "35px Arial";
-        dctx.fillText("THE 36th JULY LEGACY ARCHIVE PLOT #" + currentNum, 600, 220);
-        
-        const link = document.createElement('a');
-        link.download = `ARK_LEGACY_PLOT_${currentNum}.png`;
-        link.href = dl.toDataURL("image/png", 1.0);
-        link.click();
+    // High Quality Download Logic
+    function downloadPlotHQ() {
+        // Here we would use HTML2Canvas or a Canvas API to generate the branded image
+        // For now, it alerts the branding info
+        alert(`Downloading High-Quality Image...\nPlot: #${selectedPlot}\nSite: ARK ARCHIVE\nBranding: THE 36th JULY LEGACY`);
     }
 
-    function downloadFullMap() {
-        const link = document.createElement('a');
-        link.download = 'ARK_FULL_ARCHIVE_MAP.png';
-        link.href = canvas.toDataURL("image/png", 1.0);
-        link.click();
-    }
-
-    function closeModal() {
-        document.getElementById('plot-modal').style.display = "none";
-        document.getElementById('plot-highlight').style.display = "none";
-    }
-
-    function copyValue(val) {
-        navigator.clipboard.writeText(val);
-        alert("Payment Number Copied: " + val);
-    }
+    // Placeholder for automatic expansion when 36 plots are filled
+    // This would be connected to your Firebase/Backend in a real scenario
 </script>
+
 </body>
 </html>
