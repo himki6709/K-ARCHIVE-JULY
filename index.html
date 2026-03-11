@@ -68,7 +68,6 @@
 <div id="instructionModal" class="modal">
     <div class="modal-content" style="text-align: left;">
         <h2 style="text-align: center; letter-spacing: 5px;">THANK YOU, <span id="displayUser"></span></h2>
-        
         <div class="instruction-list">
             1. Send ৳36 to bKash Personal: <b>01756206213</b><br>
             2. Send Payment Screenshot & Transaction ID to WhatsApp.<br>
@@ -76,7 +75,6 @@
             4. Provide the Link you want to attach to your photo.<br>
             5. Every plot plants 3 trees in your name.
         </div>
-
         <button class="rr-btn" onclick="window.open('https://wa.me/8801576940717')">Send Info to Support</button>
         <p style="text-align: center; margin-top: 20px; font-size: 10px; opacity: 0.4; cursor: pointer;" onclick="location.reload()">BACK TO HOME</p>
     </div>
@@ -87,12 +85,13 @@
         <div id="plotCardPreview" style="border: 1px solid #222; padding: 30px; margin-bottom: 20px;">
             <h3 style="letter-spacing: 4px; margin: 0;">ARK ARCHIVE</h3>
             <p id="cardPlotNum" style="color: #666; font-size: 12px;"></p>
-            <div style="width: 100px; height: 100px; background: #0a0a0a; border: 1px solid #1a1a1a; margin: 20px auto; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                <i class="fas fa-id-badge" style="font-size: 40px; color: #111;"></i>
+            <div id="cardImageContainer" style="width: 100px; height: 100px; background: #0a0a0a; border: 1px solid #1a1a1a; margin: 20px auto; border-radius: 50%; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+                <i class="fas fa-id-badge" id="defaultIcon" style="font-size: 40px; color: #111;"></i>
             </div>
+            <p id="cardOwnerName" style="font-size: 14px; font-weight: bold; margin: 10px 0; text-transform: uppercase; letter-spacing: 2px;"></p>
             <p style="font-size: 10px; letter-spacing: 2px; color: #444;">LEGACY VERIFIED</p>
         </div>
-        <button class="rr-btn" onclick="alert('Preparing HQ Download...')">Download Certificate</button>
+        <button class="rr-btn" onclick="downloadCertificate()">Download Certificate</button>
         <p style="margin-top: 20px; font-size: 10px; opacity: 0.4; cursor: pointer;" onclick="closeModal('downloadModal')">CLOSE</p>
     </div>
 </div>
@@ -102,7 +101,6 @@
 </footer>
 
 <script>
-    // Firebase Configuration
     const firebaseConfig = {
         apiKey: "AIzaSyCAdnfu2R82xbC7H85n_9mvQBE58X3TjbA",
         authDomain: "the-5k-elite-legacy.firebaseapp.com",
@@ -113,7 +111,6 @@
         appId: "1:440824313752:web:2c93344dcfe2ba0a4c5ded"
     };
 
-    // Initialize Firebase
     if (!firebase.apps.length) {
         firebase.initializeApp(firebaseConfig);
     }
@@ -130,24 +127,26 @@
             plot.id = 'plot-' + currentPlots;
             plot.innerHTML = `<span>Plot</span><b>#${currentPlots}</b>`;
             
-            // ডাটাবেস থেকে চেক করা যে এই প্লটটি কি ইতিমধ্যে কেনা হয়েছে কি না
             db.ref('pixels/' + currentPlots).once('value', snapshot => {
                 const data = snapshot.val();
                 if(data) {
-                    plot.classList.add('active'); // CSS থাকলে একটিভ ক্লাস পাবে
+                    plot.classList.add('active');
                     plot.style.backgroundImage = `url(${data.imageUrl})`;
                     plot.style.backgroundSize = 'cover';
+                    plot.style.backgroundPosition = 'center';
                     plot.style.borderColor = '#fff';
-                    plot.innerHTML = ""; // ছবি থাকলে টেক্সট হাইড হবে
+                    plot.innerHTML = `
+                        <div style="position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.7); color: #fff; font-size: 8px; padding: 5px 2px; text-align: center; text-transform: uppercase; letter-spacing: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; border-bottom-left-radius: 50%; border-bottom-right-radius: 50%;">
+                            ${data.name}
+                        </div>`;
                     plot.onclick = () => window.open(data.link, '_blank');
                 } else {
                     plot.onclick = () => {
-                        document.getElementById('plotSearchInput').value = i + (Math.floor((currentPlots-1)/36)*36);
+                        document.getElementById('plotSearchInput').value = i + (Math.floor((currentPlots-36.1)/36)*36);
                         searchAndDownload();
                     };
                 }
             });
-            
             grid.appendChild(plot);
         }
     }
@@ -162,46 +161,45 @@
 
     function searchAndDownload() {
         const id = document.getElementById('plotSearchInput').value;
-        if(id > 0 && id <= currentPlots) {
-            document.getElementById('cardPlotNum').innerText = "CERTIFIED PLOT #" + id;
-            document.getElementById('downloadModal').style.display = 'flex';
-            document.getElementById('plot-' + id).scrollIntoView({ behavior: 'smooth', block: 'center' });
-        } else {
-            alert("Plot not yet archived.");
-        }
+        if (!id || id < 1) return alert("Please enter a valid Plot ID.");
+
+        db.ref('pixels/' + id).once('value', snapshot => {
+            const data = snapshot.val();
+            if (data) {
+                document.getElementById('cardPlotNum').innerText = "CERTIFIED PLOT #" + id;
+                document.getElementById('cardOwnerName').innerText = data.name;
+                document.getElementById('cardImageContainer').innerHTML = `<img src="${data.imageUrl}" style="width: 100%; height: 100%; object-fit: cover;">`;
+                document.getElementById('downloadModal').style.display = 'flex';
+                const target = document.getElementById('plot-' + id);
+                if(target) target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            } else {
+                alert("Plot #" + id + " has not been archived yet.");
+            }
+        });
+    }
+
+    function downloadCertificate() {
+        alert("Preparing High-Quality Archive Certificate for Download...");
     }
 
     function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 
-    // অর্ডার পাঠানোর ফাংশন
     function submitOrder() {
         const name = document.getElementById('custName').value;
         const num = document.getElementById('custNum').value;
-
         if(name && num.length === 11) {
-            // Firebase-এ ডাটা পাঠানো হচ্ছে
-            const newOrderRef = db.ref('orders').push(); 
-            newOrderRef.set({
-                name: name,
-                number: num,
-                timestamp: Date.now(),
-                status: "pending"
-            }).then(() => {
-                // সাকসেস হলে কনফেক্টি ইফেক্ট
+            const newRef = db.ref('orders').push();
+            newRef.set({ name, number: num, timestamp: Date.now(), status: "pending" }).then(() => {
                 confetti({ particleCount: 150, spread: 70, origin: { x: 0, y: 0.6 }, colors: ['#fff', '#333'] });
                 confetti({ particleCount: 150, spread: 70, origin: { x: 1, y: 0.6 }, colors: ['#fff', '#333'] });
-                
                 document.getElementById('buyModal').style.display = 'none';
                 document.getElementById('displayUser').innerText = name.toUpperCase();
                 setTimeout(() => { document.getElementById('instructionModal').style.display = 'flex'; }, 800);
-            }).catch((error) => {
-                alert("Order failed: " + error.message);
             });
         } else {
             alert("Please provide Name and 11-digit Mobile Number.");
         }
     }
 </script>
-
 </body>
 </html>
