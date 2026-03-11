@@ -1,4 +1,4 @@
-// সম্পূর্ণ Firebase Config যুক্ত করা হয়েছে সিকিউরিটি সমস্যার সমাধানের জন্য
+// THE JULY LEGACY | ARK ARCHIVE ENGINE
 const firebaseConfig = {
     apiKey: "AIzaSyCAdnfu2R82xbC7H85n_9mvQBE58X3TjbA",
     authDomain: "the-5k-elite-legacy.firebaseapp.com",
@@ -9,28 +9,43 @@ const firebaseConfig = {
     appId: "1:440824313752:web:2c93344dcfe2ba0a4c5ded"
 };
 
-// Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
-const cv = document.getElementById('mainCanvas'), ctx = cv.getContext('2d');
+const cv = document.getElementById('mainCanvas');
+const ctx = cv.getContext('2d');
 const tooltip = document.getElementById('legacy-tooltip');
-const blockSize = 30; const cols = 100; const rows = 200; 
-cv.width = cols * blockSize; cv.height = rows * blockSize;
+
+// Configuration - Matches your luxury branding
+const blockSize = 30; 
+const cols = 100; 
+const totalPossiblePlots = 36000; 
+const rows = Math.ceil(totalPossiblePlots / cols);
+
+cv.width = cols * blockSize; 
+cv.height = rows * blockSize;
 
 let pixels = {};
 const imgCache = {};
 
-// ম্যাপ রেন্ডার করার ফাংশন
+// Premium Render Engine
 function render() {
-    ctx.fillStyle = "#ffffff"; ctx.fillRect(0, 0, cv.width, cv.height);
-    ctx.strokeStyle = "#e0e0e0"; ctx.lineWidth = 0.5;
+    // Background - Pure Black for Luxury Feel
+    ctx.fillStyle = "#000000"; 
+    ctx.fillRect(0, 0, cv.width, cv.height);
     
-    // গ্রিড ড্রয়িং
-    for (let i = 0; i <= cols; i++) { ctx.beginPath(); ctx.moveTo(i * blockSize, 0); ctx.lineTo(i * blockSize, cv.height); ctx.stroke(); }
-    for (let j = 0; j <= rows; j++) { ctx.beginPath(); ctx.moveTo(0, j * blockSize); ctx.lineTo(cv.width, j * blockSize); ctx.stroke(); }
+    // Minimal Grid - Very subtle lines
+    ctx.strokeStyle = "rgba(255, 255, 255, 0.05)"; 
+    ctx.lineWidth = 0.5;
     
-    // পিক্সেল ইমেজ ড্রয়িং
+    for (let i = 0; i <= cols; i++) { 
+        ctx.beginPath(); ctx.moveTo(i * blockSize, 0); ctx.lineTo(i * blockSize, cv.height); ctx.stroke(); 
+    }
+    for (let j = 0; j <= rows; j++) { 
+        ctx.beginPath(); ctx.moveTo(0, j * blockSize); ctx.lineTo(cv.width, j * blockSize); ctx.stroke(); 
+    }
+    
+    // Pixel/Plot Rendering
     Object.values(pixels).forEach(p => {
         if (p.imageUrl) {
             const id = parseInt(p.plotID) - 1;
@@ -41,6 +56,7 @@ function render() {
                 ctx.drawImage(imgCache[p.imageUrl], targetX, targetY, blockSize, blockSize);
             } else {
                 const img = new Image();
+                img.crossOrigin = "anonymous"; // Prevents security errors
                 img.src = p.imageUrl;
                 img.onload = () => {
                     imgCache[p.imageUrl] = img;
@@ -51,45 +67,71 @@ function render() {
     });
 }
 
-// ডাটাবেস থেকে তথ্য আনা
+// Real-time Database Sync
 db.ref('pixels').on('value', s => {
     pixels = s.val() || {};
     render();
-    document.getElementById('sold-count').innerText = Object.keys(pixels).length;
-    document.getElementById('rem-count').innerText = 20000 - Object.keys(pixels).length;
+    
+    // Update Stats on UI if elements exist
+    if(document.getElementById('sold-count')) {
+        document.getElementById('sold-count').innerText = Object.keys(pixels).length;
+    }
+    if(document.getElementById('rem-count')) {
+        document.getElementById('rem-count').innerText = totalPossiblePlots - Object.keys(pixels).length;
+    }
 });
 
-// টুলটিপ লজিক (মাউস মুভমেন্ট)
+// Tooltip & Hover Logic
 cv.addEventListener('mousemove', (e) => {
     const rect = cv.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / (rect.width / cv.width);
-    const y = (e.clientY - rect.top) / (rect.height / cv.height);
+    const scaleX = cv.width / rect.width;
+    const scaleY = cv.height / rect.height;
+    const x = (e.clientX - rect.left) * scaleX;
+    const y = (e.clientY - rect.top) * scaleY;
+    
     let found = false;
     
     Object.values(pixels).forEach(p => {
         const id = parseInt(p.plotID) - 1;
-        const px = (id % cols) * blockSize; const py = Math.floor(id / cols) * blockSize;
+        const px = (id % cols) * blockSize; 
+        const py = Math.floor(id / cols) * blockSize;
+        
         if (x >= px && x <= px + blockSize && y >= py && y <= py + blockSize) {
             tooltip.style.display = 'block';
-            tooltip.style.left = (e.pageX + 15) + 'px'; tooltip.style.top = (e.pageY + 15) + 'px';
-            tooltip.innerHTML = `<strong>${p.name}</strong><br>Plot #${p.plotID}`;
-            cv.style.cursor = 'pointer'; found = true;
+            tooltip.style.left = (e.pageX + 15) + 'px'; 
+            tooltip.style.top = (e.pageY + 15) + 'px';
+            tooltip.innerHTML = `<div style="padding:10px; border:1px solid #333; background:#000;">
+                                    <b style="color:#fff;">${p.name.toUpperCase()}</b><br>
+                                    <span style="color:#666; font-size:10px;">LEGACY PLOT #${p.plotID}</span>
+                                 </div>`;
+            cv.style.cursor = 'pointer'; 
+            found = true;
         }
     });
-    if (!found) { tooltip.style.display = 'none'; cv.style.cursor = 'default'; }
+    
+    if (!found) { 
+        tooltip.style.display = 'none'; 
+        cv.style.cursor = 'default'; 
+    }
 });
 
-// ক্লিক করলে ওয়েবসাইট ওপেন হওয়া
+// Click Interaction
 cv.addEventListener('click', (e) => {
     const rect = cv.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / (rect.width / cv.width);
-    const y = (e.clientY - rect.top) / (rect.height / cv.height);
+    const scaleX = cv.width / rect.width;
+    const scaleY = cv.height / rect.height;
+    const x = (e.clientX - rect.left) * scaleX;
+    const y = (e.clientY - rect.top) * scaleY;
     
     Object.values(pixels).forEach(p => {
         const id = parseInt(p.plotID) - 1;
-        const px = (id % cols) * blockSize; const py = Math.floor(id / cols) * blockSize;
+        const px = (id % cols) * blockSize; 
+        const py = Math.floor(id / cols) * blockSize;
+        
         if (x >= px && x <= px + blockSize && y >= py && y <= py + blockSize) {
-            if (p.link && p.link !== "#") window.open(p.link, '_blank');
+            if (p.link && p.link !== "#") {
+                window.open(p.link, '_blank');
+            }
         }
     });
 });
