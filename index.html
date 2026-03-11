@@ -7,6 +7,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
 </head>
 <body>
 
@@ -99,6 +102,23 @@
 </footer>
 
 <script>
+    // Firebase Configuration
+    const firebaseConfig = {
+        apiKey: "AIzaSyCAdnfu2R82xbC7H85n_9mvQBE58X3TjbA",
+        authDomain: "the-5k-elite-legacy.firebaseapp.com",
+        databaseURL: "https://the-5k-elite-legacy-default-rtdb.firebaseio.com",
+        projectId: "the-5k-elite-legacy",
+        storageBucket: "the-5k-elite-legacy.firebasestorage.app",
+        messagingSenderId: "440824313752",
+        appId: "1:440824313752:web:2c93344dcfe2ba0a4c5ded"
+    };
+
+    // Initialize Firebase
+    if (!firebase.apps.length) {
+        firebase.initializeApp(firebaseConfig);
+    }
+    const db = firebase.database();
+
     let currentPlots = 0;
     const grid = document.getElementById('gridContainer');
 
@@ -109,10 +129,25 @@
             plot.className = 'plot-circle';
             plot.id = 'plot-' + currentPlots;
             plot.innerHTML = `<span>Plot</span><b>#${currentPlots}</b>`;
-            plot.onclick = () => {
-                document.getElementById('plotSearchInput').value = currentPlots;
-                searchAndDownload();
-            };
+            
+            // ডাটাবেস থেকে চেক করা যে এই প্লটটি কি ইতিমধ্যে কেনা হয়েছে কি না
+            db.ref('pixels/' + currentPlots).once('value', snapshot => {
+                const data = snapshot.val();
+                if(data) {
+                    plot.classList.add('active'); // CSS থাকলে একটিভ ক্লাস পাবে
+                    plot.style.backgroundImage = `url(${data.imageUrl})`;
+                    plot.style.backgroundSize = 'cover';
+                    plot.style.borderColor = '#fff';
+                    plot.innerHTML = ""; // ছবি থাকলে টেক্সট হাইড হবে
+                    plot.onclick = () => window.open(data.link, '_blank');
+                } else {
+                    plot.onclick = () => {
+                        document.getElementById('plotSearchInput').value = i + (Math.floor((currentPlots-1)/36)*36);
+                        searchAndDownload();
+                    };
+                }
+            });
+            
             grid.appendChild(plot);
         }
     }
@@ -138,15 +173,30 @@
 
     function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 
+    // অর্ডার পাঠানোর ফাংশন
     function submitOrder() {
         const name = document.getElementById('custName').value;
         const num = document.getElementById('custNum').value;
+
         if(name && num.length === 11) {
-            confetti({ particleCount: 150, spread: 70, origin: { x: 0, y: 0.6 }, colors: ['#fff', '#333'] });
-            confetti({ particleCount: 150, spread: 70, origin: { x: 1, y: 0.6 }, colors: ['#fff', '#333'] });
-            document.getElementById('buyModal').style.display = 'none';
-            document.getElementById('displayUser').innerText = name.toUpperCase();
-            setTimeout(() => { document.getElementById('instructionModal').style.display = 'flex'; }, 800);
+            // Firebase-এ ডাটা পাঠানো হচ্ছে
+            const newOrderRef = db.ref('orders').push(); 
+            newOrderRef.set({
+                name: name,
+                number: num,
+                timestamp: Date.now(),
+                status: "pending"
+            }).then(() => {
+                // সাকসেস হলে কনফেক্টি ইফেক্ট
+                confetti({ particleCount: 150, spread: 70, origin: { x: 0, y: 0.6 }, colors: ['#fff', '#333'] });
+                confetti({ particleCount: 150, spread: 70, origin: { x: 1, y: 0.6 }, colors: ['#fff', '#333'] });
+                
+                document.getElementById('buyModal').style.display = 'none';
+                document.getElementById('displayUser').innerText = name.toUpperCase();
+                setTimeout(() => { document.getElementById('instructionModal').style.display = 'flex'; }, 800);
+            }).catch((error) => {
+                alert("Order failed: " + error.message);
+            });
         } else {
             alert("Please provide Name and 11-digit Mobile Number.");
         }
