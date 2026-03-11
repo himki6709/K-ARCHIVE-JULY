@@ -284,22 +284,26 @@
         });
     }
 
-    // ডাউনলোড সচল করার ফাংশন
+    // ডাউনলোড সচল করার হাই-কোয়ালিটি ফাংশন
     function downloadCertificate() {
         const btn = document.getElementById('dl-btn');
-        btn.innerText = "Generating...";
+        const originalText = btn.innerText;
+        btn.innerText = "Generating HD...";
         const element = document.getElementById('plotCardPreview');
         
         html2canvas(element, {
             backgroundColor: "#000",
-            useCORS: true, // Firebase থেকে আসা ছবি ডাউনলোডের জন্য এটি জরুরি
-            scale: 2 // রেজোলিউশন ভালো করার জন্য
+            useCORS: true, 
+            scale: 4, // 4x scaling provides ultra high resolution (4K-like clarity)
+            logging: false,
+            letterRendering: true,
+            allowTaint: false
         }).then(canvas => {
             const link = document.createElement('a');
-            link.download = 'ARK-Archive-Certificate.png';
-            link.href = canvas.toDataURL("image/png");
+            link.download = 'ARK-Legacy-Certificate-HD.png';
+            link.href = canvas.toDataURL("image/png", 1.0);
             link.click();
-            btn.innerText = "Download & Share";
+            btn.innerText = originalText;
         });
     }
 
