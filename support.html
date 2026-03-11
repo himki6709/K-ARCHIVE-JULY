@@ -1,26 +1,138 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>SUPPORT | THE GLOBAL CREATOR HOMEPAGE</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SUPPORT | THE JULY LEGACY</title>
     <style>
-        body { background: #0B0E11; color: #fff; font-family: sans-serif; padding: 50px 20px; text-align: center; }
-        .box { background: #1E2329; border: 2px solid #FCD535; padding: 40px; border-radius: 20px; display: inline-block; max-width: 500px; text-align: left; }
-        .info-list li { margin: 15px 0; background: #0B0E11; padding: 15px; border-radius: 8px; border-left: 5px solid #FCD535; list-style: none; }
-        .btn { background: #2ebd85; color: #fff; padding: 15px 30px; border-radius: 50px; text-decoration: none; font-weight: bold; display: block; text-align: center; margin-top: 30px; }
+        :root {
+            --rr-silver: #E1E1E1;
+            --rr-black: #000000;
+            --rr-border: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            background: var(--rr-black);
+            color: var(--rr-silver);
+            font-family: 'Times New Roman', serif;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            letter-spacing: 1px;
+        }
+
+        .box {
+            background: #050505;
+            padding: 50px 40px;
+            border: 1px solid var(--rr-border);
+            text-align: center;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 10px 50px rgba(0,0,0,0.8);
+        }
+
+        h1 {
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            font-weight: 300;
+            margin-bottom: 30px;
+            font-size: 24px;
+        }
+
+        p {
+            color: #666;
+            font-size: 13px;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .info-list {
+            text-align: left;
+            margin-bottom: 40px;
+        }
+
+        .info-list li {
+            margin: 15px 0;
+            background: rgba(255, 255, 255, 0.02);
+            padding: 20px;
+            border-radius: 2px;
+            border-left: 2px solid #fff;
+            list-style: none;
+            font-size: 14px;
+        }
+
+        .info-list li strong {
+            color: #fff;
+            display: block;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            font-size: 11px;
+            letter-spacing: 1px;
+        }
+
+        .btn {
+            background: #fff;
+            color: #000;
+            padding: 18px 30px;
+            text-decoration: none;
+            font-weight: bold;
+            display: block;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-size: 13px;
+            transition: 0.4s;
+        }
+
+        .btn:hover {
+            background: #ccc;
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 25px;
+            color: #444;
+            text-decoration: none;
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .back-link:hover {
+            color: #fff;
+        }
     </style>
 </head>
 <body>
     <div class="box">
-        <h1 style="color:#FCD535; text-align:center;">CREATOR SUPPORT</h1>
-        <p>Submit these details via WhatsApp for activation:</p>
+        <h1>Legacy Support</h1>
+        <p>Submit the following credentials to our archive department via WhatsApp for plot activation:</p>
+        
         <div class="info-list">
-            <li><strong>1. Payment:</strong> Screenshot of $20 Binance/USDT Transfer.</li>
-            <li><strong>2. Order Info:</strong> Brand Name & Reserved Plot ID.</li>
-            <li><strong>3. Asset:</strong> High-Quality Square Logo.</li>
-            <li><strong>4. Link:</strong> Target Social/Website Link.</li>
+            <li>
+                <strong>1. Contribution</strong>
+                Screenshot of ৳36 bKash Payment (Your contribution plants 3 trees).
+            </li>
+            <li>
+                <strong>2. Identity</strong>
+                Your Full Name & Reserved Plot Number.
+            </li>
+            <li>
+                <strong>3. Visual Asset</strong>
+                High-Quality Logo or Photo (Square format preferred).
+            </li>
+            <li>
+                <strong>4. Digital Link</strong>
+                The destination URL for your plot.
+            </li>
         </div>
-        <a href="https://wa.me/8801576940717" target="_blank" class="btn">CHAT ON WHATSAPP</a>
-        <a href="index.html" style="display:block; text-align:center; margin-top:20px; color:#FCD535; text-decoration:none;">← Back Home</a>
+
+        <a href="https://wa.me/8801576940717" target="_blank" class="btn">Connect via WhatsApp</a>
+        <a href="index.html" class="back-link">← Return to Archive</a>
     </div>
 </body>
 </html>
