@@ -22,8 +22,8 @@
             scroll-behavior: smooth;
         }
 
-        /* Video/Shine Title Effect */
-        .title-container { text-align: center; padding: 120px 20px 60px; }
+        /* Header Animation Title */
+        .title-container { text-align: center; padding: 100px 20px 40px; }
         .main-logo {
             font-size: clamp(35px, 8vw, 90px);
             font-weight: 700;
@@ -58,9 +58,24 @@
             background: transparent; border: none; color: #fff; outline: none; padding: 5px; width: 80px; font-size: 11px;
         }
 
+        /* Hero Content & FAQ Portal */
+        .hero-flex {
+            display: flex; flex-wrap: wrap; justify-content: center; gap: 50px;
+            padding: 20px 10%; align-items: flex-start;
+        }
+        .manifesto-box { flex: 1; min-width: 300px; text-align: left; }
+        .manifesto-box p { font-size: 18px; line-height: 1.8; color: #888; font-style: italic; border-left: 2px solid #333; padding-left: 20px; }
+        
+        .faq-portal {
+            flex: 0.8; min-width: 300px; background: rgba(255,255,255,0.02);
+            padding: 30px; border: 1px solid var(--rr-border); border-radius: 4px;
+        }
+        .faq-item { margin-bottom: 20px; text-align: left; }
+        .faq-item b { font-size: 12px; color: #fff; display: block; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px; }
+        .faq-item p { font-size: 13px; color: #666; margin: 0; }
+
         .plot-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
             gap: 40px; padding: 60px 10%; max-width: 1400px; margin: 0 auto;
         }
 
@@ -72,13 +87,13 @@
         }
         .plot-circle:hover { background: #fff; color: #000; transform: scale(1.05); }
 
-        /* Modal Styles */
+        /* Modals */
         .modal {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.99); display: none; justify-content: center; align-items: center; z-index: 2000;
         }
         .modal-content {
-            width: 90%; max-width: 420px; text-align: center; padding: 50px; border: 1px solid var(--rr-border); background: #000;
+            width: 90%; max-width: 450px; text-align: center; padding: 50px; border: 1px solid var(--rr-border); background: #000;
         }
 
         .rr-input {
@@ -90,18 +105,16 @@
             text-transform: uppercase; letter-spacing: 3px; font-weight: bold; cursor: pointer;
         }
 
-        #plotCardPreview {
-            border: 1px solid var(--rr-silver); padding: 30px; margin-bottom: 20px; border-radius: 5px;
-        }
+        .instruction-list { text-align: left; font-size: 13px; color: #aaa; line-height: 2; margin: 30px 0; }
 
-        footer { padding: 80px; text-align: center; font-size: 10px; color: #444; border-top: 1px solid var(--rr-border); letter-spacing: 3px; }
+        footer { padding: 80px; text-align: center; font-size: 10px; color: #333; border-top: 1px solid var(--rr-border); letter-spacing: 3px; }
     </style>
 </head>
 <body>
 
 <header class="header">
     <div class="nav-links">
-        <a href="https://wa.me/8801756206213" target="_blank"><i class="fab fa-whatsapp"></i> Support</a>
+        <a href="https://wa.me/8801576940717" target="_blank"><i class="fab fa-whatsapp"></i> Support</a>
         <a href="https://x.com/kawsar6700" target="_blank"><i class="fab fa-twitter"></i> Twitter</a>
     </div>
     <div class="search-minimal">
@@ -112,59 +125,85 @@
 
 <div class="title-container">
     <h1 class="main-logo">The July Legacy</h1>
-    <p style="font-size: 10px; opacity: 0.4; letter-spacing: 10px;">ARK ARCHIVE OFFICIAL</p>
-    <button class="rr-btn" style="width: auto; padding: 15px 50px; margin-top: 40px; font-size: 10px;" onclick="document.getElementById('buyModal').style.display='flex'">Buy Plot</button>
+    <p style="font-size: 10px; opacity: 0.4; letter-spacing: 10px; margin-top: 15px;">ARK ARCHIVE OFFICIAL</p>
+</div>
+
+<div class="hero-flex">
+    <div class="manifesto-box">
+        <p>
+            "History is not just lived; it is preserved for eternity. This archive is a silent witness to the courage of July. By claiming a plot, you are securing a fragment of the revolution forever."
+        </p>
+        <button class="rr-btn" style="width: auto; padding: 15px 50px; margin-top: 20px; font-size: 10px;" onclick="document.getElementById('buyModal').style.display='flex'">CLAIM YOUR PLOT</button>
+    </div>
+
+    <div class="faq-portal">
+        <div class="faq-item">
+            <b>Why should I claim a plot?</b>
+            <p>To preserve your identity in the historic July movement archive forever.</p>
+        </div>
+        <div class="faq-item">
+            <b>Is it a one-time payment?</b>
+            <p>Yes, ৳36 only. No renewals, no hidden fees for a lifetime presence.</p>
+        </div>
+        <div class="faq-item">
+            <b>What is the environmental impact?</b>
+            <p>For every plot claimed, we plant 3 trees to build a greener future.</p>
+        </div>
+    </div>
 </div>
 
 <div class="plot-grid" id="gridContainer"></div>
-
-<div id="downloadModal" class="modal">
-    <div class="modal-content">
-        <div id="plotCardPreview">
-            <h2 style="letter-spacing: 5px; margin: 0;">ARK ARCHIVE</h2>
-            <p id="cardPlotNum" style="color: #888;"></p>
-            <div style="width: 100px; height: 100px; background: #111; border: 1px solid #333; margin: 20px auto; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                <i class="fas fa-user-shield" style="font-size: 40px; color: #222;"></i>
-            </div>
-            <p style="font-size: 12px; letter-spacing: 2px;">STATUS: VERIFIED LEGACY</p>
-        </div>
-        <button class="rr-btn" onclick="simulateDownload()">Download HQ Image</button>
-        <p style="margin-top: 20px; font-size: 10px; opacity: 0.4; cursor: pointer;" onclick="closeModal('downloadModal')">CLOSE</p>
-    </div>
-</div>
 
 <div id="buyModal" class="modal">
     <div class="modal-content">
         <h2 style="letter-spacing: 5px;">RESERVATION</h2>
         <input type="text" id="custName" class="rr-input" placeholder="YOUR FULL NAME">
         <input type="text" id="custNum" class="rr-input" maxlength="11" placeholder="MOBILE (11 DIGITS)" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-        <button class="rr-btn" onclick="submitOrder()">Submit & Celebrate</button>
+        <button class="rr-btn" onclick="submitOrder()">Request Access</button>
         <p style="margin-top: 20px; font-size: 10px; opacity: 0.4; cursor: pointer;" onclick="closeModal('buyModal')">BACK</p>
     </div>
 </div>
 
 <div id="instructionModal" class="modal">
     <div class="modal-content" style="text-align: left;">
-        <h2 style="text-align: center; letter-spacing: 5px;">WELCOME, <span id="displayUser"></span></h2>
-        <p style="font-size: 13px; color: #888; line-height: 1.8; margin: 30px 0;">
-            ১. বিকাশ পার্সোনাল (০১৭৫৬২০৬২১৩) নাম্বারে ৩৬ টাকা পেমেন্ট করুন।<br>
-            ২. ট্রানজেকশন আইডি এবং আপনার ছবি হোয়াটসঅ্যাপে পাঠান।<br>
-            ৩. আপনার প্রতিটি প্লটের জন্য ৩টি গাছ লাগানো হবে।
-        </p>
-        <button class="rr-btn" onclick="window.open('https://wa.me/8801756206213')">Send Info to WhatsApp</button>
+        <h2 style="text-align: center; letter-spacing: 5px;">THANK YOU, <span id="displayUser"></span></h2>
+        
+        <div class="instruction-list">
+            1. Send ৳36 to bKash Personal: <b>01756206213</b><br>
+            2. Send Payment Screenshot & Transaction ID to WhatsApp.<br>
+            3. Provide the Photo you want to display on the archive.<br>
+            4. Provide the Link you want to attach to your photo.<br>
+            5. Every plot plants 3 trees in your name.
+        </div>
+
+        <button class="rr-btn" onclick="window.open('https://wa.me/8801576940717')">Send Info to Support</button>
         <p style="text-align: center; margin-top: 20px; font-size: 10px; opacity: 0.4; cursor: pointer;" onclick="location.reload()">BACK TO HOME</p>
     </div>
 </div>
 
+<div id="downloadModal" class="modal">
+    <div class="modal-content">
+        <div id="plotCardPreview" style="border: 1px solid #222; padding: 30px; margin-bottom: 20px;">
+            <h3 style="letter-spacing: 4px; margin: 0;">ARK ARCHIVE</h3>
+            <p id="cardPlotNum" style="color: #666; font-size: 12px;"></p>
+            <div style="width: 100px; height: 100px; background: #0a0a0a; border: 1px solid #1a1a1a; margin: 20px auto; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                <i class="fas fa-id-badge" style="font-size: 40px; color: #111;"></i>
+            </div>
+            <p style="font-size: 10px; letter-spacing: 2px; color: #444;">LEGACY VERIFIED</p>
+        </div>
+        <button class="rr-btn" onclick="alert('Preparing HQ Download...')">Download Certificate</button>
+        <p style="margin-top: 20px; font-size: 10px; opacity: 0.4; cursor: pointer;" onclick="closeModal('downloadModal')">CLOSE</p>
+    </div>
+</div>
+
 <footer>
-    THE JULY LEGACY • ARK ARCHIVE © 2026 • DESIGNED BY KAWSAR AHMED
+    THE JULY LEGACY • ARK ARCHIVE © 2026 • ESTABLISHED BY KAWSAR AHMED
 </footer>
 
 <script>
     let currentPlots = 0;
     const grid = document.getElementById('gridContainer');
 
-    // Function to generate 36 plots at a time
     function generatePlots() {
         for (let i = 1; i <= 36; i++) {
             currentPlots++;
@@ -180,14 +219,11 @@
         }
     }
 
-    // Initial 36 plots
     generatePlots();
 
-    // Infinite Scroll Logic: 
-    // ৩৬ টা শেষ হয়ে গেলে অটোমেটিক আবার ৩৬ টা যুক্ত হবে
     window.onscroll = function() {
         if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 100) {
-            generatePlots(); // ৩৬ টি শেষ হওয়ার আগেই নতুন ৩৬ টি যুক্ত হবে
+            generatePlots();
         }
     };
 
@@ -196,10 +232,9 @@
         if(id > 0 && id <= currentPlots) {
             document.getElementById('cardPlotNum').innerText = "CERTIFIED PLOT #" + id;
             document.getElementById('downloadModal').style.display = 'flex';
-            const target = document.getElementById('plot-' + id);
-            target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            document.getElementById('plot-' + id).scrollIntoView({ behavior: 'smooth', block: 'center' });
         } else {
-            alert("Plot not found in archive yet.");
+            alert("Plot not yet archived.");
         }
     }
 
@@ -213,14 +248,10 @@
             confetti({ particleCount: 150, spread: 70, origin: { x: 1, y: 0.6 }, colors: ['#fff', '#333'] });
             document.getElementById('buyModal').style.display = 'none';
             document.getElementById('displayUser').innerText = name.toUpperCase();
-            setTimeout(() => { document.getElementById('instructionModal').style.display = 'flex'; }, 1000);
+            setTimeout(() => { document.getElementById('instructionModal').style.display = 'flex'; }, 800);
         } else {
             alert("Please provide Name and 11-digit Mobile Number.");
         }
-    }
-
-    function simulateDownload() {
-        alert("Downloading High-Quality Plot Certificate...\nVerified by ARK ARCHIVE.");
     }
 </script>
 
