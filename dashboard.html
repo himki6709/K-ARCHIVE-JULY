@@ -1,38 +1,212 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>TRACK | THE GLOBAL CREATOR HOMEPAGE</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRACK STATUS | THE JULY LEGACY</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { background: #0B0E11; color: #fff; font-family: sans-serif; text-align: center; padding: 50px; }
-        .card { background: #1E2329; border: 1px solid #FCD535; padding: 40px; border-radius: 15px; display: inline-block; width: 320px; }
-        input { width: 90%; padding: 15px; margin-bottom: 20px; border-radius: 5px; border: 1px solid #444; background: #2B3139; color: #fff; }
-        button { width: 100%; padding: 15px; background: #FCD535; border:none; font-weight:bold; cursor:pointer; border-radius: 5px; }
+        :root {
+            --rr-silver: #E1E1E1;
+            --rr-black: #000000;
+            --rr-border: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            background: var(--rr-black);
+            color: var(--rr-silver);
+            font-family: 'Times New Roman', serif;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            letter-spacing: 1px;
+        }
+
+        .track-card {
+            background: #050505;
+            border: 1px solid var(--rr-border);
+            padding: 60px 40px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 0 50px rgba(0,0,0,0.8);
+        }
+
+        h2 {
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            margin-bottom: 40px;
+            font-weight: 300;
+            color: #fff;
+        }
+
+        .rr-input {
+            width: 100%;
+            padding: 15px 0;
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid var(--rr-border);
+            color: #fff;
+            font-size: 16px;
+            margin-bottom: 30px;
+            text-align: center;
+            outline: none;
+            transition: 0.4s;
+        }
+
+        .rr-input:focus {
+            border-bottom-color: #fff;
+        }
+
+        .rr-btn {
+            width: 100%;
+            padding: 18px;
+            background: #fff;
+            color: #000;
+            border: none;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.4s;
+        }
+
+        .rr-btn:hover {
+            background: #ccc;
+        }
+
+        #resBox {
+            margin-top: 35px;
+            padding: 20px;
+            border-top: 1px solid #111;
+            display: none;
+        }
+
+        #s {
+            font-size: 14px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            color: #fff;
+            display: block;
+        }
+
+        #m {
+            font-size: 13px;
+            color: #888;
+            line-height: 1.8;
+            min-height: 40px;
+        }
+
+        /* Typing Cursor Effect */
+        #m::after {
+            content: '|';
+            animation: blink 0.7s infinite;
+            margin-left: 5px;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .back-link {
+            display: block;
+            margin-top: 40px;
+            color: #444;
+            text-decoration: none;
+            font-size: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            transition: 0.3s;
+        }
+
+        .back-link:hover { color: #fff; }
+
+        .loader {
+            display: none;
+            margin-bottom: 20px;
+            font-size: 10px;
+            letter-spacing: 2px;
+            color: #555;
+        }
     </style>
 </head>
 <body>
-    <div class="card">
-        <h2 style="color:#FCD535;">TRACK STATUS</h2>
-        <input type="number" id="plotID" placeholder="Enter Plot ID">
-        <button onclick="check()">CHECK NOW</button>
-        <div id="resBox" style="margin-top:20px; padding:15px; background:#2B3139; display:none; border-radius:5px;">
-            <h3 id="s" style="color:#FCD535;"></h3>
-            <p id="m"></p>
+
+    <div class="track-card">
+        <h2>Archive Tracker</h2>
+        
+        <div id="loading" class="loader">ESTABLISHING SECURE CONNECTION...</div>
+
+        <input type="number" id="plotID" class="rr-input" placeholder="ENTER PLOT ID">
+        
+        <button class="rr-btn" id="verifyBtn" onclick="check()">Verify Identity</button>
+
+        <div id="resBox">
+            <span id="s"></span>
+            <div id="m"></div>
         </div>
-        <a href="index.html" style="display:block; margin-top:20px; color:#888; text-decoration:none;">← Back</a>
+
+        <a href="index.html" class="back-link">← Back to Archive</a>
     </div>
+
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
     <script>
         firebase.initializeApp({databaseURL: "https://the-5k-elite-legacy-default-rtdb.firebaseio.com/"});
+
+        function typeEffect(element, text, speed) {
+            let i = 0;
+            element.innerHTML = "";
+            function type() {
+                if (i < text.length) {
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                }
+            }
+            type();
+        }
+
         function check() {
             const id = document.getElementById('plotID').value;
-            firebase.database().ref('notifications/'+id).once('value', s => {
-                const d = s.val(); if(!d) return alert("Pending...");
-                document.getElementById('resBox').style.display = 'block';
-                document.getElementById('s').innerText = d.status;
-                document.getElementById('m').innerText = d.message;
-            });
+            const btn = document.getElementById('verifyBtn');
+            const loader = document.getElementById('loading');
+            const resBox = document.getElementById('resBox');
+            const statusEl = document.getElementById('s');
+            const messageEl = document.getElementById('m');
+
+            if(!id) return alert("Please enter a valid Plot ID.");
+
+            // Visual Processing Starts
+            btn.style.opacity = "0.5";
+            btn.innerText = "PROCESSING...";
+            loader.style.display = "block";
+            resBox.style.display = "none";
+
+            setTimeout(() => {
+                firebase.database().ref('notifications/'+id).once('value', s => {
+                    const d = s.val();
+                    
+                    loader.style.display = "none";
+                    btn.style.opacity = "1";
+                    btn.innerText = "VERIFY IDENTITY";
+                    resBox.style.display = "block";
+
+                    if(!d) {
+                        statusEl.innerText = "STATUS: PENDING";
+                        typeEffect(messageEl, "The legacy for Plot #" + id + " is under manual verification. Please provide payment proof via WhatsApp.", 40);
+                    } else {
+                        statusEl.innerText = "STATUS: " + d.status.toUpperCase();
+                        typeEffect(messageEl, d.message, 40);
+                    }
+                });
+            }, 1500); // 1.5 seconds delay for realistic feeling
         }
     </script>
+
 </body>
 </html>
