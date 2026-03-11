@@ -1,35 +1,107 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>CEO ADMIN | THE GLOBAL CREATOR HOMEPAGE</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CEO ADMIN | THE JULY LEGACY</title>
     <style>
-        body { font-family: sans-serif; background: #0B0E11; color: #fff; padding: 20px; display: none; }
-        .card { background: #1E2329; padding: 20px; margin-bottom: 20px; border-radius: 10px; border-left: 8px solid #FCD535; }
-        input { padding: 12px; width: 250px; margin-right: 10px; border: 1px solid #444; background: #0B0E11; color: #fff; border-radius: 4px; }
-        button { padding: 12px 25px; cursor: pointer; border-radius: 5px; border: none; font-weight: bold; }
+        :root {
+            --rr-silver: #E1E1E1;
+            --rr-black: #000000;
+            --rr-border: rgba(255, 255, 255, 0.1);
+            --rr-accent: #ffffff;
+        }
+
+        body { 
+            font-family: 'Times New Roman', serif; 
+            background: var(--rr-black); 
+            color: var(--rr-silver); 
+            padding: 40px; 
+            display: none; /* Password check er age hide thakbe */
+            letter-spacing: 1px;
+        }
+
+        .admin-header {
+            border-bottom: 1px solid var(--rr-border);
+            padding-bottom: 20px;
+            margin-bottom: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card { 
+            background: #080808; 
+            padding: 30px; 
+            margin-bottom: 25px; 
+            border: 1px solid var(--rr-border);
+            transition: 0.3s;
+        }
+
+        .card:hover { border-color: #444; }
+
+        .plot-info { font-size: 18px; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 15px; display: block; }
+        .cust-details { color: #666; font-size: 13px; margin-bottom: 20px; display: block; }
+
+        input { 
+            padding: 15px; 
+            width: 280px; 
+            margin-right: 15px; 
+            border: none; 
+            border-bottom: 1px solid var(--rr-border);
+            background: transparent; 
+            color: #fff; 
+            outline: none;
+            font-size: 12px;
+        }
+
+        input:focus { border-bottom-color: #fff; }
+
+        button { 
+            padding: 15px 30px; 
+            cursor: pointer; 
+            border: none; 
+            font-weight: bold; 
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 11px;
+            transition: 0.3s;
+        }
+
+        .btn-approve { background: #fff; color: #000; }
+        .btn-approve:hover { background: #888; }
+        
+        .btn-reject { background: transparent; color: #ff4444; border: 1px solid #ff444433; margin-left: 10px; }
+        .btn-reject:hover { background: #ff4444; color: #fff; }
+
+        #order-list { margin-top: 30px; }
+        .empty-msg { color: #333; text-align: center; margin-top: 100px; letter-spacing: 5px; }
     </style>
 </head>
 <body>
+
     <script>
-        // আপনার জিমেইল পাসওয়ার্ড হিসেবে কাজ করবে
-        const accessPass = prompt("Access Password:");
+        // Security Access
+        const accessPass = prompt("Enter CEO Access Key:");
         if(accessPass === "zoomlink34@gmail.com") { 
             document.body.style.display = "block"; 
         } else { 
-            alert("ভুল পাসওয়ার্ড!");
+            alert("Unauthorized Access!");
             window.location.href = "index.html"; 
         }
     </script>
 
-    <h1 style="color:#FCD535">PENDING APPROVALS</h1>
-    <div id="order-list">Loading...</div>
+    <div class="admin-header">
+        <h1 style="font-weight: 300; text-transform: uppercase; letter-spacing: 8px;">Pending Archive</h1>
+        <div style="font-size: 10px; color: #444;">ARK ARCHIVE CONTROL UNIT</div>
+    </div>
+
+    <div id="order-list">Loading Archive Requests...</div>
 
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
 
     <script>
-        // পূর্ণাঙ্গ Config (এটি ছাড়া Rules কাজ করবে না)
         const firebaseConfig = {
             apiKey: "AIzaSyCAdnfu2R82xbC7H85n_9mvQBE58X3TjbA",
             authDomain: "the-5k-elite-legacy.firebaseapp.com",
@@ -42,48 +114,71 @@
         
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
-        const auth = firebase.auth();
 
-        // অ্যাডমিন প্যানেলে ডাটা দেখানোর ফাংশন
         function loadOrders() {
             db.ref('orders').on('value', s => {
                 const list = document.getElementById('order-list'); 
                 list.innerHTML = "";
                 const data = s.val(); 
-                if(!data) return list.innerHTML = "No pending orders.";
+                
+                if(!data) {
+                    list.innerHTML = "<div class='empty-msg'>NO PENDING REQUESTS</div>";
+                    return;
+                }
                 
                 Object.keys(data).forEach(id => {
-                    list.innerHTML += `<div class="card">
-                        <b>PLOT #${id}</b> | BRAND: ${data[id].name} <br><br>
-                        <input type="text" id="img_${id}" placeholder="Logo URL">
-                        <input type="text" id="web_${id}" placeholder="Website URL">
-                        <button onclick="approve('${id}', '${data[id].name}')" style="background:#2ebd85; color:white;">APPROVE</button>
-                        <button onclick="reject('${id}')" style="background:red; color:white; margin-left:10px;">REJECT / DELETE</button>
-                    </div>`;
+                    const order = data[id];
+                    list.innerHTML += `
+                        <div class="card">
+                            <span class="plot-info">NEW REQUEST | ${order.name}</span>
+                            <span class="cust-details">MOBILE: ${order.number} | REQUEST ID: ${id}</span>
+                            
+                            <div style="margin-top: 20px;">
+                                <input type="number" id="plotid_${id}" placeholder="ASSIGN PLOT NO. (e.g. 1, 2, 3)">
+                                <input type="text" id="img_${id}" placeholder="IMAGE URL (Logo/Photo)">
+                                <input type="text" id="web_${id}" placeholder="REDIRECT LINK (Website/Social)">
+                                
+                                <div style="margin-top: 20px;">
+                                    <button class="btn-approve" onclick="approve('${id}', '${order.name}')">Publish to Archive</button>
+                                    <button class="btn-reject" onclick="reject('${id}')">Discard Request</button>
+                                </div>
+                            </div>
+                        </div>`;
                 });
-            }, (error) => {
-                console.error(error);
-                document.getElementById('order-list').innerHTML = "Permission Denied! Please login to Firebase Console.";
             });
         }
 
-        // এপ্রুভ ও ডিলিট ফাংশন
-        function approve(id, name) {
-            const img = document.getElementById('img_'+id).value, web = document.getElementById('web_'+id).value;
-            if(!img) return alert("Logo URL missing!");
-            db.ref('pixels/'+id).set({name, imageUrl:img, link:web||"#", plotID:id}).then(() => {
-                db.ref('notifications/'+id).set({status: "Approved", message: "Your Brand is Live!"});
-                db.ref('orders/'+id).remove();
-            });
+        // Approve Function: Moves data from 'orders' to 'pixels'
+        function approve(orderId, customerName) {
+            const finalPlotID = document.getElementById('plotid_'+orderId).value;
+            const img = document.getElementById('img_'+orderId).value;
+            const web = document.getElementById('web_'+orderId).value;
+
+            if(!finalPlotID || !img) {
+                alert("Please assign a Plot Number and Image URL.");
+                return;
+            }
+
+            // ১. Pixels নোডে ডাটা সেভ করা (মেইন ম্যাপে দেখাবে)
+            db.ref('pixels/' + finalPlotID).set({
+                name: customerName,
+                imageUrl: img,
+                link: web || "#",
+                plotID: finalPlotID
+            }).then(() => {
+                // ২. অর্ডার লিস্ট থেকে রিমুভ করা
+                db.ref('orders/' + orderId).remove();
+                alert("Plot #" + finalPlotID + " is now LIVE!");
+            }).catch(err => alert("Error: " + err.message));
         }
 
+        // Reject Function: Deletes the order
         function reject(id) {
-            if(confirm("Delete this order?")) {
-                db.ref('orders/'+id).remove();
+            if(confirm("Are you sure you want to discard this request?")) {
+                db.ref('orders/' + id).remove();
             }
         }
 
-        // পেজ লোড হলে ডাটা আনা শুরু করবে
         loadOrders();
     </script>
 </body>
