@@ -3,254 +3,247 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THE 36th JULY LEGACY ARCHIVE</title>
+    <title>THE JULY LEGACY | ROLLS ROYCE EDITION</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
         :root {
-            --primary-gold: #D4AF37;
-            --deep-red: #580000;
-            --accent-slate: #2C3E50;
-            --luxury-black: #0A0A0B;
-            --text-silver: #E0E0E0;
+            --rr-silver: #E1E1E1;
+            --rr-black: #000000;
+            --rr-dark-grey: #1A1A1A;
+            --rr-border: rgba(255, 255, 255, 0.1);
         }
 
         body {
-            background: var(--luxury-black);
-            color: var(--text-silver);
+            background-color: var(--rr-black);
+            color: var(--rr-silver);
             margin: 0;
-            font-family: 'Inter', sans-serif;
+            font-family: 'Times New Roman', serif; /* Rolls Royce style serif */
             overflow-x: hidden;
+            letter-spacing: 1px;
         }
 
-        /* Sophisticated Background with Animation */
-        .bg-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(rgba(10, 10, 11, 0.85), rgba(10, 10, 11, 0.95)), 
-                        url('https://i.ibb.co/VWV0pW2/image-d510b2.png'); /* Enhanced Image Placement */
-            background-size: cover;
-            background-position: center;
-            z-index: -1;
-            filter: grayscale(30%) contrast(110%);
-            animation: slowPan 30s infinite alternate linear;
+        /* Video/Cinematic Title Effect */
+        .title-container {
+            text-align: center;
+            padding: 100px 20px 40px;
         }
 
-        @keyframes slowPan {
-            from { transform: scale(1.0); }
-            to { transform: scale(1.1); }
+        .main-logo {
+            font-size: clamp(40px, 8vw, 95px);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 15px;
+            margin: 0;
+            background: linear-gradient(90deg, #000, #fff, #000);
+            background-size: 80% 100%;
+            background-repeat: no-repeat;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shine 5s linear infinite;
         }
 
-        /* High-End Header */
+        @keyframes shine {
+            0% { background-position: -500%; }
+            100% { background-position: 500%; }
+        }
+
+        /* Header Navigation */
         .header {
-            padding: 15px 8%;
+            padding: 25px 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(10, 10, 11, 0.8);
-            backdrop-filter: blur(15px);
-            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
-            position: sticky; top: 0; z-index: 100;
-        }
-
-        .payment-box { text-align: left; }
-        
-        .copy-pill {
-            background: rgba(212, 175, 55, 0.1);
-            border: 1px solid var(--primary-gold);
-            color: var(--primary-gold);
-            padding: 6px 14px;
-            border-radius: 4px;
-            font-size: 13px;
-            cursor: pointer;
-            transition: 0.3s;
-            font-weight: 600;
-            display: inline-block;
-        }
-        .copy-pill:hover { background: var(--primary-gold); color: #000; }
-
-        .buy-trigger {
-            font-size: 11px;
-            color: #aaa;
-            text-decoration: underline;
-            margin-top: 5px;
-            cursor: pointer;
-            display: block;
-            transition: 0.3s;
-        }
-        .buy-trigger:hover { color: var(--primary-gold); }
-
-        /* Typography & Content */
-        .hero-section { text-align: center; padding: 120px 20px 60px; }
-        .main-logo {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(40px, 8vw, 85px);
-            color: var(--primary-gold);
-            letter-spacing: 5px;
+            border-bottom: 1px solid var(--rr-border);
             text-transform: uppercase;
-            margin: 0;
-        }
-        .manifesto {
-            max-width: 700px;
-            margin: 30px auto;
-            font-size: 18px;
-            line-height: 1.8;
-            color: #bdc3c7;
-            font-style: italic;
-            border-left: 2px solid var(--deep-red);
-            padding-left: 20px;
+            font-size: 11px;
+            letter-spacing: 3px;
         }
 
-        /* Circular Plot Matrix */
+        .support-box {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .support-box:hover { color: #fff; }
+        .support-box i { margin-right: 10px; font-size: 16px; }
+
+        .search-minimal {
+            background: transparent;
+            border-bottom: 1px solid var(--rr-border);
+            padding: 5px;
+            display: flex;
+        }
+        .search-minimal input {
+            background: transparent; border: none; color: #fff; outline: none; width: 100px; font-size: 10px;
+        }
+
+        /* Plot Grid */
         .plot-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-            gap: 30px; padding: 50px 10%; max-width: 1300px; margin: 0 auto;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 40px; padding: 60px 10%; max-width: 1400px; margin: 0 auto;
         }
 
         .plot-circle {
-            width: 120px; height: 120px; border-radius: 50%;
-            border: 1px solid rgba(212, 175, 55, 0.3);
-            background: radial-gradient(circle, rgba(44, 62, 80, 0.4) 0%, rgba(10, 10, 11, 0.8) 100%);
+            width: 130px; height: 130px; border-radius: 50%;
+            border: 1px solid var(--rr-border);
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            cursor: pointer; transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: inset 0 0 15px rgba(0,0,0,0.5);
-        }
-        .plot-circle:hover { 
-            border-color: var(--primary-gold); 
-            transform: scale(1.05) translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.6), 0 0 15px rgba(212, 175, 55, 0.2);
-        }
-
-        /* Luxury Portal (Modal) */
-        .modal {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(5, 5, 5, 0.98);
-            display: none; justify-content: center; align-items: center; z-index: 1000;
-        }
-        .modal-content {
-            background: #0f0f11;
-            padding: 50px; border-radius: 2px;
-            width: 90%; max-width: 480px;
-            border: 1px solid var(--primary-gold);
-            box-shadow: 0 0 50px rgba(0,0,0,1);
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            cursor: pointer;
             position: relative;
         }
-
-        .input-group { margin-bottom: 20px; text-align: left; }
-        .input-group label { display: block; font-size: 12px; color: var(--primary-gold); margin-bottom: 8px; text-transform: uppercase; }
-        .input-group input {
-            width: 100%; padding: 12px; background: transparent;
-            border: none; border-bottom: 1px solid #333; color: #fff;
-            font-size: 16px; outline: none; transition: 0.3s;
+        .plot-circle:hover {
+            background: #fff;
+            color: #000;
+            transform: scale(1.02);
+            border-color: #fff;
         }
-        .input-group input:focus { border-bottom-color: var(--primary-gold); }
+        .plot-circle span { font-size: 10px; opacity: 0.5; text-transform: uppercase; }
 
-        .submit-btn {
-            width: 100%; padding: 18px; background: var(--primary-gold);
-            color: #000; border: none; font-weight: 700; cursor: pointer;
-            text-transform: uppercase; letter-spacing: 2px; transition: 0.4s;
+        /* Luxury Modal */
+        .modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.99); display: none; justify-content: center; align-items: center; z-index: 1000;
         }
-        .submit-btn:hover { background: #fff; transform: translateY(-2px); }
+        .modal-content {
+            width: 90%; max-width: 400px; text-align: center;
+            padding: 60px 40px; border: 1px solid var(--rr-border);
+        }
+
+        .rr-input {
+            width: 100%; padding: 15px 0; background: transparent;
+            border: none; border-bottom: 1px solid var(--rr-border);
+            color: #fff; font-size: 16px; margin-bottom: 30px;
+            text-align: center; outline: none; transition: 0.4s;
+        }
+        .rr-input:focus { border-bottom-color: #fff; }
+
+        .rr-btn {
+            width: 100%; padding: 20px; background: #fff; color: #000;
+            border: none; text-transform: uppercase; letter-spacing: 3px;
+            font-weight: bold; cursor: pointer; transition: 0.4s;
+        }
+        .rr-btn:hover { background: #ccc; }
+
+        .instruction-text {
+            text-align: left; font-size: 13px; line-height: 2; color: #888; margin-top: 30px;
+        }
 
         footer {
-            padding: 80px 20px; text-align: center; border-top: 1px solid #1a1a1a;
-            background: rgba(5, 5, 6, 0.9);
+            padding: 100px 20px; text-align: center; font-size: 10px;
+            letter-spacing: 4px; color: #333; border-top: 1px solid var(--rr-border);
         }
+
+        /* Success Message Styling */
+        .congrats-title { font-size: 24px; letter-spacing: 5px; margin-bottom: 10px; color: #fff; }
+
     </style>
 </head>
 <body>
 
-<div class="bg-overlay"></div>
-
 <header class="header">
-    <div class="payment-box">
-        <div class="copy-pill" onclick="copyNumber('01756206213')" id="bkashNum">
-            <i class="far fa-copy"></i> BKASH: 01756206213
-        </div>
-        <span class="buy-trigger" onclick="openOrderPortal()">[ BUY A PLOT NOW ]</span>
+    <div class="support-box" onclick="window.open('https://wa.me/8801756206213')">
+        <i class="fab fa-whatsapp"></i> Customer Support
     </div>
-    <div class="social-icons">
-        <a href="https://x.com/kawsar6700" target="_blank" style="color: #fff; margin-left: 20px;"><i class="fab fa-twitter"></i></a>
-        <a href="https://wa.me/8801756206213" target="_blank" style="color: #fff; margin-left: 20px;"><i class="fab fa-whatsapp"></i></a>
+    <div class="search-minimal">
+        <input type="number" id="plotSearch" placeholder="SEARCH PLOT">
+        <i class="fas fa-search" style="font-size: 10px; cursor: pointer;" onclick="findPlot()"></i>
     </div>
 </header>
 
-<section class="hero-section">
+<div class="title-container">
     <h1 class="main-logo">The July Legacy</h1>
-    <div class="manifesto">
-        "History is not just lived; it is preserved. This archive is a silent witness to the courage of July. By claiming a plot, you are not buying space—you are securing a fragment of the revolution for eternity."
-    </div>
-</section>
+    <p style="font-size: 11px; letter-spacing: 8px; opacity: 0.4; margin-top: 20px;">ARCHIVE • MEMORIAL • FUTURE</p>
+    <button class="rr-btn" style="width: auto; padding: 15px 40px; margin-top: 40px; font-size: 10px;" onclick="openOrder()">Buy A Plot</button>
+</div>
 
-<div class="plot-grid" id="gridContainer"></div>
+<div class="plot-grid" id="grid"></div>
 
 <div id="orderModal" class="modal">
     <div class="modal-content">
-        <h2 style="font-family: 'Playfair Display'; color: var(--primary-gold); margin-bottom: 30px;">RESERVE PLOT</h2>
-        <div class="input-group">
-            <label>Full Identity</label>
-            <input type="text" id="custName" placeholder="Enter your name">
-        </div>
-        <div class="input-group">
-            <label>WhatsApp Contact</label>
-            <input type="text" id="custWA" placeholder="Numbers only" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
-        </div>
-        <button class="submit-btn" onclick="processOrder()">Request Acquisition</button>
-        <p style="font-size: 10px; color: #555; margin-top: 20px; cursor: pointer;" onclick="closeModal()">CANCEL / BACK</p>
+        <h2 style="letter-spacing: 5px; margin-bottom: 40px;">RESERVATION</h2>
+        <input type="text" id="cName" class="rr-input" placeholder="FULL NAME">
+        <input type="text" id="cNum" class="rr-input" maxlength="11" placeholder="MOBILE (11 DIGITS)" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+        <button class="rr-btn" onclick="submitOrder()">Submit Request</button>
+        <p style="margin-top: 30px; font-size: 10px; opacity: 0.3; cursor: pointer;" onclick="closeModal('orderModal')">CANCEL</p>
     </div>
 </div>
 
 <div id="instructionModal" class="modal">
-    <div class="modal-content" style="text-align: left;">
-        <h3 style="color: var(--primary-gold);">NEXT STEPS</h3>
-        <p style="font-size: 14px; line-height: 1.6; color: #bbb;">
-            To finalize your digital legacy, please provide the following via WhatsApp:<br><br>
-            • Screenshot of bKash Payment (৳36)<br>
-            • High-Resolution Portrait Photo<br>
-            • Profile Link (FB/IG/X) for integration<br>
-            • Your specific Plot Preference (if any)
-        </p>
-        <a href="https://wa.me/8801756206213" target="_blank" class="submit-btn" style="text-decoration: none; display: block; text-align: center;">CONTACT SUPPORT</a>
+    <div class="modal-content">
+        <div class="congrats-title">CONGRATULATIONS</div>
+        <div id="userNameDisplay" style="color: #fff; letter-spacing: 3px; font-size: 18px; margin-bottom: 20px;"></div>
+        <p style="font-size: 11px; opacity: 0.5;">Your request has been initiated.</p>
+        
+        <div class="instruction-text">
+            1. Send ৳36 to bKash (01756206213)<br>
+            2. Send Transaction ID to WhatsApp<br>
+            3. Share your Photo & Social Link<br>
+            4. 3 Trees will be planted in your name.
+        </div>
+
+        <button class="rr-btn" style="margin-top: 30px;" onclick="window.open('https://wa.me/8801756206213')">Go to WhatsApp</button>
+        <p style="margin-top: 20px; font-size: 10px; opacity: 0.3; cursor: pointer;" onclick="location.reload()">BACK TO HOME</p>
     </div>
 </div>
 
 <footer>
-    <p style="color: var(--primary-gold); letter-spacing: 2px; font-size: 14px;">ARK ARCHIVE • OFFICIAL MEMORIAL</p>
-    <p style="font-size: 12px; color: #444;">CURATED BY KAWSAR AHMED</p>
+    THE JULY LEGACY ARCHIVE © 2026 • ESTABLISHED BY KAWSAR AHMED
 </footer>
 
 <script>
-    // Copy Function
-    function copyNumber(num) {
-        navigator.clipboard.writeText(num);
-        const pill = document.getElementById('bkashNum');
-        pill.innerText = "COPIED!";
-        setTimeout(() => { pill.innerHTML = '<i class="far fa-copy"></i> BKASH: 01756206213'; }, 2000);
-    }
-
-    // Modal Controls
-    function openOrderPortal() { document.getElementById('orderModal').style.display = 'flex'; }
-    function closeModal() { document.getElementById('orderModal').style.display = 'none'; }
-
-    function processOrder() {
-        const name = document.getElementById('custName').value;
-        const wa = document.getElementById('custWA').value;
-        if(name && wa) {
-            document.getElementById('orderModal').style.display = 'none';
-            document.getElementById('instructionModal').style.display = 'flex';
-        } else {
-            alert("Please provide valid information to proceed.");
-        }
-    }
-
-    // Generate Plots
-    const grid = document.getElementById('gridContainer');
+    // Generate Grid
+    const grid = document.getElementById('grid');
     for (let i = 1; i <= 36; i++) {
         const plot = document.createElement('div');
         plot.className = 'plot-circle';
-        plot.innerHTML = `<span style="font-size:10px; color:rgba(212,175,55,0.5)">ARCHIVE</span><br><b style="color:#fff">#${i}</b>`;
+        plot.id = 'plot-' + i;
+        plot.innerHTML = `<span>Plot</span><b>${i}</b>`;
+        plot.onclick = () => alert("Plot #" + i + " - Available for acquisition.");
         grid.appendChild(plot);
+    }
+
+    // Modal Control
+    function openOrder() { document.getElementById('orderModal').style.display = 'flex'; }
+    function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+
+    // Logic
+    function submitOrder() {
+        const name = document.getElementById('cName').value;
+        const num = document.getElementById('cNum').value;
+
+        if(name && num.length === 11) {
+            // Confetti Effect
+            confetti({ particleCount: 150, spread: 70, origin: { x: 0, y: 0.6 }, colors: ['#ffffff', '#333333'] });
+            confetti({ particleCount: 150, spread: 70, origin: { x: 1, y: 0.6 }, colors: ['#ffffff', '#333333'] });
+
+            document.getElementById('orderModal').style.display = 'none';
+            document.getElementById('userNameDisplay').innerText = name.toUpperCase();
+            
+            setTimeout(() => {
+                document.getElementById('instructionModal').style.display = 'flex';
+            }, 1000);
+        } else {
+            alert("Please enter a valid Name and 11-digit Mobile Number.");
+        }
+    }
+
+    function findPlot() {
+        const id = document.getElementById('plotSearch').value;
+        const target = document.getElementById('plot-' + id);
+        if(target) {
+            target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            target.style.background = "#fff";
+            target.style.color = "#000";
+            setTimeout(() => {
+                target.style.background = "transparent";
+                target.style.color = "#E1E1E1";
+            }, 2000);
+        } else {
+            alert("Plot not found!");
+        }
     }
 </script>
 
