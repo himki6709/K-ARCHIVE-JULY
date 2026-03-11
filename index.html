@@ -12,7 +12,6 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
 
     <style>
-        /* আপনার হারানো ইফেক্টগুলো ফিরিয়ে আনা হলো */
         .plot-wrapper {
             display: flex;
             flex-direction: column;
@@ -35,7 +34,6 @@
             font-weight: 500;
         }
 
-        /* অ্যাক্টিভ প্লটের সেই অরিজিনাল কালার ইফেক্ট ও গ্লো */
         .plot-circle.active {
             border: 2px solid #fff !important;
             box-shadow: 0 0 20px rgba(255, 255, 255, 0.15), inset 0 0 10px rgba(255, 255, 255, 0.1);
@@ -45,6 +43,24 @@
         .plot-circle.active:hover {
             box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
             transform: scale(1.05);
+        }
+
+        /* ব্র্যান্ডিং ও নামের কাস্টম স্টাইল */
+        .owner-name {
+            font-size: 14px;
+            color: #fff;
+            letter-spacing: 12px;
+            margin-top: 8px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        .brand-ark {
+            font-size: 10px;
+            color: #555;
+            letter-spacing: 15px;
+            margin-top: 5px;
+            font-weight: 300;
+            text-transform: uppercase;
         }
     </style>
 </head>
@@ -61,9 +77,10 @@
     </div>
 </header>
 
-<div class="title-container">
+<div class="title-container" style="text-align: center; padding: 40px 0;">
     <h1 class="main-logo">The July Legacy</h1>
-    <p style="font-size: 10px; opacity: 0.4; letter-spacing: 10px; margin-top: 15px;">ARK ARCHIVE OFFICIAL</p>
+    <div class="owner-name">KAWSAR</div>
+    <div class="brand-ark">ARK</div>
 </div>
 
 <div class="hero-flex">
@@ -132,7 +149,7 @@
             <div style="border-top: 1px solid #111; padding-top: 20px; margin-top: 10px;">
                 <p style="font-size: 8px; color: #555; margin: 0; letter-spacing: 1px;">VERIFIED BY</p>
                 <b style="font-size: 12px; color: #fff; letter-spacing: 3px;">KAWSAR AHMED</b>
-                <p style="font-size: 7px; color: #222; margin-top: 5px;">THEJULYLEGACY.COM | DIGITAL LEGACY ARCHIVE</p>
+                <p style="font-size: 7px; color: #222; margin-top: 5px;">THEJULYLEGACY.COM | ARK DIGITAL ARCHIVE</p>
             </div>
         </div>
         <button class="rr-btn" onclick="downloadCertificate()">Download & Share</button>
