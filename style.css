@@ -1,16 +1,200 @@
-:root { --b-yellow: #FCD535; --b-dark: #1E2329; --b-bg: #0B0E11; }
-body { background: var(--b-bg); color: #EAECEF; font-family: sans-serif; margin: 0; text-align: center; }
-.top-nav { display: flex; justify-content: space-between; padding: 15px 5%; background: var(--b-dark); border-bottom: 1px solid #333; align-items: center; }
-.pill { padding: 8px 15px; border: 1px solid var(--b-yellow); color: var(--b-yellow); border-radius: 4px; font-size: 11px; cursor: pointer; font-weight: bold; }
-.social-icons a { color: #fff; margin-left: 15px; font-size: 18px; }
-.shimmer-title { font-size: 38px; font-weight: 900; color: var(--b-yellow); margin-top: 30px; margin-bottom: 5px; }
-.tagline { color: #848e9c; font-size: 14px; margin-bottom: 30px; letter-spacing: 1px; }
-.stats-row { display: flex; justify-content: center; gap: 15px; margin-bottom: 30px; }
-.stat-box { background: var(--b-dark); padding: 12px 20px; border-radius: 5px; border: 1px solid #333; font-weight: bold; }
-.map-container { width: 95%; max-width: 1200px; margin: 0 auto; border: 2px solid #333; border-radius: 10px; background: #000; overflow: hidden; }
-.cta-gold { background: var(--b-yellow); color: #000; padding: 15px 35px; border-radius: 5px; font-weight: bold; text-decoration: none; display: inline-block; }
-.cta-outline { border: 1px solid #5e6673; color: #fff; padding: 15px 35px; border-radius: 5px; text-decoration: none; display: inline-block; margin-left: 10px; cursor: pointer; background: transparent; }
-.future-notice { margin: 40px auto; max-width: 800px; padding: 20px; background: rgba(252, 213, 53, 0.05); border: 1px dashed var(--b-yellow); color: #ccc; font-size: 13px; line-height: 1.6; }
-.wa-float { position: fixed; bottom: 20px; right: 20px; background: #2ebd85; color: #fff; padding: 12px 25px; border-radius: 50px; text-decoration: none; font-weight: bold; z-index: 1000; }
-#legacy-tooltip { position: absolute; display: none; background: rgba(0,0,0,0.9); color: #FCD535; padding: 8px; border-radius: 4px; font-size: 12px; z-index: 10001; pointer-events: none; border: 1px solid var(--b-yellow); }
-footer { padding: 40px; color: #5e6673; font-size: 12px; }
+/**
+ * THE JULY LEGACY | ARK ARCHIVE
+ * BRANDING: LUXURY MINIMALIST (ROLLS-ROYCE STYLE)
+ * FILE: style.css
+ */
+
+:root {
+    --rr-silver: #E1E1E1;
+    --rr-black: #000000;
+    --rr-border: rgba(255, 255, 255, 0.1);
+}
+
+body {
+    background-color: var(--rr-black);
+    color: var(--rr-silver);
+    margin: 0;
+    font-family: 'Times New Roman', serif;
+    letter-spacing: 1px;
+    scroll-behavior: smooth;
+}
+
+/* Header & Navigation */
+.header {
+    padding: 20px 5%;
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center;
+    border-bottom: 1px solid var(--rr-border);
+    position: sticky; 
+    top: 0; 
+    z-index: 1000; 
+    background: rgba(0,0,0,0.95);
+    backdrop-filter: blur(10px);
+}
+
+.nav-links { display: flex; gap: 30px; align-items: center; }
+.nav-links a { 
+    color: var(--rr-silver); 
+    text-decoration: none; 
+    font-size: 11px; 
+    letter-spacing: 2px; 
+    text-transform: uppercase; 
+    transition: 0.3s; 
+}
+.nav-links a:hover { color: #fff; }
+
+.search-minimal {
+    border-bottom: 1px solid var(--rr-border);
+    display: flex; 
+    align-items: center;
+}
+.search-minimal input {
+    background: transparent; 
+    border: none; 
+    color: #fff; 
+    outline: none; 
+    padding: 5px; 
+    width: 80px; 
+    font-size: 11px;
+}
+
+/* Header Animation Title */
+.title-container { text-align: center; padding: 100px 20px 40px; }
+.main-logo {
+    font-size: clamp(35px, 8vw, 90px);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 12px;
+    background: linear-gradient(90deg, #000, #fff, #000);
+    background-size: 80% 100%;
+    background-repeat: no-repeat;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shine 6s linear infinite;
+}
+
+@keyframes shine { 0% { background-position: -500%; } 100% { background-position: 500%; } }
+
+/* Hero Content & FAQ Portal */
+.hero-flex {
+    display: flex; 
+    flex-wrap: wrap; 
+    justify-content: center; 
+    gap: 50px;
+    padding: 20px 10%; 
+    align-items: flex-start;
+}
+
+.manifesto-box { flex: 1; min-width: 300px; text-align: left; }
+.manifesto-box p { 
+    font-size: 18px; 
+    line-height: 1.8; 
+    color: #888; 
+    font-style: italic; 
+    border-left: 2px solid #333; 
+    padding-left: 20px; 
+}
+
+.faq-portal {
+    flex: 0.8; 
+    min-width: 300px; 
+    background: rgba(255,255,255,0.02);
+    padding: 30px; 
+    border: 1px solid var(--rr-border); 
+    border-radius: 4px;
+}
+.faq-item { margin-bottom: 20px; text-align: left; }
+.faq-item b { 
+    font-size: 12px; 
+    color: #fff; 
+    display: block; 
+    margin-bottom: 5px; 
+    text-transform: uppercase; 
+    letter-spacing: 1px; 
+}
+.faq-item p { font-size: 13px; color: #666; margin: 0; }
+
+/* Plot Grid Section */
+.plot-grid {
+    display: grid; 
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 40px; 
+    padding: 60px 10%; 
+    max-width: 1400px; 
+    margin: 0 auto;
+}
+
+.plot-circle {
+    width: 130px; 
+    height: 130px; 
+    border-radius: 50%;
+    border: 1px solid var(--rr-border);
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: center;
+    transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1); 
+    cursor: pointer;
+}
+.plot-circle:hover { background: #fff; color: #000; transform: scale(1.05); }
+
+/* Modals System */
+.modal {
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%;
+    background: rgba(0,0,0,0.99); 
+    display: none; 
+    justify-content: center; 
+    align-items: center; 
+    z-index: 2000;
+}
+.modal-content {
+    width: 90%; 
+    max-width: 450px; 
+    text-align: center; 
+    padding: 50px; 
+    border: 1px solid var(--rr-border); 
+    background: #000;
+}
+
+/* Form Elements */
+.rr-input {
+    width: 100%; 
+    padding: 15px 0; 
+    background: transparent; 
+    border: none;
+    border-bottom: 1px solid var(--rr-border); 
+    color: #fff; 
+    margin-bottom: 30px; 
+    text-align: center; 
+    outline: none;
+}
+.rr-btn {
+    width: 100%; 
+    padding: 18px; 
+    background: #fff; 
+    color: #000; 
+    border: none;
+    text-transform: uppercase; 
+    letter-spacing: 3px; 
+    font-weight: bold; 
+    cursor: pointer;
+    transition: 0.3s;
+}
+.rr-btn:hover { background: #ccc; }
+
+.instruction-list { text-align: left; font-size: 13px; color: #aaa; line-height: 2; margin: 30px 0; }
+
+/* Footer */
+footer { 
+    padding: 80px; 
+    text-align: center; 
+    font-size: 10px; 
+    color: #333; 
+    border-top: 1px solid var(--rr-border); 
+    letter-spacing: 3px; 
+}
