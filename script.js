@@ -1,4 +1,10 @@
-// THE JULY LEGACY | ARK ARCHIVE ENGINE
+/**
+ * THE JULY LEGACY | ARK ARCHIVE
+ * ENGINE VERSION: 3.0 (INFINITE SCROLL & REAL-TIME SYNC)
+ * DESIGNED BY: KAWSAR AHMED
+ */
+
+// Firebase Configuration
 const firebaseConfig = {
     apiKey: "AIzaSyCAdnfu2R82xbC7H85n_9mvQBE58X3TjbA",
     authDomain: "the-5k-elite-legacy.firebaseapp.com",
@@ -9,54 +15,74 @@ const firebaseConfig = {
     appId: "1:440824313752:web:2c93344dcfe2ba0a4c5ded"
 };
 
+// Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
+// Canvas Setup
 const cv = document.getElementById('mainCanvas');
 const ctx = cv.getContext('2d');
 const tooltip = document.getElementById('legacy-tooltip');
 
-// Configuration - Matches your luxury branding
-const blockSize = 30; 
-const cols = 100; 
-const totalPossiblePlots = 36000; 
-const rows = Math.ceil(totalPossiblePlots / cols);
-
-cv.width = cols * blockSize; 
-cv.height = rows * blockSize;
+// Global Constants
+const blockSize = 30; // Each plot is 30x30 pixels
+const cols = 100;     // 100 plots per row
 
 let pixels = {};
 const imgCache = {};
 
-// Premium Render Engine
+/**
+ * রেন্ডার ইঞ্জিন: এটি ডাটাবেস থেকে পাওয়া তথ্যের ভিত্তিতে 
+ * ক্যানভাসের সাইজ নির্ধারণ করে এবং ড্রয়িং করে।
+ */
 function render() {
-    // Background - Pure Black for Luxury Feel
-    ctx.fillStyle = "#000000"; 
+    // ডাটাবেসে থাকা প্লটগুলোর মধ্যে সর্বোচ্চ নম্বরটি খুঁজে বের করা
+    const plotIDs = Object.values(pixels).map(p => parseInt(p.plotID));
+    const maxPlotID = plotIDs.length > 0 ? Math.max(...plotIDs) : 0;
+    
+    /**
+     * INFINITE LOGIC: 
+     * যদি শেষ প্লটটি ৫০০ হয়, তবে এটি আরও ১০০টি খালি প্লট (১টি রো) যোগ করে দেখাবে।
+     * এভাবে এটি সবসময় সামনের দিকে অসীমভাবে বাড়তে থাকবে।
+     */
+    const dynamicRows = Math.ceil((maxPlotID + 100) / cols);
+    
+    cv.width = cols * blockSize;
+    cv.height = dynamicRows * blockSize;
+
+    // Background - Deep Luxury Black
+    ctx.fillStyle = "#000000";
     ctx.fillRect(0, 0, cv.width, cv.height);
-    
-    // Minimal Grid - Very subtle lines
-    ctx.strokeStyle = "rgba(255, 255, 255, 0.05)"; 
+
+    // Subtle Grid Drawing - Minimalist Feel
+    ctx.strokeStyle = "rgba(255, 255, 255, 0.05)";
     ctx.lineWidth = 0.5;
-    
-    for (let i = 0; i <= cols; i++) { 
-        ctx.beginPath(); ctx.moveTo(i * blockSize, 0); ctx.lineTo(i * blockSize, cv.height); ctx.stroke(); 
+
+    for (let i = 0; i <= cols; i++) {
+        ctx.beginPath();
+        ctx.moveTo(i * blockSize, 0);
+        ctx.lineTo(i * blockSize, cv.height);
+        ctx.stroke();
     }
-    for (let j = 0; j <= rows; j++) { 
-        ctx.beginPath(); ctx.moveTo(0, j * blockSize); ctx.lineTo(cv.width, j * blockSize); ctx.stroke(); 
+    for (let j = 0; j <= dynamicRows; j++) {
+        ctx.beginPath();
+        ctx.moveTo(0, j * blockSize);
+        ctx.lineTo(cv.width, j * blockSize);
+        ctx.stroke();
     }
-    
-    // Pixel/Plot Rendering
+
+    // Drawing the Plots (Images)
     Object.values(pixels).forEach(p => {
         if (p.imageUrl) {
-            const id = parseInt(p.plotID) - 1;
+            const id = parseInt(p.plotID) - 1; // 0-based index
             const targetX = (id % cols) * blockSize;
             const targetY = Math.floor(id / cols) * blockSize;
-            
+
             if (imgCache[p.imageUrl]) {
                 ctx.drawImage(imgCache[p.imageUrl], targetX, targetY, blockSize, blockSize);
             } else {
                 const img = new Image();
-                img.crossOrigin = "anonymous"; // Prevents security errors
+                img.crossOrigin = "anonymous"; // Prevents CORS issues
                 img.src = p.imageUrl;
                 img.onload = () => {
                     imgCache[p.imageUrl] = img;
@@ -67,67 +93,75 @@ function render() {
     });
 }
 
-// Real-time Database Sync
-db.ref('pixels').on('value', s => {
-    pixels = s.val() || {};
+// Firebase Real-time Listener
+db.ref('pixels').on('value', snapshot => {
+    pixels = snapshot.val() || {};
     render();
     
-    // Update Stats on UI if elements exist
+    // Update Stats on Dashboard
+    const totalSold = Object.keys(pixels).length;
     if(document.getElementById('sold-count')) {
-        document.getElementById('sold-count').innerText = Object.keys(pixels).length;
-    }
-    if(document.getElementById('rem-count')) {
-        document.getElementById('rem-count').innerText = totalPossiblePlots - Object.keys(pixels).length;
+        document.getElementById('sold-count').innerText = totalSold;
     }
 });
 
-// Tooltip & Hover Logic
+/**
+ * Interactive Tooltip Logic
+ */
 cv.addEventListener('mousemove', (e) => {
     const rect = cv.getBoundingClientRect();
     const scaleX = cv.width / rect.width;
     const scaleY = cv.height / rect.height;
+    
     const x = (e.clientX - rect.left) * scaleX;
     const y = (e.clientY - rect.top) * scaleY;
     
     let found = false;
-    
+
     Object.values(pixels).forEach(p => {
         const id = parseInt(p.plotID) - 1;
-        const px = (id % cols) * blockSize; 
+        const px = (id % cols) * blockSize;
         const py = Math.floor(id / cols) * blockSize;
-        
+
         if (x >= px && x <= px + blockSize && y >= py && y <= py + blockSize) {
             tooltip.style.display = 'block';
-            tooltip.style.left = (e.pageX + 15) + 'px'; 
+            tooltip.style.left = (e.pageX + 15) + 'px';
             tooltip.style.top = (e.pageY + 15) + 'px';
-            tooltip.innerHTML = `<div style="padding:10px; border:1px solid #333; background:#000;">
-                                    <b style="color:#fff;">${p.name.toUpperCase()}</b><br>
-                                    <span style="color:#666; font-size:10px;">LEGACY PLOT #${p.plotID}</span>
-                                 </div>`;
-            cv.style.cursor = 'pointer'; 
+            
+            tooltip.innerHTML = `
+                <div style="background: #000; border: 1px solid #333; padding: 10px; color: #fff; font-family: serif; min-width: 120px; box-shadow: 0 5px 15px rgba(0,0,0,0.5);">
+                    <div style="font-size: 12px; letter-spacing: 2px; border-bottom: 1px solid #222; margin-bottom: 5px; padding-bottom: 5px;">${p.name.toUpperCase()}</div>
+                    <div style="font-size: 10px; color: #666; letter-spacing: 1px;">PLOT IDENTITY #${p.plotID}</div>
+                </div>
+            `;
+            
+            cv.style.cursor = 'pointer';
             found = true;
         }
     });
-    
-    if (!found) { 
-        tooltip.style.display = 'none'; 
-        cv.style.cursor = 'default'; 
+
+    if (!found) {
+        tooltip.style.display = 'none';
+        cv.style.cursor = 'default';
     }
 });
 
-// Click Interaction
+/**
+ * External Link Navigation on Click
+ */
 cv.addEventListener('click', (e) => {
     const rect = cv.getBoundingClientRect();
     const scaleX = cv.width / rect.width;
     const scaleY = cv.height / rect.height;
+    
     const x = (e.clientX - rect.left) * scaleX;
     const y = (e.clientY - rect.top) * scaleY;
-    
+
     Object.values(pixels).forEach(p => {
         const id = parseInt(p.plotID) - 1;
-        const px = (id % cols) * blockSize; 
+        const px = (id % cols) * blockSize;
         const py = Math.floor(id / cols) * blockSize;
-        
+
         if (x >= px && x <= px + blockSize && y >= py && y <= py + blockSize) {
             if (p.link && p.link !== "#") {
                 window.open(p.link, '_blank');
@@ -135,3 +169,6 @@ cv.addEventListener('click', (e) => {
         }
     });
 });
+
+// Window Resize Handler to maintain quality
+window.addEventListener('resize', render);
