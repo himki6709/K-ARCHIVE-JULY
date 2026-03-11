@@ -45,22 +45,41 @@
             transform: scale(1.05);
         }
 
-        /* ব্র্যান্ডিং ও নামের কাস্টম স্টাইল */
-        .owner-name {
-            font-size: 14px;
-            color: #fff;
-            letter-spacing: 12px;
-            margin-top: 8px;
+        /* FAQ PORTAL STYLES (New) */
+        .faq-portal {
+            width: 100%;
+            max-width: 500px;
+            margin-top: 20px;
+        }
+        .faq-item {
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            padding: 10px 0;
+            cursor: pointer;
+        }
+        .faq-question {
+            font-size: 11px;
             font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            letter-spacing: 1px;
+            color: #fff;
             text-transform: uppercase;
         }
-        .brand-ark {
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
             font-size: 10px;
-            color: #555;
-            letter-spacing: 15px;
+            color: #888;
+            line-height: 1.6;
             margin-top: 5px;
-            font-weight: 300;
-            text-transform: uppercase;
+        }
+        .faq-item.active .faq-answer {
+            max-height: 100px;
+        }
+        .faq-item.active .faq-question i {
+            transform: rotate(180deg);
         }
     </style>
 </head>
@@ -77,10 +96,9 @@
     </div>
 </header>
 
-<div class="title-container" style="text-align: center; padding: 40px 0;">
+<div class="title-container" style="text-align: center;">
     <h1 class="main-logo">The July Legacy</h1>
-    <div class="owner-name">KAWSAR</div>
-    <div class="brand-ark">ARK</div>
+    <p style="font-size: 10px; opacity: 0.4; letter-spacing: 10px; margin-top: 15px;">ARK ARCHIVE OFFICIAL</p>
 </div>
 
 <div class="hero-flex">
@@ -92,13 +110,37 @@
     </div>
 
     <div class="faq-portal">
-        <div class="faq-item">
-            <b>Why should I claim a plot?</b>
-            <p>To preserve your identity in the historic July movement archive forever.</p>
+        <div class="faq-item" onclick="toggleFaq(this)">
+            <div class="faq-question">Why should I claim a plot? <i class="fas fa-chevron-down"></i></div>
+            <div class="faq-answer">To preserve your identity in the historic July movement archive forever.</div>
         </div>
-        <div class="faq-item">
-            <b>Is it a one-time payment?</b>
-            <p>Yes, ৳36 only. No renewals, no hidden fees for a lifetime presence.</p>
+        <div class="faq-item" onclick="toggleFaq(this)">
+            <div class="faq-question">Is it a one-time payment? <i class="fas fa-chevron-down"></i></div>
+            <div class="faq-answer">Yes, ৳36 only. No renewals, no hidden fees for a lifetime presence.</div>
+        </div>
+        <div class="faq-item" onclick="toggleFaq(this)">
+            <div class="faq-question">What is the plot size? <i class="fas fa-chevron-down"></i></div>
+            <div class="faq-answer">Each plot is a 100x100 virtual space dedicated to your identity.</div>
+        </div>
+        <div class="faq-item" onclick="toggleFaq(this)">
+            <div class="faq-question">Can I add my social link? <i class="fas fa-chevron-down"></i></div>
+            <div class="faq-answer">Yes, you can attach any social media or personal link to your plot.</div>
+        </div>
+        <div class="faq-item" onclick="toggleFaq(this)">
+            <div class="faq-question">Is there any environmental impact? <i class="fas fa-chevron-down"></i></div>
+            <div class="faq-answer">Every plot claimed contributes to planting 3 trees in the real world.</div>
+        </div>
+        <div class="faq-item" onclick="toggleFaq(this)">
+            <div class="faq-question">Is this data secure? <i class="fas fa-chevron-down"></i></div>
+            <div class="faq-answer">Your presence is secured using Firebase high-end encryption.</div>
+        </div>
+        <div class="faq-item" onclick="toggleFaq(this)">
+            <div class="faq-question">Can I change my photo later? <i class="fas fa-chevron-down"></i></div>
+            <div class="faq-answer">Yes, contact our support team to update your archived information.</div>
+        </div>
+        <div class="faq-item" onclick="toggleFaq(this)">
+            <div class="faq-question">Who owns this archive? <i class="fas fa-chevron-down"></i></div>
+            <div class="faq-answer">This is an independent digital monument established by ARK.</div>
         </div>
     </div>
 </div>
@@ -135,17 +177,13 @@
         <div id="plotCardPreview" style="background: #000; border: 2px solid #1a1a1a; padding: 40px 20px; position: relative; overflow: hidden;">
             <div style="position: absolute; top: 10px; left: 15px; font-size: 7px; color: #333; letter-spacing: 2px;">ARK ARCHIVE OFFICIAL</div>
             <div style="position: absolute; top: 10px; right: 15px; font-size: 7px; color: #333; letter-spacing: 2px;">JULY REVOLUTION 2024</div>
-            
             <h3 style="letter-spacing: 5px; margin: 10px 0; font-size: 14px; color: #fff;">CERTIFICATE OF HONOR</h3>
             <p id="cardPlotNum" style="color: #666; font-size: 10px; margin-bottom: 25px;"></p>
-            
             <div id="cardImageContainer" style="width: 130px; height: 130px; background: #0a0a0a; border: 1px solid #222; margin: 0 auto; border-radius: 50%; display: flex; align-items: center; justify-content: center; overflow: hidden;">
                 <i class="fas fa-id-badge" style="font-size: 50px; color: #111;"></i>
             </div>
-            
             <p id="cardOwnerName" style="font-size: 18px; font-weight: bold; margin: 20px 0 5px 0; text-transform: uppercase; color: #fff; letter-spacing: 1px;"></p>
             <p style="font-size: 9px; color: #444; margin-bottom: 25px; line-height: 1.5;">This individual is officially archived as a witness to the history of the July movement. Presence recorded for eternity.</p>
-            
             <div style="border-top: 1px solid #111; padding-top: 20px; margin-top: 10px;">
                 <p style="font-size: 8px; color: #555; margin: 0; letter-spacing: 1px;">VERIFIED BY</p>
                 <b style="font-size: 12px; color: #fff; letter-spacing: 3px;">KAWSAR AHMED</b>
@@ -162,6 +200,11 @@
 </footer>
 
 <script>
+    // FAQ Toggle function
+    function toggleFaq(element) {
+        element.classList.toggle('active');
+    }
+
     const firebaseConfig = {
         apiKey: "AIzaSyCAdnfu2R82xbC7H85n_9mvQBE58X3TjbA",
         authDomain: "the-5k-elite-legacy.firebaseapp.com",
@@ -185,12 +228,10 @@
             currentPlots++;
             const wrapper = document.createElement('div');
             wrapper.className = 'plot-wrapper';
-            
             const plot = document.createElement('div');
             plot.className = 'plot-circle';
             plot.id = 'plot-' + currentPlots;
             plot.innerHTML = `<span>Plot</span><b>#${currentPlots}</b>`;
-            
             const nameTag = document.createElement('div');
             nameTag.className = 'plot-name-tag';
             nameTag.innerText = "Available";
@@ -213,13 +254,11 @@
                     };
                 }
             });
-            
             wrapper.appendChild(plot);
             wrapper.appendChild(nameTag);
             grid.appendChild(wrapper);
         }
     }
-
     generatePlots();
 
     window.onscroll = function() {
@@ -231,7 +270,6 @@
     function searchAndDownload() {
         const id = document.getElementById('plotSearchInput').value;
         if (!id || id < 1) return alert("Please enter a valid Plot ID.");
-
         db.ref('pixels/' + id).once('value', snapshot => {
             const data = snapshot.val();
             if (data) {
@@ -241,16 +279,11 @@
                 document.getElementById('downloadModal').style.display = 'flex';
                 const target = document.getElementById('plot-' + id);
                 if(target) target.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            } else {
-                alert("This plot has not been claimed yet.");
-            }
+            } else { alert("This plot has not been claimed yet."); }
         });
     }
 
-    function downloadCertificate() {
-        alert("Generating High-Resolution Certificate... Share this on Social Media to preserve the legacy!");
-    }
-
+    function downloadCertificate() { alert("Generating Certificate..."); }
     function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 
     function submitOrder() {
@@ -265,9 +298,7 @@
                 document.getElementById('displayUser').innerText = name.toUpperCase();
                 setTimeout(() => { document.getElementById('instructionModal').style.display = 'flex'; }, 800);
             });
-        } else {
-            alert("Please provide Name and 11-digit Mobile Number.");
-        }
+        } else { alert("Please provide Name and 11-digit Mobile Number."); }
     }
 </script>
 </body>
