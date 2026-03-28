@@ -3,209 +3,353 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THE JULY LEGACY | ARK ARCHIVE</title>
+    <title>ARK | ONE CHILD ONE TREE - GLOBAL REFORESTATION</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
 
     <style>
+        /* Luxury Minimalist Aesthetic (Rolls-Royce Inspired) */
+        :root {
+            --ark-silver: #E1E1E1;
+            --ark-black: #000000;
+            --ark-dark-grey: #050505;
+            --ark-border: rgba(255, 255, 255, 0.05);
+            --ark-accent: #ffffff;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Times New Roman', serif;
+            background-color: var(--ark-black);
+            color: var(--ark-silver);
+            line-height: 1.8;
+            letter-spacing: 1px;
+            overflow-x: hidden;
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 40px; }
+        h1, h2, h3 { font-weight: 300; text-transform: uppercase; letter-spacing: 6px; color: var(--ark-accent); }
+
+        /* Navigation */
+        .header {
+            padding: 40px 0;
+            border-bottom: 1px solid var(--ark-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            background: rgba(0,0,0,0.98);
+            z-index: 1000;
+        }
+
+        .brand-name { font-size: 22px; font-weight: 700; color: var(--ark-accent); text-decoration: none; letter-spacing: 8px; }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #666;
+            font-size: 10px;
+            text-transform: uppercase;
+            margin-left: 45px;
+            transition: 0.3s;
+            letter-spacing: 3px;
+        }
+        .nav-links a:hover { color: var(--ark-accent); }
+
+        /* Live Counter Bar */
+        .live-counter-section {
+            margin-top: 120px;
+            padding: 40px 0;
+            border-bottom: 1px solid var(--ark-border);
+            text-align: center;
+            background: #020202;
+        }
+        .counter-big { font-size: 42px; color: #fff; letter-spacing: 10px; font-weight: bold; }
+        .counter-desc { font-size: 10px; color: #444; text-transform: uppercase; letter-spacing: 5px; margin-top: 15px; }
+
+        /* Hero - Manifesto */
+        .hero {
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding-top: 50px;
+            padding-bottom: 100px;
+        }
+
+        .hero p.subtitle { font-size: 10px; color: #444; letter-spacing: 6px; margin-bottom: 30px; }
+        .hero h1 { font-size: 48px; line-height: 1.3; margin-bottom: 40px; max-width: 900px;}
+        .hero .manifesto-text { max-width: 850px; margin: 0 auto; font-size: 15px; color: #888; text-align: center; border-left: 1px solid #222; border-right: 1px solid #222; padding: 0 30px;}
+
+        /* Principles & FAQ Section */
+        .principles { padding: 120px 0; border-top: 1px solid var(--ark-border); }
+        .principle-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 60px; margin-top: 80px; }
+        
+        .principle-item h3 { font-size: 14px; margin-bottom: 20px; color: #bbb; }
+        .principle-item p { font-size: 13px; color: #666; }
+
+        /* Donor Plot Grid */
+        .grid-header { text-align: center; margin-bottom: 60px; }
+        .plot-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 30px;
+            padding-bottom: 120px;
+        }
+
         .plot-wrapper {
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: flex-start;
-            margin-bottom: 20px;
-        }
-        
-        .plot-name-tag {
-            font-size: 9px;
-            color: #888;
-            margin-top: 10px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            text-align: center;
-            width: 90px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            font-weight: 500;
-        }
-
-        .plot-circle.active {
-            border: 2px solid #fff !important;
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.15), inset 0 0 10px rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
-        }
-        
-        .plot-circle.active:hover {
-            box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
-            transform: scale(1.05);
-        }
-
-        /* FAQ PORTAL STYLES */
-        .faq-portal {
-            width: 100%;
-            max-width: 500px;
-            margin-top: 20px;
-        }
-        .faq-item {
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            padding: 10px 0;
+            border: 1px solid var(--ark-border);
+            padding: 30px 20px;
+            transition: 0.5s cubic-bezier(0.19, 1, 0.22, 1);
             cursor: pointer;
         }
-        .faq-question {
-            font-size: 11px;
-            font-weight: bold;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            letter-spacing: 1px;
-            color: #fff;
-            text-transform: uppercase;
-        }
-        .faq-answer {
-            max-height: 0;
+        .plot-wrapper:hover { border-color: #555; background: #080808; transform: translateY(-10px); }
+
+        .plot-circle {
+            width: 100px; height: 100px;
+            border-radius: 50%;
+            background: #030303;
+            border: 1px solid #111;
+            display: flex; align-items: center; justify-content: center;
             overflow: hidden;
-            transition: max-height 0.3s ease-out;
-            font-size: 10px;
-            color: #888;
-            line-height: 1.6;
-            margin-top: 5px;
+            margin-bottom: 20px;
         }
-        .faq-item.active .faq-answer {
-            max-height: 100px;
+
+        .plot-circle img { width: 100%; height: 100%; object-fit: cover; }
+        .plot-circle i { font-size: 30px; color: #151515; }
+
+        .donor-name { font-size: 10px; color: #888; text-transform: uppercase; letter-spacing: 2px; }
+        .tree-stat { font-size: 8px; color: #333; margin-top: 8px; letter-spacing: 1px; }
+
+        /* Portals & Progress Bars */
+        .portals { padding: 120px 0; border-top: 1px solid var(--ark-border); background: #020202;}
+        .portal-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; margin-top: 80px; }
+
+        .portal-card {
+            border: 1px solid var(--ark-border);
+            padding: 60px 30px;
+            text-align: center;
+            transition: 0.3s;
+            position: relative;
+            cursor: pointer;
         }
-        .faq-item.active .faq-question i {
-            transform: rotate(180deg);
+        .portal-card:hover { border-color: #444; }
+        .portal-card i { font-size: 24px; color: #333; margin-bottom: 30px; }
+        .portal-card h3 { font-size: 13px; margin-bottom: 25px; color: #fff; }
+        .portal-card p { font-size: 11px; color: #555; margin-bottom: 30px; min-height: 50px;}
+
+        .copy-toast { position: absolute; top: 20px; right: 20px; font-size: 8px; color: #4caf50; display: none; text-transform: uppercase; letter-spacing: 2px; }
+
+        /* Limit Progress Bars */
+        .limit-container { margin-top: 20px; text-align: left; }
+        .limit-info { display: flex; justify-content: space-between; font-size: 8px; text-transform: uppercase; color: #444; margin-bottom: 8px; letter-spacing: 1px; }
+        .limit-bg { width: 100%; height: 1px; background: #111; position: relative; }
+        .limit-fill { height: 100%; background: #fff; width: 0%; transition: 1.5s cubic-bezier(0.19, 1, 0.22, 1); }
+
+        .btn-luxury {
+            display: inline-block;
+            padding: 16px 40px;
+            border: 1px solid #222;
+            color: var(--ark-silver);
+            text-transform: uppercase;
+            font-size: 9px;
+            letter-spacing: 4px;
+            text-decoration: none;
+            transition: 0.5s;
+            background: transparent;
+            cursor: pointer;
         }
+        .btn-luxury:hover { background: #fff; color: #000; border-color: #fff; }
+
+        /* Modals */
+        .modal {
+            display: none;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.99);
+            z-index: 2000;
+            justify-content: center; align-items: center;
+        }
+        .modal.active { display: flex; }
+
+        .modal-content {
+            background: #050505;
+            border: 1px solid #111;
+            padding: 60px;
+            width: 100%; max-width: 500px;
+            text-align: center;
+            position: relative;
+        }
+        .close-btn { position: absolute; top: 30px; right: 30px; color: #333; cursor: pointer; transition: 0.3s;}
+        .close-btn:hover { color: #fff; }
+
+        .ark-input {
+            width: 100%;
+            padding: 20px 0;
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid #1a1a1a;
+            color: #fff;
+            margin-bottom: 30px;
+            font-family: serif;
+            outline: none;
+            font-size: 14px;
+        }
+        .ark-input:focus { border-bottom-color: #fff; }
+
+        /* Footer */
+        .footer { padding: 100px 0; border-top: 1px solid var(--ark-border); text-align: center; font-size: 9px; color: #222; letter-spacing: 5px; text-transform: uppercase;}
+
+        @media (max-width: 1024px) { .plot-grid { grid-template-columns: repeat(4, 1fr); } .portal-grid { grid-template-columns: 1fr; } .principle-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
 
 <header class="header">
-    <div class="nav-links">
-        <a href="https://wa.me/8801576940717" target="_blank"><i class="fab fa-whatsapp"></i> Support</a>
-        <a href="https://x.com/kawsar6700" target="_blank"><i class="fab fa-twitter"></i> Twitter</a>
-    </div>
-    <div class="search-minimal">
-        <input type="number" id="plotSearchInput" placeholder="PLOT NO.">
-        <i class="fas fa-search" style="cursor: pointer; font-size: 12px;" onclick="searchAndDownload()"></i>
+    <div class="container" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+        <a href="#" class="brand-name">ARK ARCHIVE</a>
+        <nav class="nav-links">
+            <a href="#mission">Philosophy</a>
+            <a href="#plots">Archive</a>
+            <a href="#donate">Contribute</a>
+            <a href="https://wa.me/8801576940717" target="_blank">Support</a>
+        </nav>
     </div>
 </header>
 
-<div class="title-container" style="text-align: center;">
-    <h1 class="main-logo">The July Legacy</h1>
-    <p style="font-size: 10px; opacity: 0.4; letter-spacing: 10px; margin-top: 15px;">ARK ARCHIVE OFFICIAL</p>
+<div class="live-counter-section">
+    <div class="counter-big" id="totalTrees">000,000</div>
+    <div class="counter-desc">Global Fruit Tree Legacy Count</div>
 </div>
 
-<div class="hero-flex">
-    <div class="manifesto-box">
-        <p>
-            "History is not just lived; it is preserved for eternity. This archive is a silent witness to the courage of July. By claiming a plot, you are securing a fragment of the revolution forever."
-        </p>
-        <button class="rr-btn" style="width: auto; padding: 15px 50px; margin-top: 20px; font-size: 10px;" onclick="document.getElementById('buyModal').style.display='flex'">CLAIM YOUR PLOT</button>
+<section class="hero container" id="mission">
+    <p class="subtitle">GLOBAL REFORESTATION PROJECT</p>
+    <h1>One Child, One Fruit Tree, One Eternal Legacy.</h1>
+    <div class="manifesto-text">
+        "Our mission is simple yet absolute: to provide every student in Bangladesh, from Class 1 to 10, with their own fruit-bearing tree. In an era of environmental decline, we believe in planting the seeds of both nutrition and nature. Many children in underprivileged communities lack access to essential vitamins; we provide the source. <br><br>
+        100% of your contribution is used strictly for purchasing trees. We bear all logistical, travel, and operational costs personally. Your donation plants hope."
     </div>
+    <a href="#donate" class="btn-luxury" style="margin-top: 60px;">Contribute $1 per Tree</a>
+</section>
 
-    <div class="faq-portal">
-        <div class="faq-item" onclick="toggleFaq(this)">
-            <div class="faq-question">Why should I claim a plot? <i class="fas fa-chevron-down"></i></div>
-            <div class="faq-answer">To preserve your identity in the historic July movement archive forever.</div>
+<section class="principles container">
+    <div class="principle-grid">
+        <div class="principle-item">
+            <h3>Why Fruit Trees?</h3>
+            <p>Traditional reforestation often ignores immediate human needs. By planting fruit trees, we provide children with a sustainable source of nutrition while restoring the ecosystem. It is a dual-purpose investment in the planet and the next generation.</p>
         </div>
-        <div class="faq-item" onclick="toggleFaq(this)">
-            <div class="faq-question">Is it a one-time payment? <i class="fas fa-chevron-down"></i></div>
-            <div class="faq-answer">Yes, ৳36 only. No renewals, no hidden fees for a lifetime presence.</div>
+        <div class="principle-item">
+            <h3>Where Does Your Money Go?</h3>
+            <p>Transparency is our foundation. We have invested zero donor capital into this website or our operations. Every dollar you send is converted directly into a sapling. Our team covers all personal expenses, transportation, and labor costs out of pocket.</p>
         </div>
-        <div class="faq-item" onclick="toggleFaq(this)">
-            <div class="faq-question">What is the plot size? <i class="fas fa-chevron-down"></i></div>
-            <div class="faq-answer">Each plot is a 100x100 virtual space dedicated to your identity.</div>
+        <div class="principle-item">
+            <h3>Global Scalability</h3>
+            <p>We begin in Bangladesh, a nation facing severe climate vulnerability. Once our mission of 1 Billion trees is achieved here, we will expand our reach to other nations in need of ecological balance and food security.</p>
         </div>
-        <div class="faq-item" onclick="toggleFaq(this)">
-            <div class="faq-question">Can I add my social link? <i class="fas fa-chevron-down"></i></div>
-            <div class="faq-answer">Yes, you can attach any social media or personal link to your plot.</div>
-        </div>
-        <div class="faq-item" onclick="toggleFaq(this)">
-            <div class="faq-question">Is there any environmental impact? <i class="fas fa-chevron-down"></i></div>
-            <div class="faq-answer">Every plot claimed contributes to planting 3 trees in the real world.</div>
-        </div>
-        <div class="faq-item" onclick="toggleFaq(this)">
-            <div class="faq-question">Is this data secure? <i class="fas fa-chevron-down"></i></div>
-            <div class="faq-answer">Your presence is secured using Firebase high-end encryption.</div>
-        </div>
-        <div class="faq-item" onclick="toggleFaq(this)">
-            <div class="faq-question">Can I change my photo later? <i class="fas fa-chevron-down"></i></div>
-            <div class="faq-answer">Yes, contact our support team to update your archived information.</div>
-        </div>
-        <div class="faq-item" onclick="toggleFaq(this)">
-            <div class="faq-question">Who owns this archive? <i class="fas fa-chevron-down"></i></div>
-            <div class="faq-answer">This is an independent digital monument established by ARK.</div>
+        <div class="principle-item">
+            <h3>The Silent Witness</h3>
+            <p>Every tree is recorded in the ARK ARCHIVE. By claiming a plot, your name is etched into the digital record of this revolution—a testament to your contribution to a cleaner, greener, and healthier world.</p>
         </div>
     </div>
-</div>
+</section>
 
-<div class="plot-grid" id="gridContainer"></div>
-
-<div id="buyModal" class="modal">
-    <div class="modal-content">
-        <h2 style="letter-spacing: 5px;">RESERVATION</h2>
-        <input type="text" id="custName" class="rr-input" placeholder="YOUR FULL NAME">
-        <input type="text" id="custNum" class="rr-input" maxlength="11" placeholder="MOBILE (11 DIGITS)" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-        <button class="rr-btn" onclick="submitOrder()">Request Access</button>
-        <p style="margin-top: 20px; font-size: 10px; opacity: 0.4; cursor: pointer;" onclick="closeModal('buyModal')">BACK</p>
+<section class="container" id="plots">
+    <div class="grid-header">
+        <h2>The Archive Grid</h2>
+        <p style="font-size: 11px; color: #444; margin-top: 15px; letter-spacing: 2px;">Each plot represents a fragment of our mission.</p>
     </div>
-</div>
+    <div class="plot-grid" id="mainGrid"></div>
+</section>
 
-<div id="instructionModal" class="modal">
-    <div class="modal-content" style="text-align: left;">
-        <h2 style="text-align: center; letter-spacing: 5px;">THANK YOU, <span id="displayUser"></span></h2>
-        <div class="instruction-list">
-            1. Send ৳36 to bKash Personal: <b>01756206213</b><br>
-            2. Send Payment Screenshot & Transaction ID to WhatsApp.<br>
-            3. Provide the Photo you want to display on the archive.<br>
-            4. Provide the Link you want to attach to your photo.<br>
-            5. Every plot plants 3 trees in your name.
-        </div>
-        <button class="rr-btn" onclick="window.open('https://wa.me/8801576940717')">Send Info to Support</button>
-        <p style="text-align: center; margin-top: 20px; font-size: 10px; opacity: 0.4; cursor: pointer;" onclick="location.reload()">BACK TO HOME</p>
-    </div>
-</div>
-
-<div id="downloadModal" class="modal">
-    <div class="modal-content" style="max-width: 380px;">
-        <div id="plotCardPreview" style="background: #000; border: 2px solid #1a1a1a; padding: 40px 20px; position: relative; overflow: hidden;">
-            <div style="position: absolute; top: 10px; left: 15px; font-size: 7px; color: #333; letter-spacing: 2px;">ARK ARCHIVE OFFICIAL</div>
-            <div style="position: absolute; top: 10px; right: 15px; font-size: 7px; color: #333; letter-spacing: 2px;">JULY REVOLUTION 2024</div>
-            <h3 style="letter-spacing: 5px; margin: 10px 0; font-size: 14px; color: #fff;">CERTIFICATE OF HONOR</h3>
-            <p id="cardPlotNum" style="color: #666; font-size: 10px; margin-bottom: 25px;"></p>
-            <div id="cardImageContainer" style="width: 130px; height: 130px; background: #0a0a0a; border: 1px solid #222; margin: 0 auto; border-radius: 50%; display: flex; align-items: center; justify-content: center; overflow: hidden;">
-                <i class="fas fa-id-badge" style="font-size: 50px; color: #111;"></i>
-            </div>
-            <p id="cardOwnerName" style="font-size: 18px; font-weight: bold; margin: 20px 0 5px 0; text-transform: uppercase; color: #fff; letter-spacing: 1px;"></p>
-            <p style="font-size: 9px; color: #444; margin-bottom: 25px; line-height: 1.5;">This individual is officially archived as a witness to the history of the July movement. Presence recorded for eternity.</p>
-            <div style="border-top: 1px solid #111; padding-top: 20px; margin-top: 10px;">
-                <p style="font-size: 8px; color: #555; margin: 0; letter-spacing: 1px;">VERIFIED BY</p>
-                <b style="font-size: 12px; color: #fff; letter-spacing: 3px;">KAWSAR AHMED</b>
-                <p style="font-size: 7px; color: #222; margin-top: 5px;">THEJULYLEGACY.COM | ARK DIGITAL ARCHIVE</p>
+<section class="portals container" id="donate">
+    <h2 style="text-align: center;">Contribution Channels</h2>
+    <div class="portal-grid">
+        <div class="portal-card" onclick="copyValue('TTapBkTqrDnzHbWzek6wSBUTcJKFmR8Ws6', this)">
+            <span class="copy-toast">COPIED</span>
+            <i class="fab fa-bitcoin"></i>
+            <h3>Digital Assets</h3>
+            <p>USDT (TRC20) transfers for global supporters. Direct Binance UID: 912221034.</p>
+            <div class="limit-container">
+                <div class="limit-info"><span>Daily Limit</span><span id="cryptoLabel">$0 / $1000</span></div>
+                <div class="limit-bg"><div class="limit-fill" id="cryptoBar"></div></div>
             </div>
         </div>
-        <button class="rr-btn" id="dl-btn" onclick="downloadCertificate()">Download & Share</button>
-        <p style="margin-top: 20px; font-size: 10px; opacity: 0.4; cursor: pointer;" onclick="closeModal('downloadModal')">BACK</p>
-    </div>
-</div>
 
-<footer>
-    THE JULY LEGACY • ARK ARCHIVE © 2026 • ESTABLISHED BY KAWSAR AHMED
+        <div class="portal-card" onclick="showModal('bkashModal')">
+            <i class="fas fa-mobile-alt"></i>
+            <h3>Mobile Remittance</h3>
+            <p>Instant support via bKash Personal numbers for local and global donors.</p>
+            <div class="limit-container">
+                <div class="limit-info"><span>Monthly Limit</span><span id="bkashLabel">$0 / $6000</span></div>
+                <div class="limit-bg"><div class="limit-fill" id="bkashBar"></div></div>
+            </div>
+        </div>
+
+        <div class="portal-card" onclick="showModal('bankModal')">
+            <i class="fas fa-university"></i>
+            <h3>Institutional Wire</h3>
+            <p>Bank credentials for significant contributions and global wire transfers.</p>
+            <button class="btn-luxury" style="border-color: #111; margin-top: 20px;">View SWIFT</button>
+        </div>
+    </div>
+</section>
+
+<footer class="footer container">
+    ARK ARCHIVE • BEYOND PROFIT • FOR THE PLANET • EST. 2024
 </footer>
 
-<script>
-    function toggleFaq(element) {
-        element.classList.toggle('active');
-    }
+<div id="bkashModal" class="modal">
+    <div class="modal-content">
+        <i class="close-btn fas fa-times" onclick="hideModal('bkashModal')"></i>
+        <h3>Select bKash Number</h3>
+        <p style="font-size: 10px; color: #444; margin-bottom: 30px; letter-spacing: 2px;">CLICK TO COPY</p>
+        <div onclick="copyValue('01576940717', this)" style="border:1px solid #111; padding:25px; margin-bottom:15px; cursor:pointer; position:relative;">
+            <span class="copy-toast">COPIED</span>
+            <span style="font-size:16px; color:#fff; letter-spacing:4px;">01576940717</span>
+            <div style="font-size:8px; color:#555; margin-top:10px;">PERSONAL ACCOUNT 01</div>
+        </div>
+        <div onclick="copyValue('01756206213', this)" style="border:1px solid #111; padding:25px; cursor:pointer; position:relative;">
+            <span class="copy-toast">COPIED</span>
+            <span style="font-size:16px; color:#fff; letter-spacing:4px;">01756206213</span>
+            <div style="font-size:8px; color:#555; margin-top:10px;">PERSONAL ACCOUNT 02</div>
+        </div>
+    </div>
+</div>
 
+<div id="bankModal" class="modal">
+    <div class="modal-content">
+        <i class="close-btn fas fa-times" onclick="hideModal('bankModal')"></i>
+        <h3>Bank Credentials</h3>
+        <div style="background: #020202; border: 1px solid #0a0a0a; padding: 30px; text-align: left; font-size: 12px; line-height: 2.5; color: #666; margin-top: 40px;">
+            Recipient: <b>KAWSAR AHMED</b><br>
+            Bank: <b>[UPDATING]</b><br>
+            A/C No: <b>[UPDATING]</b><br>
+            SWIFT: <b>[UPDATING]</b><br>
+            Currency: <b>USD / BDT</b>
+        </div>
+    </div>
+</div>
+
+<div id="claimModal" class="modal">
+    <div class="modal-content">
+        <i class="close-btn fas fa-times" onclick="hideModal('claimModal')"></i>
+        <h3>Claim Your Plot</h3>
+        <input type="text" id="dName" class="ark-input" placeholder="Legal Name or Alias">
+        <input type="number" id="tCount" class="ark-input" placeholder="Contribution Amount ($1 = 1 Tree)">
+        <input type="text" id="dWA" class="ark-input" placeholder="WhatsApp (for Verification)">
+        <button class="btn-luxury" onclick="sendDonation()">Confirm Request</button>
+    </div>
+</div>
+
+<script>
     const firebaseConfig = {
         apiKey: "AIzaSyCAdnfu2R82xbC7H85n_9mvQBE58X3TjbA",
         authDomain: "the-5k-elite-legacy.firebaseapp.com",
@@ -215,114 +359,86 @@
         messagingSenderId: "440824313752",
         appId: "1:440824313752:web:2c93344dcfe2ba0a4c5ded"
     };
-
-    if (!firebase.apps.length) {
-        firebase.initializeApp(firebaseConfig);
-    }
+    
+    firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
-    let currentPlots = 0;
-    const grid = document.getElementById('gridContainer');
+    function showModal(id) { document.getElementById(id).classList.add('active'); }
+    function hideModal(id) { document.getElementById(id).classList.remove('active'); }
 
-    function generatePlots() {
-        for (let i = 1; i <= 36; i++) {
-            currentPlots++;
-            const wrapper = document.createElement('div');
-            wrapper.className = 'plot-wrapper';
-            const plot = document.createElement('div');
-            plot.className = 'plot-circle';
-            plot.id = 'plot-' + currentPlots;
-            plot.innerHTML = `<span>Plot</span><b>#${currentPlots}</b>`;
-            const nameTag = document.createElement('div');
-            nameTag.className = 'plot-name-tag';
-            nameTag.innerText = "Available";
-
-            db.ref('pixels/' + currentPlots).once('value', snapshot => {
-                const data = snapshot.val();
-                if(data) {
-                    plot.classList.add('active');
-                    plot.style.backgroundImage = `url(${data.imageUrl})`;
-                    plot.style.backgroundSize = 'cover';
-                    plot.style.backgroundPosition = 'center';
-                    plot.innerHTML = ""; 
-                    nameTag.innerText = data.name;
-                    nameTag.style.color = "#fff";
-                    plot.onclick = () => window.open(data.link, '_blank');
-                } else {
-                    plot.onclick = () => {
-                        document.getElementById('plotSearchInput').value = plot.id.split('-')[1];
-                        searchAndDownload();
-                    };
-                }
-            });
-            wrapper.appendChild(plot);
-            wrapper.appendChild(nameTag);
-            grid.appendChild(wrapper);
-        }
+    function copyValue(val, el) {
+        navigator.clipboard.writeText(val);
+        const toast = el.querySelector('.copy-toast');
+        toast.style.display = 'block';
+        setTimeout(() => toast.style.display = 'none', 2000);
     }
-    generatePlots();
 
-    window.onscroll = function() {
-        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 100) {
-            generatePlots();
-        }
-    };
+    // Live Sync System
+    function updateLiveStats() {
+        // 1. Total Tree Counter (Calculated from all plots)
+        db.ref('plots').on('value', snap => {
+            let total = 0;
+            snap.forEach(child => {
+                total += parseInt(child.val().treesDonated || 0);
+            });
+            document.getElementById('totalTrees').innerText = total.toLocaleString();
+        });
 
-    function searchAndDownload() {
-        const id = document.getElementById('plotSearchInput').value;
-        if (!id || id < 1) return alert("Please enter a valid Plot ID.");
-        db.ref('pixels/' + id).once('value', snapshot => {
-            const data = snapshot.val();
-            if (data) {
-                document.getElementById('cardPlotNum').innerText = "ARCHIVE RECORD NO. #" + id;
-                document.getElementById('cardOwnerName').innerText = data.name;
-                document.getElementById('cardImageContainer').innerHTML = `<img src="${data.imageUrl}" crossorigin="anonymous" style="width: 100%; height: 100%; object-fit: cover;">`;
-                document.getElementById('downloadModal').style.display = 'flex';
-                const target = document.getElementById('plot-' + id);
-                if(target) target.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            } else { alert("This plot has not been claimed yet."); }
+        // 2. Limit Monitor (Syncs with admin-controlled 'payment_stats' node)
+        db.ref('payment_stats').on('value', snap => {
+            const stats = snap.val() || { bkash: 0, crypto: 0 };
+            
+            // Monthly bKash Limit ($6000 Total for both numbers)
+            const bkashPerc = (stats.bkash / 6000) * 100;
+            document.getElementById('bkashBar').style.width = Math.min(bkashPerc, 100) + '%';
+            document.getElementById('bkashLabel').innerText = `$${stats.bkash} / $6000`;
+
+            // Daily Binance Limit ($1000)
+            const cryptoPerc = (stats.crypto / 1000) * 100;
+            document.getElementById('cryptoBar').style.width = Math.min(cryptoPerc, 100) + '%';
+            document.getElementById('cryptoLabel').innerText = `$${stats.crypto} / $1000`;
         });
     }
 
-    // ডাউনলোড সচল করার হাই-কোয়ালিটি ফাংশন
-    function downloadCertificate() {
-        const btn = document.getElementById('dl-btn');
-        const originalText = btn.innerText;
-        btn.innerText = "Generating HD...";
-        const element = document.getElementById('plotCardPreview');
-        
-        html2canvas(element, {
-            backgroundColor: "#000",
-            useCORS: true, 
-            scale: 4, // 4x scaling provides ultra high resolution (4K-like clarity)
-            logging: false,
-            letterRendering: true,
-            allowTaint: false
-        }).then(canvas => {
-            const link = document.createElement('a');
-            link.download = 'ARK-Legacy-Certificate-HD.png';
-            link.href = canvas.toDataURL("image/png", 1.0);
-            link.click();
-            btn.innerText = originalText;
+    function loadGrid() {
+        const grid = document.getElementById('mainGrid');
+        db.ref('plots').limitToFirst(36).on('value', snapshot => {
+            grid.innerHTML = '';
+            const data = snapshot.val() || {};
+            for (let i = 1; i <= 36; i++) {
+                const plot = data[i];
+                const item = document.createElement('div');
+                item.className = 'plot-wrapper';
+                item.onclick = () => showModal('claimModal');
+                item.innerHTML = `
+                    <div class="plot-circle">
+                        ${plot && plot.imageUrl ? `<img src="${plot.imageUrl}">` : `<i class="fas fa-seedling"></i>`}
+                    </div>
+                    <div class="donor-name">${plot ? plot.name.toUpperCase() : 'VACANT'}</div>
+                    <div class="tree-stat">${plot ? plot.treesDonated + ' TREES' : 'SUPPORT NOW'}</div>
+                `;
+                grid.appendChild(item);
+            }
         });
     }
 
-    function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+    function sendDonation() {
+        const name = document.getElementById('dName').value;
+        const count = document.getElementById('tCount').value;
+        const wa = document.getElementById('dWA').value;
 
-    function submitOrder() {
-        const name = document.getElementById('custName').value;
-        const num = document.getElementById('custNum').value;
-        if(name && num.length === 11) {
-            const newRef = db.ref('orders').push();
-            newRef.set({ name, number: num, timestamp: Date.now(), status: "pending" }).then(() => {
-                confetti({ particleCount: 150, spread: 70, origin: { x: 0, y: 0.6 }, colors: ['#fff', '#333'] });
-                confetti({ particleCount: 150, spread: 70, origin: { x: 1, y: 0.6 }, colors: ['#fff', '#333'] });
-                document.getElementById('buyModal').style.display = 'none';
-                document.getElementById('displayUser').innerText = name.toUpperCase();
-                setTimeout(() => { document.getElementById('instructionModal').style.display = 'flex'; }, 800);
+        if(name && count && wa) {
+            db.ref('pending_requests').push({
+                name, treesRequested: count, whatsapp: wa, status: 'pending', timestamp: Date.now()
+            }).then(() => {
+                alert("Request Logged. Redirecting to verification...");
+                window.location.href = `https://wa.me/8801576940717?text=Donation Verification Request: ${name} (${count} Trees)`;
             });
-        } else { alert("Please provide Name and 11-digit Mobile Number."); }
+        }
     }
+
+    updateLiveStats();
+    loadGrid();
 </script>
 </body>
-</html> 
+</html>
