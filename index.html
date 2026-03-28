@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ARK | ONE CHILD ONE TREE - GLOBAL REFORESTATION</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <style>
-        /* Luxury Minimalist Aesthetic (Rolls-Royce Inspired) */
         :root {
             --ark-silver: #E1E1E1;
             --ark-black: #000000;
@@ -20,195 +20,59 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            font-family: 'Times New Roman', serif;
-            background-color: var(--ark-black);
-            color: var(--ark-silver);
-            line-height: 1.8;
-            letter-spacing: 1px;
-            overflow-x: hidden;
-        }
-
+        body { font-family: 'Times New Roman', serif; background-color: var(--ark-black); color: var(--ark-silver); line-height: 1.8; letter-spacing: 1px; overflow-x: hidden; }
         .container { max-width: 1200px; margin: 0 auto; padding: 0 40px; }
         h1, h2, h3 { font-weight: 300; text-transform: uppercase; letter-spacing: 6px; color: var(--ark-accent); }
 
         /* Navigation */
-        .header {
-            padding: 40px 0;
-            border-bottom: 1px solid var(--ark-border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            background: rgba(0,0,0,0.98);
-            z-index: 1000;
-        }
-
+        .header { padding: 40px 0; border-bottom: 1px solid var(--ark-border); display: flex; justify-content: space-between; align-items: center; position: fixed; width: 100%; top: 0; background: rgba(0,0,0,0.98); z-index: 1000; }
         .brand-name { font-size: 22px; font-weight: 700; color: var(--ark-accent); text-decoration: none; letter-spacing: 8px; }
-
-        .nav-links a {
-            text-decoration: none;
-            color: #666;
-            font-size: 10px;
-            text-transform: uppercase;
-            margin-left: 45px;
-            transition: 0.3s;
-            letter-spacing: 3px;
-        }
+        .nav-links a { text-decoration: none; color: #666; font-size: 10px; text-transform: uppercase; margin-left: 30px; transition: 0.3s; letter-spacing: 2px; }
         .nav-links a:hover { color: var(--ark-accent); }
 
-        /* Live Counter Bar */
-        .live-counter-section {
-            margin-top: 120px;
-            padding: 40px 0;
-            border-bottom: 1px solid var(--ark-border);
-            text-align: center;
-            background: #020202;
-        }
-        .counter-big { font-size: 42px; color: #fff; letter-spacing: 10px; font-weight: bold; }
-        .counter-desc { font-size: 10px; color: #444; text-transform: uppercase; letter-spacing: 5px; margin-top: 15px; }
+        /* Celebration Portal Trigger */
+        .celebration-trigger { text-align: center; margin-top: 130px; border-bottom: 1px solid var(--ark-border); padding-bottom: 20px; }
+        .btn-portal { background: transparent; border: 1px solid #222; color: #444; font-size: 9px; padding: 10px 25px; cursor: pointer; text-transform: uppercase; letter-spacing: 3px; transition: 0.5s; }
+        .btn-portal:hover { border-color: #fff; color: #fff; }
 
-        /* Hero - Manifesto */
-        .hero {
-            min-height: 80vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding-top: 50px;
-            padding-bottom: 100px;
-        }
+        /* Search Bar */
+        .search-section { text-align: center; margin-top: 40px; }
+        .search-input { background: transparent; border: 1px solid #111; color: #fff; padding: 12px 20px; width: 300px; font-size: 12px; outline: none; }
+        .search-btn { background: #fff; color: #000; border: none; padding: 12px 20px; cursor: pointer; font-size: 10px; text-transform: uppercase; font-weight: bold; }
 
-        .hero p.subtitle { font-size: 10px; color: #444; letter-spacing: 6px; margin-bottom: 30px; }
+        /* Hero */
+        .hero { min-height: 80vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 80px 0; }
         .hero h1 { font-size: 48px; line-height: 1.3; margin-bottom: 40px; max-width: 900px;}
-        .hero .manifesto-text { max-width: 850px; margin: 0 auto; font-size: 15px; color: #888; text-align: center; border-left: 1px solid #222; border-right: 1px solid #222; padding: 0 30px;}
+        .hero .manifesto-text { max-width: 850px; margin: 0 auto; font-size: 15px; color: #888; border-left: 1px solid #222; border-right: 1px solid #222; padding: 0 30px;}
 
-        /* Principles & FAQ Section */
-        .principles { padding: 120px 0; border-top: 1px solid var(--ark-border); }
-        .principle-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 60px; margin-top: 80px; }
-        
-        .principle-item h3 { font-size: 14px; margin-bottom: 20px; color: #bbb; }
-        .principle-item p { font-size: 13px; color: #666; }
+        /* Portals */
+        .portal-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; margin-top: 80px; padding-bottom: 100px; }
+        .portal-card { border: 1px solid var(--ark-border); padding: 60px 30px; text-align: center; transition: 0.3s; cursor: pointer; position: relative; }
+        .portal-card:hover { border-color: #444; background: #020202; }
+        .portal-card i { font-size: 24px; color: #333; margin-bottom: 25px; }
 
-        /* Donor Plot Grid */
-        .grid-header { text-align: center; margin-bottom: 60px; }
-        .plot-grid {
-            display: grid;
-            grid-template-columns: repeat(6, 1fr);
-            gap: 30px;
-            padding-bottom: 120px;
-        }
-
-        .plot-wrapper {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            border: 1px solid var(--ark-border);
-            padding: 30px 20px;
-            transition: 0.5s cubic-bezier(0.19, 1, 0.22, 1);
-            cursor: pointer;
-        }
-        .plot-wrapper:hover { border-color: #555; background: #080808; transform: translateY(-10px); }
-
-        .plot-circle {
-            width: 100px; height: 100px;
-            border-radius: 50%;
-            background: #030303;
-            border: 1px solid #111;
-            display: flex; align-items: center; justify-content: center;
-            overflow: hidden;
-            margin-bottom: 20px;
-        }
-
+        /* Grid - Infinite Scroll Ready */
+        .plot-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 20px; padding-bottom: 100px; }
+        .plot-wrapper { border: 1px solid var(--ark-border); padding: 20px; text-align: center; transition: 0.5s; cursor: pointer; }
+        .plot-circle { width: 80px; height: 80px; border-radius: 50%; background: #030303; border: 1px solid #111; margin: 0 auto 15px; overflow: hidden; display: flex; align-items: center; justify-content: center; }
         .plot-circle img { width: 100%; height: 100%; object-fit: cover; }
-        .plot-circle i { font-size: 30px; color: #151515; }
 
-        .donor-name { font-size: 10px; color: #888; text-transform: uppercase; letter-spacing: 2px; }
-        .tree-stat { font-size: 8px; color: #333; margin-top: 8px; letter-spacing: 1px; }
-
-        /* Portals & Progress Bars */
-        .portals { padding: 120px 0; border-top: 1px solid var(--ark-border); background: #020202;}
-        .portal-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; margin-top: 80px; }
-
-        .portal-card {
-            border: 1px solid var(--ark-border);
-            padding: 60px 30px;
-            text-align: center;
-            transition: 0.3s;
-            position: relative;
-            cursor: pointer;
-        }
-        .portal-card:hover { border-color: #444; }
-        .portal-card i { font-size: 24px; color: #333; margin-bottom: 30px; }
-        .portal-card h3 { font-size: 13px; margin-bottom: 25px; color: #fff; }
-        .portal-card p { font-size: 11px; color: #555; margin-bottom: 30px; min-height: 50px;}
-
-        .copy-toast { position: absolute; top: 20px; right: 20px; font-size: 8px; color: #4caf50; display: none; text-transform: uppercase; letter-spacing: 2px; }
-
-        /* Limit Progress Bars */
-        .limit-container { margin-top: 20px; text-align: left; }
-        .limit-info { display: flex; justify-content: space-between; font-size: 8px; text-transform: uppercase; color: #444; margin-bottom: 8px; letter-spacing: 1px; }
-        .limit-bg { width: 100%; height: 1px; background: #111; position: relative; }
-        .limit-fill { height: 100%; background: #fff; width: 0%; transition: 1.5s cubic-bezier(0.19, 1, 0.22, 1); }
-
-        .btn-luxury {
-            display: inline-block;
-            padding: 16px 40px;
-            border: 1px solid #222;
-            color: var(--ark-silver);
-            text-transform: uppercase;
-            font-size: 9px;
-            letter-spacing: 4px;
-            text-decoration: none;
-            transition: 0.5s;
-            background: transparent;
-            cursor: pointer;
-        }
-        .btn-luxury:hover { background: #fff; color: #000; border-color: #fff; }
+        /* Certificate / Download Card Style */
+        #certificateTemplate { width: 500px; padding: 50px; background: #000; border: 5px solid #111; color: #fff; text-align: center; position: fixed; left: -9999px; }
+        .cert-name { font-size: 24px; margin-top: 20px; letter-spacing: 5px; }
+        .cert-trees { font-size: 40px; font-weight: bold; margin: 20px 0; }
+        .cert-footer { font-size: 10px; color: #444; letter-spacing: 3px; border-top: 1px solid #111; padding-top: 20px; }
 
         /* Modals */
-        .modal {
-            display: none;
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.99);
-            z-index: 2000;
-            justify-content: center; align-items: center;
-        }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.99); z-index: 2000; justify-content: center; align-items: center; }
         .modal.active { display: flex; }
+        .modal-content { background: #050505; border: 1px solid #111; padding: 60px; width: 100%; max-width: 500px; text-align: center; position: relative; }
+        .btn-luxury { display: inline-block; padding: 15px 35px; border: 1px solid #333; color: #fff; text-transform: uppercase; font-size: 9px; letter-spacing: 3px; cursor: pointer; background: transparent; transition: 0.5s; text-decoration: none; }
+        .btn-luxury:hover { background: #fff; color: #000; }
+        .ark-input { width: 100%; padding: 15px 0; background: transparent; border: none; border-bottom: 1px solid #1a1a1a; color: #fff; margin-bottom: 25px; outline: none; }
 
-        .modal-content {
-            background: #050505;
-            border: 1px solid #111;
-            padding: 60px;
-            width: 100%; max-width: 500px;
-            text-align: center;
-            position: relative;
-        }
-        .close-btn { position: absolute; top: 30px; right: 30px; color: #333; cursor: pointer; transition: 0.3s;}
-        .close-btn:hover { color: #fff; }
-
-        .ark-input {
-            width: 100%;
-            padding: 20px 0;
-            background: transparent;
-            border: none;
-            border-bottom: 1px solid #1a1a1a;
-            color: #fff;
-            margin-bottom: 30px;
-            font-family: serif;
-            outline: none;
-            font-size: 14px;
-        }
-        .ark-input:focus { border-bottom-color: #fff; }
-
-        /* Footer */
-        .footer { padding: 100px 0; border-top: 1px solid var(--ark-border); text-align: center; font-size: 9px; color: #222; letter-spacing: 5px; text-transform: uppercase;}
-
-        @media (max-width: 1024px) { .plot-grid { grid-template-columns: repeat(4, 1fr); } .portal-grid { grid-template-columns: 1fr; } .principle-grid { grid-template-columns: 1fr; } }
+        .copy-toast { position: absolute; top: 15px; right: 15px; font-size: 8px; color: #4caf50; display: none; }
+        .footer { padding: 80px 0; border-top: 1px solid var(--ark-border); text-align: center; font-size: 9px; color: #222; letter-spacing: 5px; text-transform: uppercase;}
     </style>
 </head>
 <body>
@@ -220,18 +84,19 @@
             <a href="#mission">Philosophy</a>
             <a href="#plots">Archive</a>
             <a href="#donate">Contribute</a>
+            <a href="https://facebook.com/yourpage" target="_blank"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://twitter.com/yourpage" target="_blank"><i class="fab fa-twitter"></i></a>
             <a href="https://wa.me/8801576940717" target="_blank">Support</a>
         </nav>
     </div>
 </header>
 
-<div class="live-counter-section">
-    <div class="counter-big" id="totalTrees">000,000</div>
-    <div class="counter-desc">Global Fruit Tree Legacy Count</div>
+<div class="celebration-trigger container">
+    <button class="btn-portal" onclick="showModal('submitPortal')">Record Your Contribution</button>
 </div>
 
 <section class="hero container" id="mission">
-    <p class="subtitle">GLOBAL REFORESTATION PROJECT</p>
+    <p style="font-size: 10px; color: #444; letter-spacing: 6px; margin-bottom: 30px;">GLOBAL REFORESTATION PROJECT</p>
     <h1>One Child, One Fruit Tree, One Eternal Legacy.</h1>
     <div class="manifesto-text">
         "Our mission is simple yet absolute: to provide every student in Bangladesh, from Class 1 to 10, with their own fruit-bearing tree. In an era of environmental decline, we believe in planting the seeds of both nutrition and nature. Many children in underprivileged communities lack access to essential vitamins; we provide the source. <br><br>
@@ -261,95 +126,120 @@
     </div>
 </section>
 
-<section class="container" id="plots">
-    <div class="grid-header">
-        <h2>The Archive Grid</h2>
-        <p style="font-size: 11px; color: #444; margin-top: 15px; letter-spacing: 2px;">Each plot represents a fragment of our mission.</p>
-    </div>
+<div class="search-section container">
+    <input type="text" id="plotSearch" class="search-input" placeholder="Search Plot by Donor Name...">
+    <button class="search-btn" onclick="searchPlot()">Search</button>
+</div>
+
+<section class="container" id="plots" style="margin-top: 50px;">
     <div class="plot-grid" id="mainGrid"></div>
 </section>
 
 <section class="portals container" id="donate">
-    <h2 style="text-align: center;">Contribution Channels</h2>
     <div class="portal-grid">
-        <div class="portal-card" onclick="copyValue('TTapBkTqrDnzHbWzek6wSBUTcJKFmR8Ws6', this)">
-            <span class="copy-toast">COPIED</span>
+        <div class="portal-card" onclick="showModal('cryptoModal')">
             <i class="fab fa-bitcoin"></i>
             <h3>Digital Assets</h3>
-            <p>USDT (TRC20) transfers for global supporters. Direct Binance UID: 912221034.</p>
-            <div class="limit-container">
-                <div class="limit-info"><span>Daily Limit</span><span id="cryptoLabel">$0 / $1000</span></div>
-                <div class="limit-bg"><div class="limit-fill" id="cryptoBar"></div></div>
-            </div>
+            <p>Click to access global USDT (TRC20) and Binance UID gateways.</p>
         </div>
-
         <div class="portal-card" onclick="showModal('bkashModal')">
             <i class="fas fa-mobile-alt"></i>
             <h3>Mobile Remittance</h3>
-            <p>Instant support via bKash Personal numbers for local and global donors.</p>
-            <div class="limit-container">
-                <div class="limit-info"><span>Monthly Limit</span><span id="bkashLabel">$0 / $6000</span></div>
-                <div class="limit-bg"><div class="limit-fill" id="bkashBar"></div></div>
-            </div>
+            <p>Access secure local support through bKash Personal accounts.</p>
         </div>
-
         <div class="portal-card" onclick="showModal('bankModal')">
             <i class="fas fa-university"></i>
             <h3>Institutional Wire</h3>
-            <p>Bank credentials for significant contributions and global wire transfers.</p>
-            <button class="btn-luxury" style="border-color: #111; margin-top: 20px;">View SWIFT</button>
+            <p>Request bank credentials and SWIFT codes for significant wire transfers.</p>
         </div>
     </div>
 </section>
 
-<footer class="footer container">
-    ARK ARCHIVE • BEYOND PROFIT • FOR THE PLANET • EST. 2024
-</footer>
+<div id="submitPortal" class="modal">
+    <div class="modal-content" id="portalBox">
+        <i class="fas fa-times close-btn" onclick="hideModal('submitPortal')"></i>
+        <h3>Donor Record</h3>
+        <input type="text" id="pName" class="ark-input" placeholder="Enter Full Name">
+        <input type="number" id="pCount" class="ark-input" placeholder="Trees Planted">
+        <button class="btn-luxury" onclick="triggerCelebration()">Submit Record</button>
+    </div>
+</div>
+
+<div id="instructionModal" class="modal">
+    <div class="modal-content">
+        <h3>Verification Required</h3>
+        <div style="text-align: left; font-size: 12px; color: #666; line-height: 2; margin: 30px 0;">
+            1. Capture a screenshot of your payment confirmation.<br>
+            2. Note your Transaction ID or provide the sender number.<br>
+            3. Share the high-quality photo you wish to link to your plot.<br>
+            4. Send these details to our support via the button below.
+        </div>
+        <a href="https://wa.me/8801576940717" class="btn-luxury" target="_blank">Contact Support</a>
+        <button class="btn-luxury" style="margin-top: 10px; border-color: #111;" onclick="hideModal('instructionModal')">Back to Homepage</button>
+    </div>
+</div>
+
+<div id="cryptoModal" class="modal">
+    <div class="modal-content">
+        <i class="fas fa-times close-btn" onclick="hideModal('cryptoModal')"></i>
+        <h3>Binance / USDT</h3>
+        <div onclick="copyText('912221034', this)" style="border:1px solid #111; padding:20px; margin-bottom:15px; cursor:pointer; position:relative;">
+            <span class="copy-toast">COPIED</span>
+            <div style="font-size:14px; color:#fff;">912221034</div>
+            <div style="font-size:8px; color:#555; margin-top:5px;">BINANCE UID</div>
+        </div>
+        <div onclick="copyText('TTapBkTqrDnzHbWzek6wSBUTcJKFmR8Ws6', this)" style="border:1px solid #111; padding:20px; cursor:pointer; position:relative;">
+            <span class="copy-toast">COPIED</span>
+            <div style="font-size:10px; color:#fff; word-break: break-all;">TTapBkTqrDnzHbWzek6wSBUTcJKFmR8Ws6</div>
+            <div style="font-size:8px; color:#555; margin-top:5px;">USDT TRC20 ADDRESS</div>
+        </div>
+    </div>
+</div>
 
 <div id="bkashModal" class="modal">
     <div class="modal-content">
-        <i class="close-btn fas fa-times" onclick="hideModal('bkashModal')"></i>
-        <h3>Select bKash Number</h3>
-        <p style="font-size: 10px; color: #444; margin-bottom: 30px; letter-spacing: 2px;">CLICK TO COPY</p>
-        <div onclick="copyValue('01576940717', this)" style="border:1px solid #111; padding:25px; margin-bottom:15px; cursor:pointer; position:relative;">
+        <i class="fas fa-times close-btn" onclick="hideModal('bkashModal')"></i>
+        <h3>bKash Personal</h3>
+        <div onclick="copyText('01576940717', this)" style="border:1px solid #111; padding:20px; margin-bottom:15px; cursor:pointer; position:relative;">
             <span class="copy-toast">COPIED</span>
-            <span style="font-size:16px; color:#fff; letter-spacing:4px;">01576940717</span>
-            <div style="font-size:8px; color:#555; margin-top:10px;">PERSONAL ACCOUNT 01</div>
+            <div style="font-size:16px; color:#fff;">01576940717</div>
         </div>
-        <div onclick="copyValue('01756206213', this)" style="border:1px solid #111; padding:25px; cursor:pointer; position:relative;">
+        <div onclick="copyText('01756206213', this)" style="border:1px solid #111; padding:20px; cursor:pointer; position:relative;">
             <span class="copy-toast">COPIED</span>
-            <span style="font-size:16px; color:#fff; letter-spacing:4px;">01756206213</span>
-            <div style="font-size:8px; color:#555; margin-top:10px;">PERSONAL ACCOUNT 02</div>
+            <div style="font-size:16px; color:#fff;">01756206213</div>
         </div>
     </div>
 </div>
 
 <div id="bankModal" class="modal">
     <div class="modal-content">
-        <i class="close-btn fas fa-times" onclick="hideModal('bankModal')"></i>
-        <h3>Bank Credentials</h3>
-        <div style="background: #020202; border: 1px solid #0a0a0a; padding: 30px; text-align: left; font-size: 12px; line-height: 2.5; color: #666; margin-top: 40px;">
+        <i class="fas fa-times close-btn" onclick="hideModal('bankModal')"></i>
+        <h3>Institutional SWIFT</h3>
+        <div style="background:#020202; padding:30px; text-align:left; font-size:12px; color:#666; line-height:2.5;">
             Recipient: <b>KAWSAR AHMED</b><br>
-            Bank: <b>[UPDATING]</b><br>
-            A/C No: <b>[UPDATING]</b><br>
-            SWIFT: <b>[UPDATING]</b><br>
-            Currency: <b>USD / BDT</b>
+            Bank/Branch: <b>[REQUESTING DATA]</b><br>
+            A/C No: <b>[REQUESTING DATA]</b><br>
+            SWIFT: <b>[REQUESTING DATA]</b>
         </div>
     </div>
 </div>
 
-<div id="claimModal" class="modal">
-    <div class="modal-content">
-        <i class="close-btn fas fa-times" onclick="hideModal('claimModal')"></i>
-        <h3>Claim Your Plot</h3>
-        <input type="text" id="dName" class="ark-input" placeholder="Legal Name or Alias">
-        <input type="number" id="tCount" class="ark-input" placeholder="Contribution Amount ($1 = 1 Tree)">
-        <input type="text" id="dWA" class="ark-input" placeholder="WhatsApp (for Verification)">
-        <button class="btn-luxury" onclick="sendDonation()">Confirm Request</button>
+<div id="certificateTemplate">
+    <div style="border: 2px solid #fff; padding: 40px;">
+        <div style="font-size: 10px; letter-spacing: 5px;">OFFICIAL ARK ARCHIVE RECORD</div>
+        <h2 class="cert-name" id="cName">DONOR NAME</h2>
+        <div class="cert-trees" id="cTrees">00</div>
+        <div style="font-size: 12px; letter-spacing: 3px; margin-bottom: 30px;">FRUIT TREES PLANTED</div>
+        <div style="font-size: 10px; color: #888; margin-bottom: 10px;">DONATION VALUE</div>
+        <div style="font-size: 14px; margin-bottom: 40px;" id="cVal">$00.00</div>
+        <div class="cert-footer">
+            ARK ARCHIVE • ONE CHILD ONE TREE • BEYOND PROFIT
+        </div>
     </div>
 </div>
 
 <script>
+    // Firebase Config
     const firebaseConfig = {
         apiKey: "AIzaSyCAdnfu2R82xbC7H85n_9mvQBE58X3TjbA",
         authDomain: "the-5k-elite-legacy.firebaseapp.com",
@@ -359,86 +249,78 @@
         messagingSenderId: "440824313752",
         appId: "1:440824313752:web:2c93344dcfe2ba0a4c5ded"
     };
-    
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
     function showModal(id) { document.getElementById(id).classList.add('active'); }
     function hideModal(id) { document.getElementById(id).classList.remove('active'); }
 
-    function copyValue(val, el) {
+    function copyText(val, el) {
         navigator.clipboard.writeText(val);
         const toast = el.querySelector('.copy-toast');
         toast.style.display = 'block';
         setTimeout(() => toast.style.display = 'none', 2000);
     }
 
-    // Live Sync System
-    function updateLiveStats() {
-        // 1. Total Tree Counter (Calculated from all plots)
-        db.ref('plots').on('value', snap => {
-            let total = 0;
-            snap.forEach(child => {
-                total += parseInt(child.val().treesDonated || 0);
-            });
-            document.getElementById('totalTrees').innerText = total.toLocaleString();
-        });
+    function triggerCelebration() {
+        const name = document.getElementById('pName').value;
+        const count = document.getElementById('pCount').value;
+        if(!name || !count) return;
 
-        // 2. Limit Monitor (Syncs with admin-controlled 'payment_stats' node)
-        db.ref('payment_stats').on('value', snap => {
-            const stats = snap.val() || { bkash: 0, crypto: 0 };
-            
-            // Monthly bKash Limit ($6000 Total for both numbers)
-            const bkashPerc = (stats.bkash / 6000) * 100;
-            document.getElementById('bkashBar').style.width = Math.min(bkashPerc, 100) + '%';
-            document.getElementById('bkashLabel').innerText = `$${stats.bkash} / $6000`;
-
-            // Daily Binance Limit ($1000)
-            const cryptoPerc = (stats.crypto / 1000) * 100;
-            document.getElementById('cryptoBar').style.width = Math.min(cryptoPerc, 100) + '%';
-            document.getElementById('cryptoLabel').innerText = `$${stats.crypto} / $1000`;
-        });
+        confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#ffffff', '#111111'] });
+        const box = document.getElementById('portalBox');
+        box.innerHTML = `<h3 style="color:#fff">CONGRATULATIONS ${name.toUpperCase()}!</h3><p style="font-size:12px; margin-top:20px; color:#555;">You have planted ${count} trees of hope.</p>`;
+        
+        setTimeout(() => {
+            hideModal('submitPortal');
+            showModal('instructionModal');
+        }, 3000);
     }
 
-    function loadGrid() {
-        const grid = document.getElementById('mainGrid');
-        db.ref('plots').limitToFirst(36).on('value', snapshot => {
+    // Infinite Loading System
+    let lastLoaded = 36;
+    function loadPlots() {
+        db.ref('plots').on('value', snap => {
+            const grid = document.getElementById('mainGrid');
             grid.innerHTML = '';
-            const data = snapshot.val() || {};
-            for (let i = 1; i <= 36; i++) {
-                const plot = data[i];
+            const data = snap.val() || {};
+            Object.keys(data).forEach(key => {
+                const p = data[key];
                 const item = document.createElement('div');
                 item.className = 'plot-wrapper';
-                item.onclick = () => showModal('claimModal');
                 item.innerHTML = `
-                    <div class="plot-circle">
-                        ${plot && plot.imageUrl ? `<img src="${plot.imageUrl}">` : `<i class="fas fa-seedling"></i>`}
-                    </div>
-                    <div class="donor-name">${plot ? plot.name.toUpperCase() : 'VACANT'}</div>
-                    <div class="tree-stat">${plot ? plot.treesDonated + ' TREES' : 'SUPPORT NOW'}</div>
+                    <div class="plot-circle">${p.imageUrl ? `<img src="${p.imageUrl}">` : `<i class="fas fa-seedling" style="color:#111"></i>`}</div>
+                    <div class="donor-name">${p.name.toUpperCase()}</div>
+                    <div class="tree-stat">${p.treesDonated} TREES</div>
                 `;
                 grid.appendChild(item);
-            }
+            });
         });
     }
 
-    function sendDonation() {
-        const name = document.getElementById('dName').value;
-        const count = document.getElementById('tCount').value;
-        const wa = document.getElementById('dWA').value;
+    function searchPlot() {
+        const query = document.getElementById('plotSearch').value.toLowerCase();
+        db.ref('plots').once('value', snap => {
+            const data = snap.val();
+            let found = null;
+            Object.keys(data).forEach(k => { if(data[k].name.toLowerCase() === query) found = data[k]; });
 
-        if(name && count && wa) {
-            db.ref('pending_requests').push({
-                name, treesRequested: count, whatsapp: wa, status: 'pending', timestamp: Date.now()
-            }).then(() => {
-                alert("Request Logged. Redirecting to verification...");
-                window.location.href = `https://wa.me/8801576940717?text=Donation Verification Request: ${name} (${count} Trees)`;
-            });
-        }
+            if(found) {
+                document.getElementById('cName').innerText = found.name.toUpperCase();
+                document.getElementById('cTrees').innerText = found.treesDonated;
+                document.getElementById('cVal').innerText = `$${found.treesDonated}.00`;
+                
+                html2canvas(document.getElementById('certificateTemplate'), { scale: 3 }).then(canvas => {
+                    const link = document.createElement('a');
+                    link.download = `ARK_CERTIFICATE_${found.name}.png`;
+                    link.href = canvas.toDataURL();
+                    link.click();
+                });
+            } else { alert("Donor not found in Archive."); }
+        });
     }
 
-    updateLiveStats();
-    loadGrid();
+    loadPlots();
 </script>
 </body>
 </html>
