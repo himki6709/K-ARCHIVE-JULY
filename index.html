@@ -3,271 +3,192 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ARK | ONE CHILD ONE TREE</title>
+    <title>ARK | GLOBAL ETERNAL LEGACY</title>
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@100;300;400;600&display=swap');
+
         :root {
-            --ark-green: #0A2F1F;
-            --ark-light-green: #1E5128;
-            --ark-black: #000000;
-            --ark-white: #ffffff;
+            --ark-primary: #1E5128;
+            --ark-black: #050505;
             --ark-border: rgba(255, 255, 255, 0.1);
         }
 
-        html { scroll-snap-type: y mandatory; scroll-behavior: smooth; }
-        body { 
-            margin: 0; padding: 0; background: var(--ark-black); color: var(--ark-white); 
-            font-family: 'Times New Roman', serif; overflow-x: hidden; cursor: none; 
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: crosshair; }
+        body { background: var(--ark-black); color: #fff; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+
+        /* Fixed Registration Button (Right Corner) */
+        .fixed-reg-btn {
+            position: fixed; bottom: 30px; right: 30px; z-index: 5000;
+            background: var(--ark-primary); color: #fff; border: none;
+            padding: 15px 30px; border-radius: 5px; font-weight: bold;
+            letter-spacing: 2px; text-transform: uppercase; font-size: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5); transition: 0.3s;
+        }
+        .fixed-reg-btn:hover { transform: translateY(-5px); box-shadow: 0 15px 40px var(--ark-primary); }
+
+        /* Drawer System */
+        #portal-drawer {
+            position: fixed; top: 0; right: -100%; width: min(450px, 100%); height: 100vh;
+            background: #000; border-left: 1px solid var(--ark-primary); z-index: 6000;
+            padding: 80px 40px; transition: 0.6s cubic-bezier(0.19, 1, 0.22, 1); overflow-y: auto;
+        }
+        #portal-drawer.open { right: 0; }
+
+        /* Payment Address Copy Style */
+        .pay-addr { 
+            background: #111; padding: 15px; border: 1px solid #222; margin-bottom: 10px; 
+            font-family: monospace; font-size: 12px; color: #aaa; position: relative; transition: 0.3s;
+        }
+        .pay-addr:active { background: var(--ark-primary); color: #fff; }
+        .pay-addr::after { content: 'CLICK TO COPY'; position: absolute; right: 10px; font-size: 8px; color: var(--ark-primary); }
+
+        /* Plot Archive (Circle Grid) */
+        .archive-container { padding: 100px 5%; text-align: center; }
+        .plot-grid { 
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); 
+            gap: 30px; margin-top: 50px;
+        }
+        .plot-circle {
+            width: 100px; height: 100px; border-radius: 50%; border: 2px solid var(--ark-primary);
+            margin: 0 auto 15px; overflow: hidden; transition: 0.5s; position: relative;
+        }
+        .plot-circle img { width: 100%; height: 100%; object-fit: cover; }
+        .plot-circle:hover { transform: rotate(10deg) scale(1.1); box-shadow: 0 0 20px var(--ark-primary); }
+        .plot-info-text { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; }
+
+        /* Search Bar */
+        .search-area { max-width: 600px; margin: 40px auto; display: flex; border: 1px solid var(--ark-primary); padding: 5px; }
+        .search-area input { flex: 1; background: transparent; border: none; color: #fff; padding: 15px; outline: none; }
+        .search-area button { background: var(--ark-primary); color: #fff; border: none; padding: 0 25px; text-transform: uppercase; font-size: 11px; }
+
+        /* Hidden Canvas Area for Certificate */
+        #certificate-template {
+            position: absolute; left: -9999px; width: 800px; height: 500px;
+            background: #fff; color: #000; font-family: 'Cinzel', serif;
+            border: 25px solid var(--ark-primary); text-align: center; padding: 40px;
         }
 
-        #cursor-outline { 
-            position: fixed; width: 15px; height: 15px; border: 1px solid var(--ark-white); 
-            border-radius: 50%; pointer-events: none; z-index: 10000; 
-            transform: translate(-50%, -50%); transition: transform 0.15s ease;
-        }
-
-        /* Fixed Live Counter at Absolute Top */
-        .top-counter {
-            position: fixed; top: 0; width: 100%; background: #000; z-index: 2500;
-            padding: 15px 0; border-bottom: 1px solid var(--ark-light-green); text-align: center;
-        }
-        .counter-label { font-size: 9px; letter-spacing: 5px; color: var(--ark-light-green); text-transform: uppercase; display: block; }
-        .counter-val { font-size: 35px; font-weight: bold; color: var(--ark-white); letter-spacing: 2px; }
-
-        .header { 
-            padding: 30px 0; border-bottom: 1px solid var(--ark-border); 
-            display: flex; justify-content: space-between; align-items: center; 
-            position: fixed; width: 100%; top: 80px; background: rgba(0,0,0,0.95); z-index: 1000; 
-        }
-        .nav-links a, .acq-trigger { 
-            text-decoration: none; color: #888; font-size: 10px; 
-            text-transform: uppercase; margin-left: 30px; letter-spacing: 3px; 
-            transition: 0.4s; padding: 10px; cursor: pointer;
-        }
-
-        /* Side Payment Drawer */
-        #payment-drawer {
-            position: fixed; top: 0; right: -100%; width: 420px; height: 100vh;
-            background: var(--ark-black); border-left: 1px solid var(--ark-light-green); 
-            z-index: 3000; transition: 0.6s cubic-bezier(0.19, 1, 0.22, 1); 
-            padding: 80px 40px; box-sizing: border-box; overflow-y: auto;
-        }
-        #payment-drawer.open { right: 0; }
-        .pay-item { margin-bottom: 25px; cursor: pointer; border-bottom: 1px solid #111; padding-bottom: 12px; }
-        .pay-item h4 { font-size: 9px; color: var(--ark-light-green); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 5px; }
-        .pay-item p { font-size: 12px; color: #fff; margin: 0; font-family: monospace; line-height: 1.6; }
-
-        .snap-section { 
-            min-height: 100vh; width: 100%; scroll-snap-align: start; 
-            display: flex; flex-direction: column; justify-content: center; 
-            align-items: center; text-align: center; padding: 120px 15%; box-sizing: border-box; 
-        }
-        .reveal { opacity: 0; transform: translateY(40px); transition: 1.2s ease-out; }
-        .reveal.active { opacity: 1; transform: translateY(0); }
-
-        .title { font-size: 38px; font-weight: 100; letter-spacing: 12px; text-transform: uppercase; margin-bottom: 30px; color: var(--ark-light-green); }
-        .manifesto-text { font-size: 16px; line-height: 2; color: #aaa; max-width: 850px; text-align: justify; margin: 0 auto; }
-
-        .grid-info { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; text-align: left; margin-top: 60px; width: 100%; }
-        .info-card h3 { font-size: 14px; letter-spacing: 3px; color: var(--ark-light-green); text-transform: uppercase; margin-bottom: 15px; }
-        .info-card p { font-size: 13px; color: #777; line-height: 1.8; }
-
-        .ark-input { width: 100%; padding: 15px 0; background: transparent; border: none; border-bottom: 1px solid var(--ark-light-green); color: #fff; margin-bottom: 20px; outline: none; font-size: 11px; letter-spacing: 2px; }
-        .btn-luxury { padding: 18px 50px; border: 1px solid var(--ark-white); background: transparent; color: #fff; letter-spacing: 5px; text-transform: uppercase; cursor: pointer; transition: 0.4s; font-size: 10px; }
-        .btn-luxury:hover { background: #fff; color: #000; }
-
-        .grid-section { min-height: 100vh; padding: 200px 5% 100px; scroll-snap-align: start; background: #020202; }
-        .plot-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 20px; }
-        .donor-card { border: 1px solid var(--ark-border); padding: 25px; text-align: center; background: #000; }
-        .donor-img { width: 90px; height: 90px; border-radius: 50%; object-fit: cover; margin-bottom: 15px; border: 1px solid #111; }
-
-        .support-wrapper { position: fixed; bottom: 40px; left: 40px; z-index: 2500; text-align: center; }
-        .float-btn { width: 45px; height: 45px; border: 1px solid var(--ark-white); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; text-decoration: none; transition: 0.4s; }
-        .float-btn:hover { background: #fff; color: #000; }
-        .social-right { position: fixed; bottom: 40px; right: 40px; display: flex; gap: 15px; z-index: 2500; }
-
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.99); z-index: 5000; justify-content: center; align-items: center; }
-        .modal.active { display: flex; }
+        .ark-input { width: 100%; padding: 15px 0; background: transparent; border: none; border-bottom: 1px solid #333; color: #fff; margin-bottom: 25px; outline: none; }
     </style>
 </head>
 <body>
 
-    <div id="cursor-outline"></div>
+    <button class="fixed-reg-btn" onclick="toggleDrawer()">Submit Request</button>
 
-    <div class="top-counter">
-        <span class="counter-label">GLOBAL REFORESTATION PROGRESS</span>
-        <div class="counter-val" id="liveCounter">0</div>
-    </div>
-
-    <header class="header">
-        <div class="container" style="display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 0 50px;">
-            <div class="acq-trigger interactive" onclick="toggleDrawer()">Acquisition</div>
-            <div style="font-size: 18px; letter-spacing: 12px; font-weight: bold;">ARK ARCHIVE</div>
-            <nav class="nav-links">
-                <a href="#mission" class="interactive">Philosophy</a>
-                <a href="#archive" class="interactive">Archive</a>
-            </nav>
-        </div>
+    <header style="padding: 40px; text-align: center; border-bottom: 1px solid var(--ark-border);">
+        <h1 style="font-family: 'Cinzel'; letter-spacing: 10px; color: var(--ark-primary);">ARK ARCHIVE</h1>
+        <div id="google_translate_element" style="margin-top: 20px;"></div>
     </header>
 
-    <div id="payment-drawer">
-        <h2 style="letter-spacing: 5px; font-size: 12px; margin-bottom: 40px; color: var(--ark-light-green);">SECURE CHANNELS</h2>
-        <div class="pay-item interactive" onclick="copyV('01576940717')"><h4>bKash Personal (01)</h4><p>01576940717</p></div>
-        <div class="pay-item interactive" onclick="copyV('01756206213')"><h4>bKash Personal (02)</h4><p>01756206213</p></div>
-        <div class="pay-item interactive" onclick="copyV('912221034')"><h4>Binance UID</h4><p>912221034</p></div>
-        <div class="pay-item interactive" onclick="copyV('TTapBkTqrDnzHbWzek6wSBUTcJKFmR8Ws6')"><h4>USDT TRC20 Address</h4><p>TTapBkTqrDnzHbWzek6wSBUTcJKFmR8Ws6</p></div>
-        <div class="pay-item interactive" onclick="copyV('Bank Details')">
-            <h4>Bank Transfer</h4>
-            <p>
-                Bank Name: [TBD]<br> Branch: [TBD]<br>
-                A/C Name: [TBD]<br> A/C No: [TBD]<br>
-                Routing: [TBD]
-            </p>
+    <section class="archive-container">
+        <h2 style="font-family: 'Cinzel'; letter-spacing: 5px;">SEARCH YOUR LEGACY</h2>
+        
+        <div class="search-area">
+            <input type="text" id="searchInput" placeholder="Enter Registered Name to Download Card...">
+            <button onclick="downloadLegacyCard()">Download</button>
         </div>
-        <button onclick="toggleDrawer()" class="interactive" style="background:none; border:1px solid #333; color:#555; padding:10px 30px; cursor:pointer; margin-top:20px; font-size:10px;">[ CLOSE ]</button>
+
+        <div class="plot-grid" id="mainPlotGrid">
+            </div>
+    </section>
+
+    <div id="portal-drawer">
+        <h2 style="font-family: 'Cinzel'; color: var(--ark-primary); margin-bottom: 30px;">REGISTRATION</h2>
+        <input type="text" id="regName" class="ark-input" placeholder="FULL LEGAL NAME">
+        <input type="number" id="regCount" class="ark-input" placeholder="NUMBER OF TREES">
+        <input type="text" id="regSocial" class="ark-input" placeholder="SOCIAL LINK (FB/IG)">
+        <button onclick="alert('Sent to Archive for Verification!')" style="width: 100%; padding: 20px; background: var(--ark-primary); color: #fff; border: none; letter-spacing: 3px; font-weight: bold;">SUBMIT DATA</button>
+
+        <div style="margin-top: 50px;">
+            <h4 style="font-size: 10px; color: var(--ark-primary); letter-spacing: 2px; margin-bottom: 20px;">PAYMENT METHODS (TAP TO COPY)</h4>
+            <div class="pay-addr" onclick="copyText('01576940717')">bKash: 01576940717</div>
+            <div class="pay-addr" onclick="copyText('01756206213')">bKash: 01756206213</div>
+            <div class="pay-addr" onclick="copyText('912221034')">Binance UID: 912221034</div>
+            <div class="pay-addr" onclick="copyText('TTapBkTqrDnzHbWzek6wSBUTcJKFmR8Ws6')">USDT TRC20: TTapBkT...</div>
+        </div>
+        <button onclick="toggleDrawer()" style="background: none; border: none; color: #444; margin-top: 40px;">[ CLOSE ]</button>
     </div>
 
-    <section class="snap-section" id="mission">
-        <div class="reveal active">
-            <h2 class="title">GLOBAL REFORESTATION PROJECT</h2>
-            <p style="letter-spacing: 5px; color: #fff; font-size: 14px; margin-bottom: 40px;">One Child, One Fruit Tree, One Eternal Legacy.</p>
-            <p class="manifesto-text">
-                "Our mission is simple yet absolute: to provide every student in Bangladesh, from Class 1 to 10, with their own fruit-bearing tree. In an era of environmental decline, we believe in planting the seeds of both nutrition and nature. Many children in underprivileged communities lack access to essential vitamins; we provide the source.<br><br>
-                100% of your contribution is used strictly for purchasing trees. We bear all logistical, travel, and operational costs personally. Your donation plants hope."
-            </p>
+    <div id="certificate-template">
+        <h1 style="font-size: 50px; color: #1E5128;">ARK ETERNAL</h1>
+        <p style="letter-spacing: 10px; font-size: 12px; margin-top: 10px;">GLOBAL REFORESTATION PROJECT</p>
+        <div style="margin: 60px 0; border-top: 2px solid #000; border-bottom: 2px solid #000; padding: 40px 0;">
+            <p style="font-family: 'Inter'; font-size: 18px;">This is to certify that</p>
+            <h2 id="cert-user-name" style="font-size: 45px; margin: 15px 0;">NAME HERE</h2>
+            <p style="font-family: 'Inter';">has planted <strong id="cert-tree-val">0</strong> Fruit Trees</p>
+            <p style="font-size: 14px; margin-top: 10px; color: #555;">for the children of the next generation.</p>
         </div>
-    </section>
-
-    <section class="snap-section">
-        <div class="reveal">
-            <div class="grid-info">
-                <div class="info-card">
-                    <h3>Why Fruit Trees?</h3>
-                    <p>Traditional reforestation often ignores immediate human needs. By planting fruit trees, we provide children with a sustainable source of nutrition while restoring the ecosystem. It is a dual-purpose investment in the planet and the next generation.</p>
-                </div>
-                <div class="info-card">
-                    <h3>Where Does Your Money Go?</h3>
-                    <p>Transparency is our foundation. We have invested zero donor capital into this website or our operations. Every dollar you send is converted directly into a sapling. Our team covers all personal expenses, transportation, and labor costs out of pocket.</p>
-                </div>
-                <div class="info-card">
-                    <h3>Global Scalability</h3>
-                    <p>We begin in Bangladesh, a nation facing severe climate vulnerability. Once our mission of 1 Billion trees is achieved here, we will expand our reach to other nations in need of ecological balance and food security.</p>
-                </div>
-                <div class="info-card">
-                    <h3>The Silent Witness</h3>
-                    <p>Every tree is recorded in the ARK ARCHIVE. By claiming a plot, your name is etched into the digital record of this revolution—a testament to your contribution to a cleaner, greener, and healthier world.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="snap-section">
-        <div class="reveal" id="portalBox">
-            <h2 class="title">Record Contribution</h2>
-            <div style="max-width: 500px; margin: 40px auto; text-align: left;">
-                <input type="text" id="pName" class="ark-input" placeholder="FULL NAME">
-                <input type="number" id="pCount" class="ark-input" placeholder="NUMBER OF TREES">
-                <input type="text" id="pSocial" class="ark-input" placeholder="SOCIAL MEDIA LINK (FB/X)">
-                <input type="text" id="pProof" class="ark-input" placeholder="TRANSACTION ID / PAYMENT PROOF">
-                
-                <div style="margin-top: 10px; margin-bottom: 30px;">
-                    <label style="font-size: 10px; color: #555; letter-spacing: 2px; text-transform: uppercase;">Upload Donor Photo (WhatsApp Sync Needed)</label>
-                </div>
-
-                <button class="btn-luxury interactive" style="width:100%" onclick="triggerLegacy()">Submit Request</button>
-            </div>
-        </div>
-    </section>
-
-    <section class="grid-section" id="archive">
-        <h2 style="text-align: center; letter-spacing: 15px; margin-bottom: 80px; font-weight: 100; font-size: 20px; color: var(--ark-light-green);">THE ARK ARCHIVE</h2>
-        <div class="plot-grid" id="mainGrid">
-            </div>
-    </section>
-
-    <div class="support-wrapper">
-        <a href="https://wa.me/8801576940717" target="_blank" class="float-btn interactive"><i class="fab fa-whatsapp"></i></a>
-        <span class="support-label">Customer Support</span>
-    </div>
-
-    <div class="social-right">
-        <a href="https://facebook.com/arkarchivr6700" target="_blank" class="float-btn interactive"><i class="fab fa-facebook-f"></i></a>
-        <a href="https://x.com/kawsar6700" target="_blank" class="float-btn interactive"><i class="fab fa-twitter"></i></a>
-    </div>
-
-    <div id="instructionModal" class="modal">
-        <div style="background: #000; border: 1px solid var(--ark-light-green); padding: 60px; text-align: center; max-width: 550px;">
-            <h3 style="letter-spacing: 5px; color: var(--ark-light-green); margin-bottom: 30px;">VERIFICATION STEPS</h3>
-            <div style="text-align: left; font-size: 13px; color: #888; margin-bottom: 40px; line-height: 2.2;">
-                • Capture payment confirmation screenshot.<br>
-                • Provide your Transaction ID.<br>
-                • Share your photo for the digital plot.<br>
-                • Send details to WhatsApp for live sync.
-            </div>
-            <button class="btn-luxury interactive" onclick="location.reload()">Back to Home</button>
-        </div>
+        <p style="font-family: 'Inter'; font-size: 10px; color: #999;">VERIFIED DIGITAL RECORD: ARK-2026-LEGACY | WWW.ARKARCHIVE.COM</p>
     </div>
 
     <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyCAdnfu2R82xbC7H85n_9mvQBE58X3TjbA",
-            authDomain: "the-5k-elite-legacy.firebaseapp.com",
-            databaseURL: "https://the-5k-elite-legacy-default-rtdb.firebaseio.com",
-            projectId: "the-5k-elite-legacy",
-            storageBucket: "the-5k-elite-legacy.firebasestorage.app",
-            messagingSenderId: "440824313752",
-            appId: "1:440824313752:web:2c93344dcfe2ba0a4c5ded"
-        };
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.database();
-
-        // Cursor Logic
-        const outline = document.getElementById('cursor-outline');
-        document.addEventListener('mousemove', (e) => {
-            outline.style.left = e.clientX + 'px'; outline.style.top = e.clientY + 'px';
-        });
-
-        // Live Counter Sync
-        db.ref('stats/totalTrees').on('value', snap => {
-            document.getElementById('liveCounter').innerText = (snap.val() || 0).toLocaleString();
-        });
-
-        // Archive Loader
-        db.ref('donors').on('value', snap => {
-            const mainGrid = document.getElementById('mainGrid');
-            mainGrid.innerHTML = '';
-            snap.forEach(child => {
-                const data = child.val();
-                const card = document.createElement('div');
-                card.className = 'donor-card reveal active';
-                card.innerHTML = `
-                    <img src="${data.imageUrl || 'https://via.placeholder.com/150'}" class="donor-img">
-                    <div style="font-size:12px; letter-spacing:2px; color:#fff; text-transform:uppercase;">${data.name}</div>
-                    <div style="font-size:9px; color:var(--ark-light-green); margin-top:8px;">${data.trees} TREES DONATED</div>
-                `;
-                mainGrid.appendChild(card);
-            });
-        });
-
-        function toggleDrawer() { document.getElementById('payment-drawer').classList.toggle('open'); }
-        function copyV(text) { navigator.clipboard.writeText(text); alert("Copied: " + text); }
-
-        function triggerLegacy() {
-            const name = document.getElementById('pName').value;
-            if(!name) return;
-            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#1E5128', '#ffffff'] });
-            document.getElementById('portalBox').innerHTML = `<h2 class="title" style="color:var(--ark-light-green)">LEGACY QUEUED</h2><h3 style="letter-spacing:5px;">${name.toUpperCase()}</h3><p style="color:#444; font-size:12px; margin-top:20px;">Verification pending via WhatsApp...</p>`;
-            setTimeout(() => { document.getElementById('instructionModal').classList.add('active'); }, 3500);
+        // Google Translate
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
         }
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
-        }, { threshold: 0.1 });
-        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+        // Copy Function
+        function copyText(text) {
+            navigator.clipboard.writeText(text);
+            alert("Copied: " + text);
+        }
+
+        function toggleDrawer() {
+            document.getElementById('portal-drawer').classList.toggle('open');
+        }
+
+        // Firebase & Data (Placeholder Logic)
+        const mockDonors = [
+            { name: "Kawsar Ahmed", trees: 100, img: "https://via.placeholder.com/100", social: "https://facebook.com/kawsar" },
+            { name: "John Doe", trees: 50, img: "https://via.placeholder.com/100", social: "#" }
+        ];
+
+        function renderPlots() {
+            const grid = document.getElementById('mainPlotGrid');
+            mockDonors.forEach(d => {
+                grid.innerHTML += `
+                    <div class="plot-item">
+                        <div class="plot-circle" onclick="window.open('${d.social}', '_blank')">
+                            <img src="${d.img}">
+                        </div>
+                        <div class="plot-info-text">${d.name}</div>
+                        <div style="color: var(--ark-primary); font-size: 9px; font-weight: bold;">${d.trees} TREES</div>
+                    </div>
+                `;
+            });
+        }
+
+        function downloadLegacyCard() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const donor = mockDonors.find(d => d.name.toLowerCase().includes(query));
+
+            if(donor) {
+                document.getElementById('cert-user-name').innerText = donor.name.toUpperCase();
+                document.getElementById('cert-tree-val').innerText = donor.trees;
+                
+                const certArea = document.getElementById('certificate-template');
+                html2canvas(certArea).then(canvas => {
+                    const link = document.createElement('a');
+                    link.download = `ARK_LEGACY_${donor.name}.png`;
+                    link.href = canvas.toDataURL();
+                    link.click();
+                    confetti({ particleCount: 150, spread: 70 });
+                });
+            } else {
+                alert("Name not found in the Archive!");
+            }
+        }
+
+        window.onload = renderPlots;
     </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
 </body>
 </html>
