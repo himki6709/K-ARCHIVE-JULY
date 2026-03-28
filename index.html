@@ -36,36 +36,38 @@
             position: fixed; width: 100%; top: 0; background: rgba(0,0,0,0.98); z-index: 1000; 
         }
 
-        /* Top Acquisition Drawer */
+        /* Top Payment Drawer */
         #payment-drawer {
-            position: fixed; top: -100%; left: 0; width: 100%; height: 95vh;
-            background: var(--ark-black); border-bottom: 1px solid var(--ark-light-green); 
+            position: fixed; top: -100%; left: 0; width: 100%; height: 70vh;
+            background: var(--ark-black); border-bottom: 2px solid var(--ark-light-green); 
             z-index: 3000; transition: 0.8s cubic-bezier(0.19, 1, 0.22, 1); 
-            padding: 100px 8% 50px; box-sizing: border-box; overflow-y: auto;
-            display: grid; grid-template-columns: 1.4fr 1fr; gap: 80px;
+            padding: 80px 10%; box-sizing: border-box; display: grid; grid-template-columns: 1fr 1.2fr; gap: 50px;
         }
         #payment-drawer.open { top: 0; }
 
-        .drawer-info h2 { font-size: 24px; letter-spacing: 5px; color: var(--ark-light-green); margin-bottom: 20px; text-transform: uppercase; }
-        .drawer-info h3 { font-size: 14px; letter-spacing: 3px; color: #fff; margin-top: 30px; border-bottom: 1px solid #222; padding-bottom: 10px; }
-        .drawer-info p { font-size: 13px; color: #888; line-height: 1.8; text-align: justify; margin-bottom: 15px; }
-
-        .drawer-action { background: #050505; padding: 40px; border: 1px solid #111; }
-        .pay-item { margin-bottom: 20px; cursor: pointer; border-bottom: 1px solid #111; padding-bottom: 10px; }
+        .drawer-action { background: #050505; padding: 30px; border: 1px solid #111; }
+        .pay-item { margin-bottom: 15px; cursor: pointer; border-bottom: 1px solid #111; padding-bottom: 10px; }
         .pay-item h4 { font-size: 9px; color: var(--ark-light-green); letter-spacing: 2px; text-transform: uppercase; margin: 0; }
         .pay-item p { font-size: 11px; color: #fff; margin-top: 5px; font-family: monospace; }
 
+        /* Main Page Content Sections */
         .snap-section { 
-            height: 100vh; width: 100%; scroll-snap-align: start; 
+            min-height: 100vh; width: 100%; scroll-snap-align: start; 
             display: flex; flex-direction: column; justify-content: center; 
-            align-items: center; text-align: center; padding: 0 10%; box-sizing: border-box; 
+            align-items: center; text-align: center; padding: 100px 15%; box-sizing: border-box; 
         }
-        .reveal { opacity: 0; transform: translateY(40px); transition: 1.2s ease-out; }
+        .reveal { opacity: 0; transform: translateY(50px); transition: 1.5s ease-out; }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
-        .title { font-size: 42px; font-weight: 100; letter-spacing: 15px; text-transform: uppercase; }
-        .counter-number { font-size: 80px; font-weight: bold; color: var(--ark-light-green); text-shadow: 0 0 30px rgba(30, 81, 40, 0.4); }
+        .title { font-size: 50px; font-weight: 100; letter-spacing: 15px; text-transform: uppercase; margin: 20px 0; }
+        .subtitle { color: var(--ark-light-green); letter-spacing: 8px; font-size: 12px; text-transform: uppercase; display: block; margin-bottom: 20px; }
+        .manifesto-text { font-size: 18px; line-height: 1.8; color: #888; max-width: 900px; margin: 0 auto; }
+        
+        .grid-info { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; text-align: left; margin-top: 50px; }
+        .info-card h3 { font-size: 16px; letter-spacing: 4px; color: var(--ark-light-green); text-transform: uppercase; }
+        .info-card p { font-size: 14px; color: #666; line-height: 1.8; }
 
+        /* Floating UI */
         .support-wrapper { position: fixed; bottom: 40px; left: 40px; z-index: 2500; text-align: center; }
         .float-btn { 
             width: 50px; height: 50px; border: 1px solid var(--ark-white); border-radius: 50%; 
@@ -73,14 +75,14 @@
             transition: 0.4s; color: white; text-decoration: none; margin: 0 auto;
         }
         .float-btn:hover { background: var(--ark-white); color: var(--ark-black); transform: scale(1.1); }
-        .support-label { font-size: 8px; letter-spacing: 2px; text-transform: uppercase; margin-top: 8px; color: #444; display: block; }
+        .support-label { font-size: 8px; letter-spacing: 2px; text-transform: uppercase; margin-top: 8px; color: #444; }
 
         .social-right { position: fixed; bottom: 40px; right: 40px; display: flex; gap: 15px; z-index: 2500; }
 
-        .grid-section { min-height: 100vh; padding: 120px 5%; scroll-snap-align: start; }
+        /* Donor Grid */
+        .grid-section { min-height: 100vh; padding: 150px 5%; scroll-snap-align: start; }
         .plot-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 20px; }
-        .plot-card { border: 1px solid var(--ark-border); padding: 30px; text-align: center; transition: 0.5s; cursor: pointer; }
-        .plot-img { width: 70px; height: 70px; border-radius: 50%; border: 1px solid #111; margin: 0 auto 15px; display: flex; align-items: center; justify-content: center; }
+        .plot-card { border: 1px solid var(--ark-border); padding: 25px; text-align: center; transition: 0.5s; cursor: pointer; }
 
         .ark-input { width: 100%; padding: 15px 0; background: transparent; border: none; border-bottom: 1px solid var(--ark-light-green); color: #fff; margin-bottom: 25px; outline: none; }
         .btn-luxury { padding: 15px 40px; border: 1px solid var(--ark-white); background: transparent; color: #fff; letter-spacing: 4px; text-transform: uppercase; cursor: pointer; transition: 0.4s; font-size: 10px; }
@@ -88,11 +90,6 @@
 
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.99); z-index: 5000; justify-content: center; align-items: center; }
         .modal.active { display: flex; }
-
-        @media (max-width: 900px) {
-            #payment-drawer { grid-template-columns: 1fr; padding-top: 80px; }
-            .title { font-size: 24px; letter-spacing: 8px; }
-        }
     </style>
 </head>
 <body>
@@ -111,50 +108,57 @@
     </header>
 
     <div id="payment-drawer">
-        <div class="drawer-info">
-            <h2>Global Reforestation Project</h2>
-            <p style="color: var(--ark-light-green); font-style: italic;">"One Child, One Fruit Tree, One Eternal Legacy."</p>
-            <p>Our mission is simple yet absolute: to provide every student in Bangladesh, from Class 1 to 10, with their own fruit-bearing tree. In an era of environmental decline, we believe in planting the seeds of both nutrition and nature. Many children in underprivileged communities lack access to essential vitamins; we provide the source.</p>
-            
-            <h3>Why Fruit Trees?</h3>
-            <p>Traditional reforestation often ignores immediate human needs. By planting fruit trees, we provide children with a sustainable source of nutrition while restoring the ecosystem. It is a dual-purpose investment in the planet and the next generation.</p>
-            
-            <h3>Transparency is Our Foundation</h3>
-            <p>100% of your contribution is used strictly for purchasing trees. We have invested zero donor capital into this website or our operations. Our team covers all personal expenses, transportation, and labor costs out of pocket.</p>
-            
-            <h3>Global Scalability</h3>
-            <p>We begin in Bangladesh, a nation facing severe climate vulnerability. Once our mission of 1 Billion trees is achieved here, we will expand our reach to other nations in need of ecological balance and food security.</p>
-            
-            <p style="margin-top: 30px; border-top: 1px solid #111; padding-top: 20px; font-size: 11px; color: #555;"><i>"Every tree is recorded in the ARK ARCHIVE. Your name is etched into the digital record of this revolution."</i></p>
-        </div>
-
-        <div class="drawer-action" id="portalBox">
-            <h3 style="border:none; margin-top:0;">SECURE CHANNELS</h3>
+        <div class="drawer-action" style="background:transparent; border:none; padding:0;">
+            <h3 style="letter-spacing: 4px; color: var(--ark-light-green); font-size: 14px; margin-bottom: 30px;">SECURE CHANNELS</h3>
             <div class="pay-item interactive" onclick="copyV('01576940717')"><h4>bKash Personal (01)</h4><p>01576940717</p></div>
             <div class="pay-item interactive" onclick="copyV('01756206213')"><h4>bKash Personal (02)</h4><p>01756206213</p></div>
             <div class="pay-item interactive" onclick="copyV('912221034')"><h4>Binance UID</h4><p>912221034</p></div>
-            <div class="pay-item interactive" onclick="copyV('Bank Info')"><h4>Bank Transfer</h4><p>Bank Name: <br>Branch Name: <br>Account Name: <br>Number: <br>Routing: </p></div>
+            <div class="pay-item interactive" onclick="copyV('Bank Details')"><h4>Bank Transfer</h4><p>Bank: [TBD] | A/C: [TBD] | Routing: [TBD]</p></div>
+        </div>
 
-            <h3 style="border:none; margin-top:40px;">SUBMIT CONTRIBUTION</h3>
+        <div class="drawer-action" id="portalBox">
+            <h3 style="letter-spacing: 4px; font-size: 14px; margin-bottom: 30px;">SUBMIT TO ARCHIVE</h3>
             <input type="text" id="pName" class="ark-input" placeholder="FULL NAME">
             <input type="number" id="pCount" class="ark-input" placeholder="NUMBER OF TREES">
             <button class="btn-luxury interactive" style="width:100%" onclick="triggerLegacy()">Submit Request</button>
-            
             <button onclick="toggleDrawer()" class="interactive" style="background:none; border:none; color:#333; cursor:pointer; margin-top:30px; width:100%; font-size:9px; letter-spacing:2px;">[ CLOSE PANEL ]</button>
         </div>
     </div>
 
     <section class="snap-section" id="mission">
         <div class="reveal active">
-            <span style="letter-spacing: 10px; color: var(--ark-light-green); font-size: 12px;">MISSION PROGRESS</span>
-            <div class="counter-number" id="liveCounter">0</div>
+            <span class="subtitle">Global Reforestation Project</span>
             <h2 class="title">1 Billion Trees</h2>
-            <p style="font-size: 14px; color: #444; letter-spacing: 3px;">A Silent Witness to the Reforestation Revolution.</p>
+            <p class="manifesto-text">"One Child, One Fruit Tree, One Eternal Legacy."</p>
+            <p style="margin-top: 30px; color: #555; max-width: 800px; font-style: italic;">Our mission is simple yet absolute: to provide every student in Bangladesh, from Class 1 to 10, with their own fruit-bearing tree. In an era of environmental decline, we believe in planting the seeds of both nutrition and nature.</p>
+        </div>
+    </section>
+
+    <section class="snap-section">
+        <div class="reveal">
+            <div class="grid-info">
+                <div class="info-card">
+                    <h3>Why Fruit Trees?</h3>
+                    <p>Traditional reforestation often ignores immediate human needs. By planting fruit trees, we provide children with a sustainable source of nutrition while restoring the ecosystem. It is a dual-purpose investment in the planet and the next generation.</p>
+                </div>
+                <div class="info-card">
+                    <h3>Transparency is Our Foundation</h3>
+                    <p>100% of your contribution is used strictly for purchasing trees. We have invested zero donor capital into this website or our operations. Our team covers all personal expenses, transportation, and labor costs out of pocket.</p>
+                </div>
+                <div class="info-card">
+                    <h3>Global Scalability</h3>
+                    <p>We begin in Bangladesh, a nation facing severe climate vulnerability. Once our mission of 1 Billion trees is achieved here, we will expand our reach to other nations in need of ecological balance and food security.</p>
+                </div>
+                <div class="info-card">
+                    <h3>The Silent Witness</h3>
+                    <p>Every tree is recorded in the ARK ARCHIVE. Your name is etched into the digital record of this revolution—a testament to your contribution to a cleaner, greener, and healthier world.</p>
+                </div>
+            </div>
         </div>
     </section>
 
     <section class="grid-section" id="archive">
-        <h2 style="text-align: center; letter-spacing: 10px; margin-bottom: 80px; font-weight: 100;">THE ARK ARCHIVE</h2>
+        <h2 style="text-align: center; letter-spacing: 15px; margin-bottom: 80px; font-weight: 100; font-size: 20px;">THE ARK ARCHIVE</h2>
         <div class="plot-grid" id="mainGrid"></div>
     </section>
 
@@ -203,19 +207,14 @@
             outline.style.left = e.clientX + 'px'; outline.style.top = e.clientY + 'px';
         });
 
-        document.querySelectorAll('.interactive').forEach(el => {
-            el.addEventListener('mouseenter', () => outline.style.transform = 'translate(-50%, -50%) scale(2.5)');
-            el.addEventListener('mouseleave', () => outline.style.transform = 'translate(-50%, -50%) scale(1)');
-        });
+        // Scroll Reveal
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-        // Toggle Drawer
         function toggleDrawer() { document.getElementById('payment-drawer').classList.toggle('open'); }
         function copyV(text) { navigator.clipboard.writeText(text); alert("Copied: " + text); }
-
-        // Live Counter
-        db.ref('stats/totalTrees').on('value', snap => {
-            document.getElementById('liveCounter').innerText = (snap.val() || 0).toLocaleString();
-        });
 
         // Infinite Grid
         const mainGrid = document.getElementById('mainGrid');
@@ -223,7 +222,7 @@
             for(let i=0; i<count; i++) {
                 const div = document.createElement('div');
                 div.className = 'plot-card';
-                div.innerHTML = `<div class="plot-img"><i class="fas fa-seedling" style="color:#050505"></i></div><div style="font-size:9px; color:#333;">VACANT PLOT</div>`;
+                div.innerHTML = `<div style="width:60px; height:60px; border-radius:50%; border:1px solid #111; margin:0 auto 15px; display:flex; align-items:center; justify-content:center;"><i class="fas fa-seedling" style="color:#111"></i></div><div style="font-size:9px; color:#333;">VACANT</div>`;
                 mainGrid.appendChild(div);
             }
         }
@@ -236,15 +235,12 @@
         function triggerLegacy() {
             const name = document.getElementById('pName').value;
             if(!name) return;
-
             confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#1E5128', '#ffffff'] });
-
             document.getElementById('portalBox').innerHTML = `
-                <h2 style="color:var(--ark-light-green); letter-spacing:5px;">LEGACY QUEUED</h2>
+                <h2 style="color:var(--ark-light-green); letter-spacing:5px;">LEGACY RECORDED</h2>
                 <h3 style="letter-spacing:5px; margin-top:20px;">${name.toUpperCase()}</h3>
-                <p style="color:#444; font-size:11px; margin-top:20px;">Redirecting to verification steps...</p>
+                <p style="color:#444; font-size:11px; margin-top:20px;">Processing verification...</p>
             `;
-
             setTimeout(() => { document.getElementById('instructionModal').classList.add('active'); }, 3500);
         }
     </script>
