@@ -11,243 +11,244 @@
 
     <style>
         :root {
-            --ark-silver: #E1E1E1;
+            --ark-green: #0A2F1F; /* Forest Green */
+            --ark-light-green: #1E5128;
             --ark-black: #000000;
-            --ark-border: rgba(255, 255, 255, 0.05);
-            --ark-accent: #ffffff;
+            --ark-white: #ffffff;
+            --ark-border: rgba(255, 255, 255, 0.1);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Times New Roman', serif; background-color: var(--ark-black); color: var(--ark-silver); line-height: 1.8; letter-spacing: 1px; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 40px; }
-        h1, h2, h3 { font-weight: 300; text-transform: uppercase; letter-spacing: 6px; color: var(--ark-accent); }
-
-        /* Navigation */
-        .header { padding: 40px 0; border-bottom: 1px solid var(--ark-border); display: flex; justify-content: space-between; align-items: center; position: fixed; width: 100%; top: 0; background: rgba(0,0,0,0.98); z-index: 1000; }
-        .brand-name { font-size: 22px; font-weight: 700; color: var(--ark-accent); text-decoration: none; letter-spacing: 8px; }
-        
-        .nav-links { display: flex; align-items: center; }
-        .nav-links a { 
-            text-decoration: none; 
-            color: #666; 
-            font-size: 11px; 
-            text-transform: uppercase; 
-            margin-left: 30px; 
-            transition: all 0.4s ease; 
-            letter-spacing: 2px;
-            padding: 8px 12px;
-        }
-        
-        /* Unified Global Hover Effect */
-        .nav-links a:hover, .btn-portal-small:hover { 
-            color: #fff !important; 
-            background: rgba(255, 255, 255, 0.05);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.9);
-            border-radius: 4px;
+        html { scroll-snap-type: y mandatory; scroll-behavior: smooth; }
+        body { 
+            margin: 0; padding: 0; background: var(--ark-black); color: var(--ark-white); 
+            font-family: 'Times New Roman', serif; overflow-x: hidden; cursor: none; 
         }
 
-        /* Larger Social Icons */
-        .nav-links i { font-size: 18px; transition: 0.3s; }
-        .nav-links i:hover { transform: scale(1.2); color: #fff; }
-
-        /* Live Counter */
-        .live-counter-box { margin-top: 160px; text-align: center; border-bottom: 1px solid var(--ark-border); padding-bottom: 40px; }
-        .counter-label { font-size: 10px; color: #444; letter-spacing: 5px; margin-bottom: 15px; display: block; }
-        .counter-number { font-size: 55px; font-weight: bold; color: #fff; font-family: 'Courier New', Courier, monospace; letter-spacing: 2px; }
-        .counter-target { font-size: 12px; color: #222; margin-top: 10px; }
-
-        /* Adjusted Portal Button */
-        .action-area { text-align: left; padding: 30px 0; margin-top: 20px; }
-        .btn-portal-small { 
-            background: transparent; 
-            border: 1px solid #1a1a1a; 
-            color: #555; 
-            font-size: 9px; 
-            padding: 14px 24px; 
-            cursor: pointer; 
-            text-transform: uppercase; 
-            letter-spacing: 3px; 
-            transition: 0.5s; 
+        /* Custom Cursor */
+        #cursor-outline { 
+            position: fixed; width: 15px; height: 15px; border: 1px solid var(--ark-white); 
+            border-radius: 50%; pointer-events: none; z-index: 10000; 
+            transform: translate(-50%, -50%); transition: transform 0.2s ease;
         }
 
-        /* Hero */
-        .hero { padding: 80px 0 100px; text-align: center; }
-        .hero h1 { font-size: 48px; margin-bottom: 40px; }
-        .manifesto-text { max-width: 850px; margin: 0 auto; font-size: 15px; color: #888; border-left: 1px solid #222; border-right: 1px solid #222; padding: 0 30px; text-align: center; }
+        /* Navigation Header */
+        .header { 
+            padding: 40px 0; border-bottom: 1px solid var(--ark-border); 
+            display: flex; justify-content: space-between; align-items: center; 
+            position: fixed; width: 100%; top: 0; background: rgba(0,0,0,0.95); z-index: 1000; 
+        }
+        .nav-links a, .acq-trigger { 
+            text-decoration: none; color: #888; font-size: 10px; 
+            text-transform: uppercase; margin-left: 30px; letter-spacing: 3px; 
+            transition: 0.4s; padding: 10px; cursor: pointer;
+        }
+        .nav-links a:hover, .acq-trigger:hover { 
+            color: var(--ark-white); background: rgba(30, 81, 40, 0.3);
+            box-shadow: 0 0 20px var(--ark-black);
+        }
 
-        .principles { padding: 100px 0; border-top: 1px solid var(--ark-border); }
-        .principle-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 60px; margin-top: 60px; }
-        .principle-item p { font-size: 13px; color: #666; text-align: justify; }
+        /* Side Drawer */
+        #payment-drawer {
+            position: fixed; top: 0; right: -100%; width: 400px; height: 100vh;
+            background: var(--ark-black); border-left: 1px solid var(--ark-light-green); 
+            z-index: 3000; transition: 0.6s cubic-bezier(0.19, 1, 0.22, 1); 
+            padding: 80px 40px; box-sizing: border-box;
+        }
+        #payment-drawer.open { right: 0; }
+        .pay-item { margin-bottom: 40px; cursor: pointer; border-bottom: 1px solid #111; padding-bottom: 15px; }
+        .pay-item h4 { font-size: 10px; color: var(--ark-light-green); letter-spacing: 2px; text-transform: uppercase; }
+        .pay-item p { font-size: 13px; color: #fff; margin-top: 10px; word-break: break-all; }
 
-        /* Search & Grid */
-        .search-area { text-align: center; padding: 60px 0; background: #020202; border-top: 1px solid var(--ark-border); }
-        .search-input { background: transparent; border: 1px solid #111; color: #fff; padding: 15px; width: 300px; outline: none; }
-        .search-btn { background: #fff; border: none; padding: 15px 30px; cursor: pointer; text-transform: uppercase; font-weight: bold; font-size: 10px; }
+        /* Full Screen Snap Sections */
+        .snap-section { 
+            height: 100vh; width: 100%; scroll-snap-align: start; 
+            display: flex; flex-direction: column; justify-content: center; 
+            align-items: center; text-align: center; padding: 0 10%; box-sizing: border-box; 
+        }
+        .reveal { opacity: 0; transform: translateY(50px); transition: 1.5s ease-out; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
 
-        .plot-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 20px; padding: 40px 0; }
-        .plot-card { border: 1px solid var(--ark-border); padding: 25px; text-align: center; transition: 0.5s; cursor: pointer; min-height: 180px; }
-        .plot-img { width: 80px; height: 80px; border-radius: 50%; border: 1px solid #111; margin: 0 auto 15px; overflow: hidden; display: flex; align-items: center; justify-content: center; }
-        .plot-img img { width: 100%; height: 100%; object-fit: cover; }
+        .title { font-size: 42px; font-weight: 100; letter-spacing: 15px; text-transform: uppercase; color: var(--ark-white); }
+        .sub-desc { font-size: 14px; color: #666; max-width: 700px; margin: 30px 0; line-height: 1.8; }
 
-        /* Modals */
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.99); z-index: 2000; justify-content: center; align-items: center; }
+        /* Counter Section */
+        .counter-number { font-size: 70px; font-weight: bold; color: var(--ark-light-green); text-shadow: 0 0 30px rgba(30, 81, 40, 0.5); }
+
+        /* Floating Buttons */
+        .float-btn { 
+            position: fixed; bottom: 40px; width: 50px; height: 50px; 
+            border: 1px solid var(--ark-white); border-radius: 50%; 
+            display: flex; align-items: center; justify-content: center; z-index: 2500; 
+            background: transparent; transition: 0.4s; color: white; text-decoration: none;
+        }
+        .float-btn:hover { background: var(--ark-white); color: var(--ark-black); transform: scale(1.1); }
+        .fb-btn { right: 110px; }
+        .tw-btn { right: 40px; }
+        .wa-btn { left: 40px; }
+
+        /* Submit Portal Styling */
+        .ark-input { 
+            width: 100%; padding: 20px 0; background: transparent; 
+            border: none; border-bottom: 1px solid var(--ark-light-green); 
+            color: #fff; margin-bottom: 30px; outline: none; font-size: 16px;
+        }
+        .btn-luxury { 
+            padding: 20px 60px; border: 1px solid var(--ark-white); 
+            background: transparent; color: #fff; letter-spacing: 5px; 
+            text-transform: uppercase; cursor: pointer; transition: 0.4s;
+        }
+        .btn-luxury:hover { background: #fff; color: #000; box-shadow: 0 0 30px rgba(255,255,255,0.2); }
+
+        /* Modal Instruction */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); z-index: 5000; justify-content: center; align-items: center; }
         .modal.active { display: flex; }
-        .modal-content { background: #050505; border: 1px solid #111; padding: 50px; width: 90%; max-width: 550px; text-align: center; position: relative; }
-        .close-btn { position: absolute; top: 20px; right: 20px; color: #333; cursor: pointer; font-size: 20px; }
-        
-        .btn-luxury { display: inline-block; padding: 18px 45px; border: 1px solid #222; color: #fff; text-transform: uppercase; font-size: 10px; letter-spacing: 4px; cursor: pointer; background: transparent; text-decoration: none; margin-top: 30px; transition: 0.4s; }
-        .btn-luxury:hover { background: #fff; color: #000; }
-
-        .ark-input { width: 100%; padding: 15px 0; background: transparent; border: none; border-bottom: 1px solid #1a1a1a; color: #fff; margin-bottom: 25px; outline: none; }
     </style>
 </head>
 <body>
 
-<header class="header">
-    <div class="container" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-        <a href="#" class="brand-name">ARK ARCHIVE</a>
-        <nav class="nav-links">
-            <a href="#mission">Philosophy</a>
-            <a href="#plots">Archive</a>
-            <a href="javascript:void(0)" onclick="showModal('paymentPortal')">Contribute</a>
-            <a href="https://facebook.com/arkarchivr6700" target="_blank"><i class="fab fa-facebook-square"></i></a>
-            <a href="https://x.com/kawsar6700" target="_blank"><i class="fab fa-twitter"></i></a>
-            <a href="https://wa.me/8801576940717" target="_blank">Support</a>
-        </nav>
-    </div>
-</header>
+    <div id="cursor-outline"></div>
 
-<section class="live-counter-box container">
-    <span class="counter-label">TREES PLANTED WORLDWIDE</span>
-    <div class="counter-number" id="liveCounter">0,000,000</div>
-    <div class="counter-target">MISSION: 1,000,000,000 FRUIT TREES</div>
-</section>
-
-<div class="action-area container">
-    <button class="btn-portal-small" onclick="showModal('submitPortal')">Record Your Contribution</button>
-</div>
-
-<section class="hero container" id="mission">
-    <h1>One Child, One Fruit Tree, One Eternal Legacy.</h1>
-    <div class="manifesto-text">
-        "Our mission is simple yet absolute: to provide every student in Bangladesh, from Class 1 to 10, with their own fruit-bearing tree. In an era of environmental decline, we believe in planting the seeds of both nutrition and nature. Many children in underprivileged communities lack access to essential vitamins; we provide the source. <br><br>
-        100% of your contribution is used strictly for purchasing trees. We bear all logistical, travel, and operational costs personally. Your donation plants hope."
-    </div>
-    <a href="javascript:void(0)" onclick="showModal('paymentPortal')" class="btn-luxury">Contribute $1 per Tree</a>
-</section>
-
-<section class="principles container">
-    <div class="principle-grid">
-        <div class="principle-item">
-            <h3>Why Fruit Trees?</h3>
-            <p>Traditional reforestation often ignores immediate human needs. By planting fruit trees, we provide children with a sustainable source of nutrition while restoring the ecosystem. It is a dual-purpose investment in the planet and the next generation.</p>
+    <header class="header">
+        <div class="container" style="display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 0 50px;">
+            <div class="acq-trigger interactive" onclick="toggleDrawer()">Contribution Channels</div>
+            <div style="font-size: 20px; letter-spacing: 10px; font-weight: bold;">ARK ARCHIVE</div>
+            <nav class="nav-links">
+                <a href="#mission" class="interactive">Philosophy</a>
+                <a href="#plots" class="interactive">Archive</a>
+                <a href="javascript:void(0)" onclick="toggleDrawer()" class="interactive">Contribute</a>
+                <a href="https://wa.me/8801576940717" target="_blank" class="interactive">Support</a>
+            </nav>
         </div>
-        <div class="principle-item">
-            <h3>Where Does Your Money Go?</h3>
-            <p>Transparency is our foundation. We have invested zero donor capital into this website or our operations. Every dollar you send is converted directly into a sapling. Our team covers all personal expenses, transportation, and labor costs out of pocket.</p>
+    </header>
+
+    <div id="payment-drawer">
+        <h2 style="letter-spacing: 5px; font-size: 15px; margin-bottom: 60px; color: var(--ark-light-green);">SECURE CHANNELS</h2>
+        <div class="pay-item interactive" onclick="copyV('912221034')">
+            <h4>Digital Assets (USDT/Binance)</h4>
+            <p>UID: 912221034</p>
         </div>
-        <div class="principle-item">
-            <h3>Global Scalability</h3>
-            <p>We begin in Bangladesh, a nation facing severe climate vulnerability. Once our mission of 1 Billion trees is achieved here, we will expand our reach to other nations in need of ecological balance and food security.</p>
+        <div class="pay-item interactive" onclick="copyV('01576940717')">
+            <h4>Mobile Remittance (bKash)</h4>
+            <p>Personal: 01576940717</p>
         </div>
-        <div class="principle-item">
-            <h3>The Silent Witness</h3>
-            <p>Every tree is recorded in the ARK ARCHIVE. By claiming a plot, your name is etched into the digital record of this revolution—a testament to your contribution to a cleaner, greener, and healthier world.</p>
+        <div class="pay-item interactive" onclick="copyV('Bank Account Details')">
+            <h4>Bank Transfer</h4>
+            <p>Request Routing & Account Info via Support</p>
+        </div>
+        <button onclick="toggleDrawer()" class="interactive" style="background: none; border: 1px solid #333; color: #555; padding: 10px 20px; cursor: pointer; margin-top: 50px;">[ CLOSE ]</button>
+    </div>
+
+    <section class="snap-section" id="mission">
+        <div class="reveal active">
+            <span style="letter-spacing: 10px; color: var(--ark-light-green); font-size: 12px;">MISSION STATUS</span>
+            <div class="counter-number" id="liveCounter">0</div>
+            <h2 class="title">1 Billion Trees</h2>
+            <p class="sub-desc">Our mission is to plant fruit-bearing trees for every child in Bangladesh. 100% of your contributions go to the soil. We cover the rest.</p>
+        </div>
+    </section>
+
+    <section class="snap-section">
+        <div class="reveal" id="portalBox">
+            <h2 class="title">Record Contribution</h2>
+            <div style="max-width: 500px; margin-top: 50px;">
+                <input type="text" id="pName" class="ark-input" placeholder="FULL NAME">
+                <input type="number" id="pCount" class="ark-input" placeholder="NUMBER OF TREES">
+                <button class="btn-luxury interactive" onclick="triggerLegacy()">Submit Request</button>
+            </div>
+        </div>
+    </section>
+
+    <a href="https://wa.me/8801576940717" target="_blank" class="float-btn wa-btn interactive"><i class="fab fa-whatsapp"></i></a>
+    <a href="https://facebook.com/arkarchivr6700" target="_blank" class="float-btn fb-btn interactive"><i class="fab fa-facebook-f"></i></a>
+    <a href="https://x.com/kawsar6700" target="_blank" class="float-btn tw-btn interactive"><i class="fab fa-twitter"></i></a>
+
+    <div id="instructionModal" class="modal">
+        <div style="background: #000; border: 1px solid var(--ark-light-green); padding: 50px; text-align: center; max-width: 500px;">
+            <h3 style="letter-spacing: 5px; color: var(--ark-light-green);">VERIFICATION STEPS</h3>
+            <div style="text-align: left; font-size: 13px; color: #888; margin: 30px 0; line-height: 2;">
+                • Capture payment confirmation screenshot.<br>
+                • Provide your Transaction ID.<br>
+                • Share your photo for the digital plot.<br>
+                • Send details to WhatsApp for live sync.
+            </div>
+            <button class="btn-luxury interactive" onclick="location.reload()">Back to Home</button>
         </div>
     </div>
-</section>
 
-<div class="search-area" id="plots">
-    <div class="container">
-        <input type="text" id="plotSearch" class="search-input" placeholder="Search Donor Name...">
-        <button class="search-btn" onclick="searchPlot()">Search Plot</button>
-    </div>
-</div>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyCAdnfu2R82xbC7H85n_9mvQBE58X3TjbA",
+            authDomain: "the-5k-elite-legacy.firebaseapp.com",
+            databaseURL: "https://the-5k-elite-legacy-default-rtdb.firebaseio.com",
+            projectId: "the-5k-elite-legacy",
+            storageBucket: "the-5k-elite-legacy.firebasestorage.app",
+            messagingSenderId: "440824313752",
+            appId: "1:440824313752:web:2c93344dcfe2ba0a4c5ded"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
 
-<section class="container">
-    <div class="plot-grid" id="mainGrid"></div>
-</section>
-
-<div id="paymentPortal" class="modal"><div class="modal-content">
-    <i class="fas fa-times close-btn" onclick="hideModal('paymentPortal')"></i>
-    <h3 style="margin-bottom: 30px;">Contribution Channels</h3>
-    <div style="border: 1px solid #111; padding: 20px; text-align: left; cursor: pointer; margin-bottom: 10px;" onclick="showModal('cryptoModal')">Digital Assets (USDT/Binance)</div>
-    <div style="border: 1px solid #111; padding: 20px; text-align: left; cursor: pointer; margin-bottom: 10px;" onclick="showModal('bkashModal')">Mobile Remittance (bKash)</div>
-    <div style="border: 1px solid #111; padding: 20px; text-align: left; cursor: pointer;" onclick="showModal('bankModal')">Institutional Wire</div>
-</div></div>
-
-<div id="submitPortal" class="modal"><div class="modal-content" id="portalBox">
-    <i class="fas fa-times close-btn" onclick="hideModal('submitPortal')"></i>
-    <h3>Donor Record</h3>
-    <input type="text" id="pName" class="ark-input" placeholder="Enter Full Name">
-    <input type="number" id="pCount" class="ark-input" placeholder="Trees Planted">
-    <button class="btn-luxury" onclick="triggerCelebration()">Submit Record</button>
-</div></div>
-
-<script>
-    const firebaseConfig = {
-        apiKey: "AIzaSyCAdnfu2R82xbC7H85n_9mvQBE58X3TjbA",
-        authDomain: "the-5k-elite-legacy.firebaseapp.com",
-        databaseURL: "https://the-5k-elite-legacy-default-rtdb.firebaseio.com",
-        projectId: "the-5k-elite-legacy",
-        storageBucket: "the-5k-elite-legacy.firebasestorage.app",
-        messagingSenderId: "440824313752",
-        appId: "1:440824313752:web:2c93344dcfe2ba0a4c5ded",
-        measurementId: "G-6KEYY60YGG"
-    };
-    
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.database();
-
-    function showModal(id) { document.getElementById(id).classList.add('active'); }
-    function hideModal(id) { document.getElementById(id).classList.remove('active'); }
-
-    // Live Counter Integration
-    db.ref('stats/totalTrees').on('value', snap => {
-        const val = snap.val() || 0;
-        document.getElementById('liveCounter').innerText = val.toLocaleString();
-    });
-
-    function triggerCelebration() {
-        const name = document.getElementById('pName').value;
-        if(!name) return;
-
-        // Dual-Side Confetti
-        var duration = 3 * 1000;
-        var end = Date.now() + duration;
-
-        (function frame() {
-          confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#ffffff', '#ff0000', '#00ff00'] });
-          confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#ffffff', '#0000ff', '#ffff00'] });
-          if (Date.now() < end) { requestAnimationFrame(frame); }
-        }());
-
-        document.getElementById('portalBox').innerHTML = `<h3 style="color:#fff">CONGRATULATIONS ${name.toUpperCase()}!</h3>`;
-        setTimeout(() => { hideModal('submitPortal'); }, 3000);
-    }
-
-    // Load Grid
-    db.ref('plots').on('value', snap => {
-        const grid = document.getElementById('mainGrid');
-        grid.innerHTML = '';
-        const data = snap.val() || {};
-        Object.keys(data).forEach(k => {
-            const p = data[k];
-            const card = document.createElement('div');
-            card.className = 'plot-card';
-            card.innerHTML = `<div class="plot-img">${p.imageUrl ? `<img src="${p.imageUrl}">` : `<i class="fas fa-seedling"></i>`}</div>
-                              <div style="font-size:10px; color:#fff;">${p.name.toUpperCase()}</div>`;
-            grid.appendChild(card);
+        // Custom Cursor
+        const outline = document.getElementById('cursor-outline');
+        document.addEventListener('mousemove', (e) => {
+            outline.style.left = e.clientX + 'px';
+            outline.style.top = e.clientY + 'px';
         });
-        for(let i=0; i<36; i++) {
-            const empty = document.createElement('div');
-            empty.className = 'plot-card';
-            empty.innerHTML = `<div class="plot-img"><i class="fas fa-seedling" style="color:#111"></i></div><div style="font-size:10px; color:#444;">VACANT</div>`;
-            grid.appendChild(empty);
-        }
-    });
 
-    function copyText(val) { navigator.clipboard.writeText(val); alert("Copied: " + val); }
-</script>
+        // Hover Effects
+        document.querySelectorAll('.interactive').forEach(el => {
+            el.addEventListener('mouseenter', () => { 
+                outline.style.transform = 'translate(-50%, -50%) scale(3)'; 
+                outline.style.background = 'rgba(255,255,255,0.1)'; 
+            });
+            el.addEventListener('mouseleave', () => { 
+                outline.style.transform = 'translate(-50%, -50%) scale(1)'; 
+                outline.style.background = 'none'; 
+            });
+        });
+
+        // Live Counter
+        db.ref('stats/totalTrees').on('value', snap => {
+            document.getElementById('liveCounter').innerText = (snap.val() || 0).toLocaleString();
+        });
+
+        function toggleDrawer() { document.getElementById('payment-drawer').classList.toggle('open'); }
+        function copyV(text) { navigator.clipboard.writeText(text); alert("Copied: " + text); }
+
+        // Intersection Observer for Reveal
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('active');
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // Submit Action
+        function triggerLegacy() {
+            const name = document.getElementById('pName').value;
+            if(!name) return;
+
+            // 1. Confetti
+            var duration = 4 * 1000;
+            var end = Date.now() + duration;
+            (function frame() {
+              confetti({ particleCount: 7, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#1E5128', '#ffffff'] });
+              confetti({ particleCount: 7, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#1E5128', '#ffffff'] });
+              if (Date.now() < end) requestAnimationFrame(frame);
+            }());
+
+            // 2. Congratulations Message in the same box
+            document.getElementById('portalBox').innerHTML = `
+                <h2 class="title" style="color:var(--ark-light-green)">CONGRATULATIONS</h2>
+                <h3 style="letter-spacing:10px; margin-top:20px;">${name.toUpperCase()}</h3>
+                <p class="sub-desc">Your legacy has been initiated. Preparing verification portal...</p>
+            `;
+
+            // 3. Show Instruction Modal after 3 seconds
+            setTimeout(() => {
+                document.getElementById('instructionModal').classList.add('active');
+            }, 3500);
+        }
+    </script>
 </body>
 </html>
