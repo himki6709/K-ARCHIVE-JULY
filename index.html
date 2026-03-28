@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ARK | ONE CHILD ONE TREE</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
@@ -25,13 +26,53 @@
         /* Navigation */
         .header { padding: 40px 0; border-bottom: 1px solid var(--ark-border); display: flex; justify-content: space-between; align-items: center; position: fixed; width: 100%; top: 0; background: rgba(0,0,0,0.98); z-index: 1000; }
         .brand-name { font-size: 22px; font-weight: 700; color: var(--ark-accent); text-decoration: none; letter-spacing: 8px; }
-        .nav-links a { text-decoration: none; color: #666; font-size: 10px; text-transform: uppercase; margin-left: 30px; transition: 0.3s; letter-spacing: 2px; }
+        
+        .nav-links { display: flex; align-items: center; }
+        .nav-links a { 
+            text-decoration: none; 
+            color: #666; 
+            font-size: 10px; 
+            text-transform: uppercase; 
+            margin-left: 25px; 
+            transition: all 0.4s ease; 
+            letter-spacing: 2px;
+            padding: 5px 10px;
+        }
+        
+        /* Hover Effect for Links */
+        .nav-links a:hover { 
+            color: #fff; 
+            background: rgba(255, 255, 255, 0.05);
+            box-shadow: 0 0 15px rgba(0,0,0,0.8);
+            border-radius: 2px;
+        }
 
-        /* Sections */
+        /* Hero & Buttons */
         .hero { padding: 180px 0 100px; text-align: center; }
         .hero h1 { font-size: 48px; margin-bottom: 40px; }
         .manifesto-text { max-width: 850px; margin: 0 auto; font-size: 15px; color: #888; border-left: 1px solid #222; border-right: 1px solid #222; padding: 0 30px; text-align: center; }
 
+        /* Left Aligned Portal Button */
+        .action-area { text-align: left; padding: 20px 0; border-bottom: 1px solid var(--ark-border); margin-top: 100px; }
+        .btn-portal-small { 
+            background: transparent; 
+            border: 1px solid #1a1a1a; 
+            color: #555; 
+            font-size: 9px; 
+            padding: 12px 20px; 
+            cursor: pointer; 
+            text-transform: uppercase; 
+            letter-spacing: 3px; 
+            transition: 0.5s; 
+        }
+        .btn-portal-small:hover { 
+            border-color: #fff; 
+            color: #fff; 
+            background: rgba(255,255,255,0.02);
+            box-shadow: 0 0 20px rgba(0,0,0,1);
+        }
+
+        /* Principles */
         .principles { padding: 100px 0; border-top: 1px solid var(--ark-border); }
         .principle-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 60px; margin-top: 60px; }
         .principle-item h3 { font-size: 14px; margin-bottom: 20px; color: #bbb; border-bottom: 1px solid #111; display: inline-block; padding-bottom: 5px; }
@@ -54,8 +95,8 @@
         .modal-content { background: #050505; border: 1px solid #111; padding: 50px; width: 90%; max-width: 550px; text-align: center; position: relative; }
         .close-btn { position: absolute; top: 20px; right: 20px; color: #333; cursor: pointer; font-size: 20px; }
         
-        .btn-luxury { display: inline-block; padding: 18px 45px; border: 1px solid #222; color: #fff; text-transform: uppercase; font-size: 10px; letter-spacing: 4px; cursor: pointer; background: transparent; text-decoration: none; margin-top: 30px; }
-        .btn-luxury:hover { background: #fff; color: #000; }
+        .btn-luxury { display: inline-block; padding: 18px 45px; border: 1px solid #222; color: #fff; text-transform: uppercase; font-size: 10px; letter-spacing: 4px; cursor: pointer; background: transparent; text-decoration: none; margin-top: 30px; transition: 0.4s; }
+        .btn-luxury:hover { background: #fff; color: #000; box-shadow: 0 0 25px rgba(255,255,255,0.1); }
 
         .portal-item { border: 1px solid #111; padding: 25px; margin-bottom: 20px; text-align: left; cursor: pointer; transition: 0.3s; }
         .portal-item:hover { border-color: #333; background: #080808; }
@@ -63,6 +104,11 @@
         .portal-item p { font-size: 10px; color: #555; }
 
         .ark-input { width: 100%; padding: 15px 0; background: transparent; border: none; border-bottom: 1px solid #1a1a1a; color: #fff; margin-bottom: 25px; outline: none; }
+        
+        @media (max-width: 768px) {
+            .plot-grid { grid-template-columns: repeat(2, 1fr); }
+            .header { padding: 20px 0; }
+        }
     </style>
 </head>
 <body>
@@ -74,13 +120,18 @@
             <a href="#mission">Philosophy</a>
             <a href="#plots">Archive</a>
             <a href="javascript:void(0)" onclick="showModal('paymentPortal')">Contribute</a>
+            <a href="https://facebook.com/arkarchivr6700" target="_blank"><i class="fab fa-facebook"></i></a>
+            <a href="https://x.com/kawsar6700" target="_blank"><i class="fab fa-twitter"></i></a>
             <a href="https://wa.me/8801576940717" target="_blank">Support</a>
         </nav>
     </div>
 </header>
 
+<div class="action-area container">
+    <button class="btn-portal-small" onclick="showModal('submitPortal')">Record Your Contribution</button>
+</div>
+
 <section class="hero container" id="mission">
-    <button class="btn-luxury" style="margin-bottom: 50px; border-color: #111;" onclick="showModal('submitPortal')">Record Your Contribution</button>
     <h1>One Child, One Fruit Tree, One Eternal Legacy.</h1>
     <div class="manifesto-text">
         "Our mission is simple yet absolute: to provide every student in Bangladesh, from Class 1 to 10, with their own fruit-bearing tree. In an era of environmental decline, we believe in planting the seeds of both nutrition and nature. Many children in underprivileged communities lack access to essential vitamins; we provide the source. <br><br>
@@ -118,9 +169,8 @@
 </div>
 
 <section class="container">
-    <div class="plot-grid" id="mainGrid">
-        </div>
-    <div id="loadingTrigger" style="height: 50px;"></div>
+    <div class="plot-grid" id="mainGrid"></div>
+    <div id="loadingTrigger" style="height: 20px;"></div>
 </section>
 
 <div id="paymentPortal" class="modal">
@@ -177,6 +227,7 @@
 </div></div>
 
 <script>
+    // Updated Firebase Configuration
     const firebaseConfig = {
         apiKey: "AIzaSyCAdnfu2R82xbC7H85n_9mvQBE58X3TjbA",
         authDomain: "the-5k-elite-legacy.firebaseapp.com",
@@ -184,18 +235,17 @@
         projectId: "the-5k-elite-legacy",
         storageBucket: "the-5k-elite-legacy.firebasestorage.app",
         messagingSenderId: "440824313752",
-        appId: "1:440824313752:web:2c93344dcfe2ba0a4c5ded"
+        appId: "1:440824313752:web:2c93344dcfe2ba0a4c5ded",
+        measurementId: "G-6KEYY60YGG"
     };
+    
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
-
-    let plotCount = 0;
     const grid = document.getElementById('mainGrid');
 
     function showModal(id) { document.getElementById(id).classList.add('active'); }
     function hideModal(id) { document.getElementById(id).classList.remove('active'); }
 
-    // Infinite Loading
     function generateEmptyPlots(num) {
         for (let i = 0; i < num; i++) {
             const card = document.createElement('div');
@@ -218,11 +268,10 @@
                                   <div style="font-size:8px; color:#555;">${p.treesDonated} TREES</div>`;
                 grid.appendChild(card);
             });
-            generateEmptyPlots(36); // Initial empty slots
+            generateEmptyPlots(36);
         });
     }
 
-    // Scroll Detector for Infinite Plots
     window.onscroll = function() {
         if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 100) {
             generateEmptyPlots(36);
@@ -232,12 +281,22 @@
     function triggerCelebration() {
         const name = document.getElementById('pName').value;
         if(!name) return;
-        confetti({ particleCount: 200, spread: 90, origin: { y: 0.6 }, colors: ['#ff0000', '#00ff00', '#0000ff', '#ffffff', '#ffff00'] });
-        document.getElementById('portalBox').innerHTML = `<h3>CONGRATULATIONS ${name.toUpperCase()}!</h3>`;
+        // Multi-color Celebration
+        confetti({ 
+            particleCount: 200, 
+            spread: 90, 
+            origin: { y: 0.6 }, 
+            colors: ['#ff0000', '#00ff00', '#0000ff', '#ffffff', '#ffff00', '#ff00ff'] 
+        });
+        document.getElementById('portalBox').innerHTML = `<h3 style="color:#fff">CONGRATULATIONS ${name.toUpperCase()}!</h3>`;
         setTimeout(() => { hideModal('submitPortal'); showModal('instructionModal'); }, 3000);
     }
 
-    function copyText(val) { navigator.clipboard.writeText(val); alert("Copied: " + val); }
+    function copyText(val) { 
+        navigator.clipboard.writeText(val); 
+        alert("Account Copied: " + val); 
+    }
+
     loadPlots();
 </script>
 </body>
