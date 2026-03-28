@@ -11,7 +11,7 @@
 
     <style>
         :root {
-            --ark-green: #0A2F1F; /* Forest Green */
+            --ark-green: #0A2F1F;
             --ark-light-green: #1E5128;
             --ark-black: #000000;
             --ark-white: #ffffff;
@@ -24,14 +24,12 @@
             font-family: 'Times New Roman', serif; overflow-x: hidden; cursor: none; 
         }
 
-        /* Custom Cursor */
         #cursor-outline { 
             position: fixed; width: 15px; height: 15px; border: 1px solid var(--ark-white); 
             border-radius: 50%; pointer-events: none; z-index: 10000; 
-            transform: translate(-50%, -50%); transition: transform 0.2s ease;
+            transform: translate(-50%, -50%); transition: transform 0.15s ease;
         }
 
-        /* Navigation Header */
         .header { 
             padding: 40px 0; border-bottom: 1px solid var(--ark-border); 
             display: flex; justify-content: space-between; align-items: center; 
@@ -42,65 +40,55 @@
             text-transform: uppercase; margin-left: 30px; letter-spacing: 3px; 
             transition: 0.4s; padding: 10px; cursor: pointer;
         }
-        .nav-links a:hover, .acq-trigger:hover { 
-            color: var(--ark-white); background: rgba(30, 81, 40, 0.3);
-            box-shadow: 0 0 20px var(--ark-black);
-        }
+        .nav-links a:hover, .acq-trigger:hover { color: var(--ark-white); background: rgba(30, 81, 40, 0.3); }
 
-        /* Side Drawer */
         #payment-drawer {
-            position: fixed; top: 0; right: -100%; width: 400px; height: 100vh;
+            position: fixed; top: 0; right: -100%; width: 420px; height: 100vh;
             background: var(--ark-black); border-left: 1px solid var(--ark-light-green); 
             z-index: 3000; transition: 0.6s cubic-bezier(0.19, 1, 0.22, 1); 
-            padding: 80px 40px; box-sizing: border-box;
+            padding: 60px 40px; box-sizing: border-box; overflow-y: auto;
         }
         #payment-drawer.open { right: 0; }
-        .pay-item { margin-bottom: 40px; cursor: pointer; border-bottom: 1px solid #111; padding-bottom: 15px; }
-        .pay-item h4 { font-size: 10px; color: var(--ark-light-green); letter-spacing: 2px; text-transform: uppercase; }
-        .pay-item p { font-size: 13px; color: #fff; margin-top: 10px; word-break: break-all; }
+        .pay-item { margin-bottom: 30px; cursor: pointer; border-bottom: 1px solid #111; padding-bottom: 15px; }
+        .pay-item h4 { font-size: 9px; color: var(--ark-light-green); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
+        .pay-item p { font-size: 12px; color: #fff; margin: 0; word-break: break-all; font-family: monospace; }
 
-        /* Full Screen Snap Sections */
         .snap-section { 
             height: 100vh; width: 100%; scroll-snap-align: start; 
             display: flex; flex-direction: column; justify-content: center; 
             align-items: center; text-align: center; padding: 0 10%; box-sizing: border-box; 
         }
-        .reveal { opacity: 0; transform: translateY(50px); transition: 1.5s ease-out; }
+        .reveal { opacity: 0; transform: translateY(40px); transition: 1.2s ease-out; }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
-        .title { font-size: 42px; font-weight: 100; letter-spacing: 15px; text-transform: uppercase; color: var(--ark-white); }
-        .sub-desc { font-size: 14px; color: #666; max-width: 700px; margin: 30px 0; line-height: 1.8; }
+        .title { font-size: 42px; font-weight: 100; letter-spacing: 15px; text-transform: uppercase; }
+        .counter-number { font-size: 80px; font-weight: bold; color: var(--ark-light-green); text-shadow: 0 0 30px rgba(30, 81, 40, 0.4); }
 
-        /* Counter Section */
-        .counter-number { font-size: 70px; font-weight: bold; color: var(--ark-light-green); text-shadow: 0 0 30px rgba(30, 81, 40, 0.5); }
-
-        /* Floating Buttons */
+        /* Support Floating Button with Label */
+        .support-wrapper { position: fixed; bottom: 40px; left: 40px; z-index: 2500; text-align: center; }
         .float-btn { 
-            position: fixed; bottom: 40px; width: 50px; height: 50px; 
-            border: 1px solid var(--ark-white); border-radius: 50%; 
-            display: flex; align-items: center; justify-content: center; z-index: 2500; 
-            background: transparent; transition: 0.4s; color: white; text-decoration: none;
+            width: 50px; height: 50px; border: 1px solid var(--ark-white); border-radius: 50%; 
+            display: flex; align-items: center; justify-content: center; background: transparent; 
+            transition: 0.4s; color: white; text-decoration: none; margin: 0 auto;
         }
         .float-btn:hover { background: var(--ark-white); color: var(--ark-black); transform: scale(1.1); }
-        .fb-btn { right: 110px; }
-        .tw-btn { right: 40px; }
-        .wa-btn { left: 40px; }
+        .support-label { font-size: 8px; letter-spacing: 2px; text-transform: uppercase; margin-top: 8px; color: #666; display: block; }
 
-        /* Submit Portal Styling */
-        .ark-input { 
-            width: 100%; padding: 20px 0; background: transparent; 
-            border: none; border-bottom: 1px solid var(--ark-light-green); 
-            color: #fff; margin-bottom: 30px; outline: none; font-size: 16px;
-        }
-        .btn-luxury { 
-            padding: 20px 60px; border: 1px solid var(--ark-white); 
-            background: transparent; color: #fff; letter-spacing: 5px; 
-            text-transform: uppercase; cursor: pointer; transition: 0.4s;
-        }
-        .btn-luxury:hover { background: #fff; color: #000; box-shadow: 0 0 30px rgba(255,255,255,0.2); }
+        .social-right { position: fixed; bottom: 40px; right: 40px; display: flex; gap: 15px; z-index: 2500; }
 
-        /* Modal Instruction */
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); z-index: 5000; justify-content: center; align-items: center; }
+        /* Donor Grid Section */
+        .grid-section { min-height: 100vh; padding: 120px 5%; scroll-snap-align: start; background: #020202; }
+        .plot-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 20px; }
+        .plot-card { border: 1px solid var(--ark-border); padding: 30px; text-align: center; transition: 0.5s; cursor: pointer; height: 220px; }
+        .plot-card:hover { border-color: var(--ark-light-green); background: #050505; }
+        .plot-img { width: 80px; height: 80px; border-radius: 50%; border: 1px solid #111; margin: 0 auto 15px; overflow: hidden; display: flex; align-items: center; justify-content: center; background: #000; }
+        .plot-img img { width: 100%; height: 100%; object-fit: cover; }
+
+        .ark-input { width: 100%; padding: 20px 0; background: transparent; border: none; border-bottom: 1px solid var(--ark-light-green); color: #fff; margin-bottom: 30px; outline: none; }
+        .btn-luxury { padding: 18px 50px; border: 1px solid var(--ark-white); background: transparent; color: #fff; letter-spacing: 5px; text-transform: uppercase; cursor: pointer; transition: 0.4s; font-size: 10px; }
+        .btn-luxury:hover { background: #fff; color: #000; }
+
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.99); z-index: 5000; justify-content: center; align-items: center; }
         .modal.active { display: flex; }
     </style>
 </head>
@@ -110,47 +98,62 @@
 
     <header class="header">
         <div class="container" style="display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 0 50px;">
-            <div class="acq-trigger interactive" onclick="toggleDrawer()">Contribution Channels</div>
+            <div class="acq-trigger interactive" onclick="toggleDrawer()">Acquisition</div>
             <div style="font-size: 20px; letter-spacing: 10px; font-weight: bold;">ARK ARCHIVE</div>
             <nav class="nav-links">
                 <a href="#mission" class="interactive">Philosophy</a>
-                <a href="#plots" class="interactive">Archive</a>
+                <a href="#archive" class="interactive">Archive</a>
                 <a href="javascript:void(0)" onclick="toggleDrawer()" class="interactive">Contribute</a>
-                <a href="https://wa.me/8801576940717" target="_blank" class="interactive">Support</a>
             </nav>
         </div>
     </header>
 
     <div id="payment-drawer">
-        <h2 style="letter-spacing: 5px; font-size: 15px; margin-bottom: 60px; color: var(--ark-light-green);">SECURE CHANNELS</h2>
-        <div class="pay-item interactive" onclick="copyV('912221034')">
-            <h4>Digital Assets (USDT/Binance)</h4>
-            <p>UID: 912221034</p>
-        </div>
+        <h2 style="letter-spacing: 5px; font-size: 14px; margin-bottom: 50px; color: var(--ark-light-green);">SECURE CHANNELS</h2>
         <div class="pay-item interactive" onclick="copyV('01576940717')">
-            <h4>Mobile Remittance (bKash)</h4>
-            <p>Personal: 01576940717</p>
+            <h4>bKash Personal (01)</h4>
+            <p>01576940717</p>
         </div>
-        <div class="pay-item interactive" onclick="copyV('Bank Account Details')">
+        <div class="pay-item interactive" onclick="copyV('01756206213')">
+            <h4>bKash Personal (02)</h4>
+            <p>01756206213</p>
+        </div>
+        <div class="pay-item interactive" onclick="copyV('912221034')">
+            <h4>Binance UID</h4>
+            <p>912221034</p>
+        </div>
+        <div class="pay-item interactive" onclick="copyV('TTapBkTqrDnzHbWzek6wSBUTcJKFmR8Ws6')">
+            <h4>USDT TRC20 Address</h4>
+            <p>TTapBkTqrDnzHbWzek6wSBUTcJKFmR8Ws6</p>
+        </div>
+        <div class="pay-item interactive" onclick="copyV('Bank Details')">
             <h4>Bank Transfer</h4>
-            <p>Request Routing & Account Info via Support</p>
+            <p style="line-height: 1.8; font-family: serif;">
+                Bank Name: <br>
+                Branch Name: <br>
+                Account Name: <br>
+                Account Number: <br>
+                Routing Number: 
+            </p>
         </div>
-        <button onclick="toggleDrawer()" class="interactive" style="background: none; border: 1px solid #333; color: #555; padding: 10px 20px; cursor: pointer; margin-top: 50px;">[ CLOSE ]</button>
+        <button onclick="toggleDrawer()" class="interactive" style="background:none; border:1px solid #222; color:#555; padding:10px 30px; cursor:pointer; margin-top:30px;">[ CLOSE ]</button>
     </div>
 
     <section class="snap-section" id="mission">
         <div class="reveal active">
-            <span style="letter-spacing: 10px; color: var(--ark-light-green); font-size: 12px;">MISSION STATUS</span>
+            <span style="letter-spacing: 10px; color: var(--ark-light-green); font-size: 12px;">MISSION PROGRESS</span>
             <div class="counter-number" id="liveCounter">0</div>
             <h2 class="title">1 Billion Trees</h2>
-            <p class="sub-desc">Our mission is to plant fruit-bearing trees for every child in Bangladesh. 100% of your contributions go to the soil. We cover the rest.</p>
+            <p style="font-size: 14px; color: #666; max-width: 700px; margin: 30px auto; line-height: 1.8;">
+                Our mission is simple yet absolute: to provide every student in Bangladesh, from Class 1 to 10, with their own fruit-bearing tree. 100% of your contribution is used strictly for purchasing trees.
+            </p>
         </div>
     </section>
 
     <section class="snap-section">
         <div class="reveal" id="portalBox">
             <h2 class="title">Record Contribution</h2>
-            <div style="max-width: 500px; margin-top: 50px;">
+            <div style="max-width: 500px; margin: 50px auto;">
                 <input type="text" id="pName" class="ark-input" placeholder="FULL NAME">
                 <input type="number" id="pCount" class="ark-input" placeholder="NUMBER OF TREES">
                 <button class="btn-luxury interactive" onclick="triggerLegacy()">Submit Request</button>
@@ -158,20 +161,34 @@
         </div>
     </section>
 
-    <a href="https://wa.me/8801576940717" target="_blank" class="float-btn wa-btn interactive"><i class="fab fa-whatsapp"></i></a>
-    <a href="https://facebook.com/arkarchivr6700" target="_blank" class="float-btn fb-btn interactive"><i class="fab fa-facebook-f"></i></a>
-    <a href="https://x.com/kawsar6700" target="_blank" class="float-btn tw-btn interactive"><i class="fab fa-twitter"></i></a>
+    <section class="grid-section" id="archive">
+        <h2 style="text-align: center; letter-spacing: 10px; margin-bottom: 80px; font-weight: 100;">THE ARCHIVE</h2>
+        <div class="plot-grid" id="mainGrid"></div>
+    </section>
+
+    <div class="support-wrapper">
+        <a href="https://wa.me/8801576940717" target="_blank" class="float-btn interactive"><i class="fab fa-whatsapp"></i></a>
+        <span class="support-label">Customer Support</span>
+    </div>
+
+    <div class="social-right">
+        <a href="https://facebook.com/arkarchivr6700" target="_blank" class="float-btn interactive"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://x.com/kawsar6700" target="_blank" class="float-btn interactive"><i class="fab fa-twitter"></i></a>
+    </div>
 
     <div id="instructionModal" class="modal">
-        <div style="background: #000; border: 1px solid var(--ark-light-green); padding: 50px; text-align: center; max-width: 500px;">
-            <h3 style="letter-spacing: 5px; color: var(--ark-light-green);">VERIFICATION STEPS</h3>
-            <div style="text-align: left; font-size: 13px; color: #888; margin: 30px 0; line-height: 2;">
+        <div style="background: #000; border: 1px solid var(--ark-light-green); padding: 60px; text-align: center; max-width: 550px;">
+            <h3 style="letter-spacing: 5px; color: var(--ark-light-green); margin-bottom: 30px;">VERIFICATION STEPS</h3>
+            <div style="text-align: left; font-size: 13px; color: #888; margin-bottom: 40px; line-height: 2.2;">
                 • Capture payment confirmation screenshot.<br>
                 • Provide your Transaction ID.<br>
                 • Share your photo for the digital plot.<br>
                 • Send details to WhatsApp for live sync.
             </div>
-            <button class="btn-luxury interactive" onclick="location.reload()">Back to Home</button>
+            <div style="display: flex; justify-content: center; align-items: center; gap: 20px;">
+                <button class="btn-luxury interactive" onclick="location.reload()">Back to Home</button>
+                <a href="https://wa.me/8801576940717" target="_blank" style="text-decoration: none; font-size: 10px; letter-spacing: 2px; color: #fff; border-bottom: 1px solid #fff;">Customer Support</a>
+            </div>
         </div>
     </div>
 
@@ -188,66 +205,69 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
-        // Custom Cursor
+        // Cursor & Reveal Logic
         const outline = document.getElementById('cursor-outline');
         document.addEventListener('mousemove', (e) => {
             outline.style.left = e.clientX + 'px';
             outline.style.top = e.clientY + 'px';
         });
 
-        // Hover Effects
         document.querySelectorAll('.interactive').forEach(el => {
-            el.addEventListener('mouseenter', () => { 
-                outline.style.transform = 'translate(-50%, -50%) scale(3)'; 
-                outline.style.background = 'rgba(255,255,255,0.1)'; 
-            });
-            el.addEventListener('mouseleave', () => { 
-                outline.style.transform = 'translate(-50%, -50%) scale(1)'; 
-                outline.style.background = 'none'; 
-            });
+            el.addEventListener('mouseenter', () => outline.style.transform = 'translate(-50%, -50%) scale(3)');
+            el.addEventListener('mouseleave', () => outline.style.transform = 'translate(-50%, -50%) scale(1)');
         });
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        function toggleDrawer() { document.getElementById('payment-drawer').classList.toggle('open'); }
+        function copyV(text) { navigator.clipboard.writeText(text); alert("Copied to clipboard: " + text); }
 
         // Live Counter
         db.ref('stats/totalTrees').on('value', snap => {
             document.getElementById('liveCounter').innerText = (snap.val() || 0).toLocaleString();
         });
 
-        function toggleDrawer() { document.getElementById('payment-drawer').classList.toggle('open'); }
-        function copyV(text) { navigator.clipboard.writeText(text); alert("Copied: " + text); }
+        // Infinite Grid Logic
+        const mainGrid = document.getElementById('mainGrid');
+        function addPlots(count) {
+            for(let i=0; i<count; i++) {
+                const div = document.createElement('div');
+                div.className = 'plot-card';
+                div.innerHTML = `<div class="plot-img"><i class="fas fa-seedling" style="color:#111"></i></div><div style="font-size:10px; color:#444;">VACANT PLOT</div>`;
+                mainGrid.appendChild(div);
+            }
+        }
+        addPlots(36);
 
-        // Intersection Observer for Reveal
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) entry.target.classList.add('active');
-            });
-        }, { threshold: 0.1 });
-        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+        window.addEventListener('scroll', () => {
+            if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 500) {
+                addPlots(36);
+            }
+        });
 
         // Submit Action
         function triggerLegacy() {
             const name = document.getElementById('pName').value;
             if(!name) return;
 
-            // 1. Confetti
             var duration = 4 * 1000;
             var end = Date.now() + duration;
             (function frame() {
-              confetti({ particleCount: 7, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#1E5128', '#ffffff'] });
-              confetti({ particleCount: 7, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#1E5128', '#ffffff'] });
+              confetti({ particleCount: 10, angle: 60, spread: 60, origin: { x: 0 }, colors: ['#1E5128', '#ffffff'] });
+              confetti({ particleCount: 10, angle: 120, spread: 60, origin: { x: 1 }, colors: ['#1E5128', '#ffffff'] });
               if (Date.now() < end) requestAnimationFrame(frame);
             }());
 
-            // 2. Congratulations Message in the same box
             document.getElementById('portalBox').innerHTML = `
-                <h2 class="title" style="color:var(--ark-light-green)">CONGRATULATIONS</h2>
-                <h3 style="letter-spacing:10px; margin-top:20px;">${name.toUpperCase()}</h3>
-                <p class="sub-desc">Your legacy has been initiated. Preparing verification portal...</p>
+                <h2 class="title" style="color:var(--ark-light-green)">LEGACY RECORDED</h2>
+                <h3 style="letter-spacing:8px; margin-top:20px;">${name.toUpperCase()}</h3>
+                <p style="color:#555; font-size:12px; margin-top:20px;">Your contribution request has been queued. Showing verification steps...</p>
             `;
 
-            // 3. Show Instruction Modal after 3 seconds
-            setTimeout(() => {
-                document.getElementById('instructionModal').classList.add('active');
-            }, 3500);
+            setTimeout(() => { document.getElementById('instructionModal').classList.add('active'); }, 3500);
         }
     </script>
 </body>
